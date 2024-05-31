@@ -2,7 +2,7 @@ import "./styles.css";
 import React from "react";
 import { useState } from "react";
 import Signup from "./Components/Signup";
-import Signin from "./Components/Signin";
+import Login from "./Components/Login";
 
 function App() {
   const [currentForm, setCurrentForm] = useState("Signup");
@@ -15,7 +15,7 @@ function App() {
         {currentForm === "Signup" ? (
           <Signup toggleForm={toggleForm} />
         ) : (
-          <Signin toggleForm={toggleForm} />
+          <Login toggleForm={toggleForm} />
         )}
       </div>
     </>

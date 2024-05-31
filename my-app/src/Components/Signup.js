@@ -1,9 +1,21 @@
 import React from "react";
 import { useState } from "react";
+import SignupValidation from "./SignupValidation";
 
 function Signup({ toggleForm }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    password2: "",
+  });
+  const [errors, setErrors] = useState({});
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(SignupValidation(values));
+  };
+  const handleInput = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="container">
@@ -12,28 +24,47 @@ function Signup({ toggleForm }) {
         <div className="underline"></div>
       </div>
       <div className="inputs">
-        <form>
+        <form action="/signup" method="post">
           <div className="input">
             <input
               type="email"
+              name="email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInput}
             />
+            {errors.email && <p className="textdanger">{errors.email}</p>}
           </div>
           <div className="input">
-            <input type="password" placeholder="Password" />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleInput}
+            />
+            {errors.password && <p className="textdanger">{errors.password}</p>}
           </div>
           <div className="input">
-            <input type="password" placeholder="Confirm password" />
+            <input
+              type="password"
+              name="password2"
+              placeholder="Confirm password"
+              onChange={handleInput}
+            />
+            {errors.password2 && (
+              <p className="textdanger">{errors.password2}</p>
+            )}
           </div>
         </form>
       </div>
-      <div className="signup">Sign up</div>
-      <div className="signin">
+      <div className="signup">
+        <button type="submit" onClick={handleSubmit}>
+          Sign up
+        </button>
+      </div>
+      <div className="login">
+        <p>Already have an account?</p>
         <p>
-          Already have an account?
-          <button onClick={() => toggleForm("Signin")}>Sign in</button>
+          <button onClick={() => toggleForm("Login")}>Login</button>
         </p>
       </div>
     </div>
