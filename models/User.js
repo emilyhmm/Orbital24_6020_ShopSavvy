@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-// hasing the password
+// hashing the password
 UserSchema.pre("save", async function(next) {
     if (this.isModified("password")) {
         const salt = await bcrypt.genSalt(10)
