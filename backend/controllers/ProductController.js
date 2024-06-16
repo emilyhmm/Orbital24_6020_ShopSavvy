@@ -3,5 +3,5 @@ const User = require("../models/userModel");
 const pupeteer = require("puppeteer");
 
 const search = asyncHandler(async (req, res) => {
-
+    
 })
