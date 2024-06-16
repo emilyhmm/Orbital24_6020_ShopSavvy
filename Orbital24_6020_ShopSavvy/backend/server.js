@@ -1,13 +1,14 @@
-const express = require("express");
+const express = require("express")
 const bodyParser = require("body-parser")
 const connectDB = require("./db")
-const User = require("./models/User")
+const User = require("./models/userModel")
+const authRouter = require("./Routes/authRoute")
 const cors = require("cors")
 const bcrypt = require("bcryptjs")
 
 const app = express()
 app.use(cors())
-connectDB();
+connectDB()
 
 //body parsers
 app.use(bodyParser.json())
