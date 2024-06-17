@@ -1,29 +1,22 @@
-const express = require("express");
+const express = require("express")
 const bodyParser = require("body-parser")
 const connectDB = require("./db")
 const User = require("./models/userModel")
+const authRouter = require("./Routes/authRoute")
+const cors = require("cors")
+const bcrypt = require("bcryptjs")
 
 const app = express()
+app.use(cors())
 connectDB()
 
+//body parsers
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.post("./signup", async (req, res) => {
-    const { email, password } = req.body
-    try {
-        let user = new User({
-            email, password
-        })
-        await user.save()
-        res.status(201).send("User registered successfully")
-    } catch(err) {
-        console.error(err.message)
-        res.status(500).send("Server error")
-    }
-})
+app.use('/api/user', authRouter);
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-    console.log("server is running")
+    console.log('server is running on port',PORT)
 });
