@@ -1,10 +1,11 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const connectDB = require("./db")
-const User = require("./models/userModel")
-const authRouter = require("./Routes/authRoute")
-const cors = require("cors")
-const bcrypt = require("bcryptjs")
+const express = require("express");
+const bodyParser = require("body-parser");
+const connectDB = require("./db");
+const User = require("./models/userModel");
+const authRouter = require("./Routes/authRoute");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv").config();
 
 const app = express()
 app.use(cors())

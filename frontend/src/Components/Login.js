@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
-import axios from "axios";
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -11,7 +10,11 @@ function Login({ toggleForm }) {
     setErrors(LoginValidation(values)); 
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
-        const response = await axios.post("http://localhost:5000/login", values); 
+            const response = await fetch('http://localhost:5000/api/user/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ values })
+    })
         console.log('Login response:', response.data);
         // then redirects to products homepage
       } catch (error) {
