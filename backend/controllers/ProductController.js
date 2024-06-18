@@ -1,8 +1,8 @@
 const Product = require("../models/productModell");
-const User = require("../models/userModel");
-const pupeteer = require("puppeteer");
+const puppeteer = require("puppeteer");
+const asyncHandler = require("express-async-handler");
 
-const search = asyncHandler(async (req, res) => {
+const webscrapper = asyncHandler(async (req, res) => {
     //can implement check that req is null?
     const term = req.body;
     const searchpage = "https://www.amazon.sg/s?k=".concat(term);
@@ -24,7 +24,7 @@ const search = asyncHandler(async (req, res) => {
             "div.s-main-slot.s-result-list.s-search-results.sg-row > .s-result-item"
         ); 
 
-        //looping through every element to extract out product title, price and image
+        //looping through every element to extract out product title, price and image, and product link
         for (const i of productHandles) {
 
             let title = "Null";
@@ -58,6 +58,7 @@ const search = asyncHandler(async (req, res) => {
 
         }
         
+        //goes to the next page if there is one
         try {
             await page.waitForSelector('.s-pagination-item.s-pagination-next', { visible: true });
             let next_disabled = await page.$('span.s-pagination-item.s-pagination-next.s-pagination-disabled') !== null;
@@ -73,5 +74,5 @@ const search = asyncHandler(async (req, res) => {
             isNextDisabled = true;
         }
     }
-    console.log(result);
+    console.log(result); 
 });
