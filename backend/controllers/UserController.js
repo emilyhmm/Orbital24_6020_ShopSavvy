@@ -2,8 +2,14 @@ const User = require('../models/userModel');
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { generateToken } = require('../jwtToken');
+const { generateToken, generateRefreshToken, generateAccessToken } = require('../jwtToken');
 
+
+/*
+    @desc Login users
+    @route POST /api/user/signup
+    @access Public
+*/
 const createUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     try {
@@ -17,6 +23,12 @@ const createUser = asyncHandler(async (req, res) => {
         res.status(500).send("Server error")
     }
 });
+
+/*
+    @desc Login users
+    @route POST /api/user/login
+    @access Public
+*/
 
 const loginUser = asyncHandler(async (req, res) => {
     const {email, password} = req.body;
@@ -34,16 +46,17 @@ const loginUser = asyncHandler(async (req, res) => {
         }
 
         const accessToken = generateToken(user);
-        const refreshToken = jwt.sign({user}, process.env.REFRESH_TOKEN_SECRET)
-        res.json({
-            _id: user?._id,
-            firstname: user?.firstname,
-            lastname: user?.lastname,
-            email: user?.email,
-            mobile: user?.mobile,
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+        const refreshToken = generateRefreshToken(user);
+
+        // Create secure cookie with refresh token 
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true, //accessible only by web server 
+            secure: true, //https
+            sameSite: 'None', //cross-site cookie 
+            maxAge: 30 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
         });
+
+        res.json({ accessToken });
 
     } catch (error) {
         console.log(error);
@@ -53,6 +66,40 @@ const loginUser = asyncHandler(async (req, res) => {
 
 });
 
+/*
+    @desc handles logic of refresh tokens
+    @route POST /api/user/refresh
+    @access Public
+*/
+const refresh = asyncHandler(async (res, req) => {
+    const cookie = req.cookies;
+    if (!cookie?.refreshToken) {
+        return res.status(401).json({message : "Unauthorised"});
+    }
 
-module.exports = { createUser, loginUser}
+    const refreshToken = cookies.refreshToken;
+
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, decoded) => {
+            if (err) {
+                return res.status(403).json({message: "Forbidden"});
+            }
+
+            const foundUser = User.findOne({ email: decoded.email }).exec();
+            if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
+
+            const newAccessToken = generateAccessToken({foundUser});
+
+            res.json({newAccessToken})
+        }
+
+    )
+});
+
+
+
+
+module.exports = { createUser, loginUser, refresh }
 
