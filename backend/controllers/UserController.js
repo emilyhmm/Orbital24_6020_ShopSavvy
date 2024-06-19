@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { generateToken } = require('../jwtToken');
 
 const createUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
@@ -32,14 +33,16 @@ const loginUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        const accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
+        const accessToken = generateToken(user);
+        const refreshToken = jwt.sign({user}, process.env.REFRESH_TOKEN_SECRET)
         res.json({
             _id: user?._id,
             firstname: user?.firstname,
             lastname: user?.lastname,
             email: user?.email,
             mobile: user?.mobile,
-            token: accessToken,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
         });
 
     } catch (error) {
