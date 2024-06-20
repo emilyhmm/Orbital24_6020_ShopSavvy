@@ -98,8 +98,23 @@ const refresh = asyncHandler(async (res, req) => {
     )
 });
 
+/*
+    @desc handles logout which cleares refresh token from cookie
+    @route POST /api/user/refresh
+    @access Public
+*/
+const logout = asyncHandler(async (req, res) = > {
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: true,
+    })
+
+    res.sendStatus(200);
+
+});
 
 
 
-module.exports = { createUser, loginUser, refresh }
+
+module.exports = { createUser, loginUser, refresh, logout }
 
