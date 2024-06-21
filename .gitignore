@@ -1,6 +1,7 @@
 /node_modules
 node_modules/
 /tmp
+tmp/
 test.js
 node_modules
 /testfrontend
