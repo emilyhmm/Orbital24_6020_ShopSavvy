@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { generateToken, generateRefreshToken, generateAccessToken } = require('../jwtToken');
+const {generateRefreshToken, generateAccessToken } = require('../jwtToken');
 
 
 /*
@@ -16,6 +16,10 @@ const createUser = asyncHandler(async (req, res) => {
         let user = new User({
             email, password
         })
+
+        const findUser = await User.findOne({email: email}); //as email is unique
+        if (findUser) {res.status(400).json("User already exists")}
+
         await user.save()
         res.status(201).send("User registered successfully")
     } catch(err) {
@@ -45,7 +49,7 @@ const loginUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        const accessToken = generateToken(user);
+        const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
 
         // Create secure cookie with refresh token 
@@ -68,7 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 /*
     @desc handles logic of refresh tokens
-    @route POST /api/user/refresh
+    @route GET /api/user/refresh
     @access Public
 */
 const refresh = asyncHandler(async (res, req) => {
@@ -99,8 +103,8 @@ const refresh = asyncHandler(async (res, req) => {
 });
 
 /*
-    @desc handles logout which cleares refresh token from cookie
-    @route POST /api/user/refresh
+    @desc handles logout which clears refresh token from user's cookies
+    @route GET /api/user/logout
     @access Public
 */
 const logout = asyncHandler(async (req, res) => {
@@ -108,8 +112,7 @@ const logout = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
     })
-
-    res.sendStatus(200);
+    res.redirect('/login');
 
 });
 

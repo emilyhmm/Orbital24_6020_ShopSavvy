@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const connectDB = require("./db");
 const User = require("./models/userModel");
 const authRouter = require("./routes/authRoute");
+const productRouter = require("./routes/productRoute");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv").config();
@@ -16,6 +17,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/api/user', authRouter);
+app.use('/api/product', productRouter);
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {

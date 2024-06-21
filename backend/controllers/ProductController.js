@@ -1,16 +1,22 @@
-const Product = require("../models/productModell");
+const Product = require("../models/productModel");
 const puppeteer = require("puppeteer");
 const asyncHandler = require("express-async-handler");
 
-const webscrapper = asyncHandler(async (req, res) => {
+/*
+    @desc scrapes amazon search page based on user defined search term
+    @route POST /api/user/scrape
+    @access Public
+*/
+
+const webscraper = asyncHandler(async (req, res) => {
     //can implement check that req is null?
-    const term = req.body;
-    const searchpage = "https://www.amazon.sg/s?k=".concat(term);
+    const { searchTerm } = req.body
+    const searchpage = "https://www.amazon.sg/s?k=".concat(searchTerm);
     let result = [];
     let isNextDisabled = false;
 
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: false, //so that browser doesnt launch 
         defaultViewport: false, 
         userDataDir: "./tmp",
     });
@@ -47,15 +53,17 @@ const webscrapper = asyncHandler(async (req, res) => {
             try {
                 link = await page.evaluate(el => el.querySelector("h2 > a").getAttribute("href"), i);
                 link = `https://www.amazon.sg${link}`; //to construct the full link
-            } catch (error){ 
-                console.log(error);
-            }
+            } catch (error){}
 
             //filtering out null values
-            if(title !== "Null" && price !== "Null") {
+            if(title !== "Null" && price !== "Null" && link !== "Null") {
                 result.push({"title": title, "price": price, "image": image, "link": link})
             }
 
+        }
+
+        if(result.length > 100) {
+            break;
         }
         
         //goes to the next page if there is one
@@ -74,5 +82,11 @@ const webscrapper = asyncHandler(async (req, res) => {
             isNextDisabled = true;
         }
     }
-    console.log(result); 
+
+    await browser.close();
+    res.json({result});
 });
+
+
+
+module.exports = { webscraper }
