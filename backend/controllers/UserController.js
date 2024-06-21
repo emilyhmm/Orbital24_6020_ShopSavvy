@@ -103,7 +103,7 @@ const refresh = asyncHandler(async (res, req) => {
     @route POST /api/user/refresh
     @access Public
 */
-const logout = asyncHandler(async (req, res) = > {
+const logout = asyncHandler(async (req, res) => {
     res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
