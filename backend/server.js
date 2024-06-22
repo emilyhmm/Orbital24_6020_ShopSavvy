@@ -1,10 +1,11 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const connectDB = require("./db")
-const User = require("./models/userModel")
-const authRouter = require("./Routes/authRoute")
+const mongoose = require("mongoose")
+const dotenv = require('dotenv');
+
+const authRouter = require("./routes/authRoute")
 const cors = require("cors")
-const bcrypt = require("bcryptjs")
 
 const app = express()
 app.use(cors())
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/api/user', authRouter);
 
+dotenv.config(); // Load environment variables from .env file
 const mongoURI = process.env.MONGO_URI;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
