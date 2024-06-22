@@ -6,15 +6,29 @@ const validateMongoDbId = require("../utils/validateMongodbId");
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
-        if (req.body.title) {
-            req.body.slug = slugify(req.body.title);
+        const { title, price } = req.body;
+
+        if (!title || !price) {
+            return res.status(400).json({ message: 'Title and price are required' });
         }
+
+        if (isNaN(price) || price < 0) {
+            return res.status(400).json({ message: 'Price must be a non-negative number' });
+        }
+
+        // Generate slug from title
+        req.body.slug = slugify(title);
+
+        // Create new product
         const newProduct = await Product.create(req.body);
+
+        // Respond with the created product
         res.status(201).json(newProduct);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Server Error"});
     }
 });
+
 
 
 const deleteProduct = asyncHandler(async (req, res) => {
