@@ -1,7 +1,5 @@
 const express = require('express');
-const { createUser, createMerchant, loginUser, refresh, logout, loginMerchant }
-
-= require('../controllers/UserController');
+const { createUser, createMerchant, loginUser, refresh, logout, loginMerchant } = require('../controllers/UserController');
 const router = express.Router();
 
 router.post('/signup', createUser);
