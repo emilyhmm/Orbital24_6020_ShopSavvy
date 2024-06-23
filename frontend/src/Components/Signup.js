@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import SignupValidation from "./SignupValidation";
 import axios from "axios";
+import '../Css_Style_Sheets/App.css'
+import Login from "./Login";
 
 function Signup({ toggleForm }) {
   const [values, setValues] = useState({
@@ -10,6 +12,7 @@ function Signup({ toggleForm }) {
     password2: "",
   });
   const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors(SignupValidation(values));
@@ -29,8 +32,9 @@ function Signup({ toggleForm }) {
 
   return (
     <div className="container">
-      <div className="header">
-        <div className="text">Create an account</div>
+      <div className = "ShopSavvy__Title"> ShopSavvy </div>
+      <div className="header1">
+        <div className="text"> Create an account </div>
         <div className="underline"></div>
       </div>
       <div className="inputs">

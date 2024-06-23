@@ -1,10 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
+import Signup from "./Signup";
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors(LoginValidation(values)); 
@@ -28,12 +30,10 @@ function Login({ toggleForm }) {
   };
 
   return (
-    <>
-      <div className="container">
-        <div className="header">
-          <div className="text">Login to your account</div>
-          <div className="underline"></div>
-        </div>
+    <div className="container">
+      <div className="header1">
+        <div className="text">Login to your account</div>
+        <div className="underline"></div>
       </div>
       <div className="inputs">
         <form onSubmit={handleSubmit}>
@@ -66,8 +66,8 @@ function Login({ toggleForm }) {
           <button onClick={() => toggleForm("Signup")}>Sign up</button>
         </p>
       </div>
-    </>
+    </div>
   );
-}
+}  
 
 export default Login;
