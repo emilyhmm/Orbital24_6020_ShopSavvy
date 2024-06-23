@@ -41,12 +41,14 @@ const loginUser = asyncHandler(async (req, res) => {
     try {
         // Check if the user exists in the database
         const user = await User.findOne({ email });
-        const isMatch = await bcrypt.compare(password, user.password);
         if (!user) {
             return res.status(400).json({ error: "User does not exist" });
-        } else if (!isMatch) {
+        }
+        // Compare passwords
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(401).json({ error: "Invalid password" });
-        } 
+        }
         res.json({ message: 'Login successful' });
 
 
