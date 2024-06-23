@@ -2,8 +2,7 @@ import React from "react";
 import { useState } from "react";
 import SignupValidation from "./SignupValidation";
 import axios from "axios";
-import '../Css_Style_Sheets/App.css'
-import Login from "./Login";
+import '../../Css_Style_Sheets/App.css'
 
 function Signup({ toggleForm }) {
   const [values, setValues] = useState({

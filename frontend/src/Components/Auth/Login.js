@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
-import Signup from "./Signup";
+import '../../Css_Style_Sheets/App.css'
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });

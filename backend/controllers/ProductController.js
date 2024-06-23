@@ -2,7 +2,7 @@ const Product = require("../models/productModel");
 const puppeteer = require("puppeteer");
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
-const validateMongoDbId = require("../utils/validateMongodbId");
+const validateMongoDbId = require("../utils/validateMongodbID");
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
@@ -129,7 +129,7 @@ const webscraper = asyncHandler(async (req, res) => {
 
         }
 
-        if(result.length > 100) {
+        if(result.length > 50) {
             break;
         }
         
