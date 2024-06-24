@@ -1,24 +1,26 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
+import { useNavigate } from "react-router-dom";
 import '../../App.css'
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors(LoginValidation(values)); 
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
-            const response = await fetch('http://localhost:5000/api/user/login', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ values })
-    })
+        const response = await fetch('http://localhost:5000/api/user/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ values })
+          })
         console.log('Login response:', response.data);
-        // then redirects to products homepage
+        navigate(`/`);
       } catch (error) {
         console.error('Error submitting form:', error.response ? error.response.data : error.message);
       }

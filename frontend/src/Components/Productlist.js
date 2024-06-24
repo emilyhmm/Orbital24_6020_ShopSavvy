@@ -6,6 +6,10 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
+const handleNavigation = (link) => {
+    window.location.href = `${link}`;
+};
+
 function Productlist() {
     const query = useQuery();
     const searchTerm = query.get('search');
@@ -15,7 +19,7 @@ function Productlist() {
     useEffect((searchTerm) => {
         const fetchProducts = async (searchTerm) => {
             try {
-                const response = await axios.post('http://localhost:5000/api/product/scrape', {"searchTerm": query.get('search')});
+                const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/product/scrape`, {"searchTerm": query.get('search')});
                 setProducts(response.data.result);
                 console.log(response.data.result);
             } catch (error) {
@@ -33,7 +37,7 @@ function Productlist() {
           {products.map(product => (
             <li key={product.title}>
                 <img className = "header__logo" src = {product.image} alt = "ShopSavvy logo" />
-                <h1>{product.title}</h1>
+                <h1 onClick={ () => handleNavigation(`${product.link}`)} target="_blank">{product.title}</h1>
                 <h2>{product.price}</h2>
             </li>
           ))}
