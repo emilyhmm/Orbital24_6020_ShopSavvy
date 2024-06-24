@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SearchIcon from '@material-ui/icons/Search';
 import '../Css_Style_Sheets/App.css'
@@ -11,8 +12,7 @@ function Searchbar() {
     console.log('Event:', e);
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/product/scrape', {"searchTerm": input});
-      console.log('Search response:', response.data);
+      navigate(`/products?search=${input}`);
     } catch (error) {
       console.error('Error submitting form:', error.response ? error.response.data : error.message);
     }
