@@ -7,11 +7,13 @@ import { MdLockOutline } from "react-icons/md";
 import { MdLogin } from "react-icons/md";
 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import '../../App.css'
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function Login({ toggleForm }) {
       try {
         const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/login`, values);
         console.log('Login response:', response.data);
-        // then redirects to products homepage
+        navigate(`/`);
       } catch (error) {
         console.error('Error submitting form:', error.response ? error.response.data : error.message);
       }
