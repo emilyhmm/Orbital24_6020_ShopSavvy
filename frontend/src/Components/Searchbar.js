@@ -9,7 +9,6 @@ function Searchbar() {
     const navigate = useNavigate();
   
     const handleSubmit = async (e) => {
-      console.log('Event:', e);
       e.preventDefault();
       try {
         navigate(`/products?search=${input}`);
