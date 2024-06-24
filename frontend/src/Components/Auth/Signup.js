@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import SignupValidation from "./SignupValidation";
 import axios from "axios";
+import '../../App.css'
 
 function Signup({ toggleForm }) {
   const [values, setValues] = useState({
@@ -10,13 +11,13 @@ function Signup({ toggleForm }) {
     password2: "",
   });
   const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = await SignupValidation(values);
-    setErrors(validationErrors);
+    setErrors(SignupValidation(values));
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/signup`, values); 
+        const response = await axios.post("http://localhost:5000/api/user/signup", values); 
         console.log('Signup response:', response.data);
       } catch (error) {
         console.error('Error submitting form:', error.response ? error.response.data : error.message);
@@ -30,8 +31,9 @@ function Signup({ toggleForm }) {
 
   return (
     <div className="container">
-      <div className="header">
-        <div className="text">Create an account</div>
+      <div className = "ShopSavvy__Title"> ShopSavvy </div>
+      <div className="header1">
+        <div className="text"> Create an account </div>
         <div className="underline"></div>
       </div>
       <div className="inputs">
@@ -67,7 +69,6 @@ function Signup({ toggleForm }) {
           </div>
           <div className="signup">
             <button type="submit">Sign up</button>
-            {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
       </div>

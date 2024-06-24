@@ -1,18 +1,22 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
-import axios from "axios";
+import '../../App.css'
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = await LoginValidation(values);
-    setErrors(validationErrors); 
+    setErrors(LoginValidation(values)); 
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/login`, values);
+            const response = await fetch('http://localhost:5000/api/user/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ values })
+    })
         console.log('Login response:', response.data);
         // then redirects to products homepage
       } catch (error) {
@@ -26,12 +30,10 @@ function Login({ toggleForm }) {
   };
 
   return (
-    <>
-      <div className="container">
-        <div className="header">
-          <div className="text">Login to your account</div>
-          <div className="underline"></div>
-        </div>
+    <div className="container">
+      <div className="header1">
+        <div className="text">Login to your account</div>
+        <div className="underline"></div>
       </div>
       <div className="inputs">
         <form onSubmit={handleSubmit}>
@@ -55,7 +57,6 @@ function Login({ toggleForm }) {
           </div>
           <div className="signup">
             <button type="submit">Login</button>
-            {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
       </div>
@@ -65,8 +66,8 @@ function Login({ toggleForm }) {
           <button onClick={() => toggleForm("Signup")}>Sign up</button>
         </p>
       </div>
-    </>
+    </div>
   );
-}
+}  
 
 export default Login;
