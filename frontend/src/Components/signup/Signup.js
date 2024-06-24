@@ -30,47 +30,42 @@ function Signup({ toggleForm }) {
 
   return (
     <div className="container">
-      <div className="header">
-        <div className="text">Create an account</div>
-        <div className="underline"></div>
-      </div>
-      <div className="inputs">
-        <form onSubmit={handleSubmit}>
-          <div className="input">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              onChange={handleInput}
-            />
-            {errors.email && <p className="textdanger">{errors.email}</p>}
-          </div>
-          <div className="input">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={handleInput}
-            />
-            {errors.password && <p className="textdanger">{errors.password}</p>}
-          </div>
-          <div className="input">
-            <input
-              type="password"
-              name="password2"
-              placeholder="Confirm password"
+      <h1>Create an account</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="input-box">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleInput}
+          />
+          {errors.email && <p className="textdanger">{errors.email}</p>}
+        </div>
+        <div className="input-box">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleInput}
+          />
+          {errors.password && <p className="textdanger">{errors.password}</p>}
+        </div>
+        <div className="input-box">
+          <input
+            type="password"
+            name="password2"
+            placeholder="Confirm password"
               onChange={handleInput}
             />
             {errors.password2 && (
-              <p className="textdanger">{errors.password2}</p>
-            )}
-          </div>
-          <div className="signup">
-            <button type="submit">Sign up</button>
-            {errors.general && <p>{errors.general}</p>}
-          </div>
-        </form>
-      </div>
+            <p className="textdanger">{errors.password2}</p>
+          )}
+        </div>
+        <div className="signup">
+          <button type="submit">Sign up</button>
+          {errors.general && <p>{errors.general}</p>}
+        </div>
+      </form>
       <div className="login">
         <p>Already have an account?</p>
         <p>

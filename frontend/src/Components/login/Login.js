@@ -1,6 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
+import "./Login.css"
+import { MdOutlineMail } from "react-icons/md";
+import { MdLockOutline } from "react-icons/md";
+import { MdLogin } from "react-icons/md";
+
 import axios from "axios";
 
 function Login({ toggleForm }) {
@@ -28,42 +33,39 @@ function Login({ toggleForm }) {
   return (
     <>
       <div className="container">
-        <div className="header">
-          <div className="text">Login to your account</div>
-          <div className="underline"></div>
-        </div>
-      </div>
-      <div className="inputs">
+        <h1>Login</h1>
         <form onSubmit={handleSubmit}>
-          <div className="input">
+          <div className="input-box">
             <input
               type="email"
               name="email"
               placeholder="Email"
               onChange={handleInput}
-            />
+            /> 
+            <MdOutlineMail className="icon" />
             {errors.email && <p className="textdanger">{errors.email}</p>}
           </div>
-          <div className="input">
+          <div className="input-box">
             <input
               type="password"
               name="password"
               placeholder="Password"
               onChange={handleInput}
             />
+            <MdLockOutline className="icon" />
             {errors.password && <p className="textdanger">{errors.password}</p>}
           </div>
           <div className="signup">
-            <button type="submit">Login</button>
+            <button type="submit">Login<MdLogin /></button>
             {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
-      </div>
-      <div className="login">
-        <p>Don't have an account?</p>
-        <p>
-          <button onClick={() => toggleForm("Signup")}>Sign up</button>
-        </p>
+        <div className="login">
+          <p>Don't have an account?</p>
+          <p>
+            <button onClick={() => toggleForm("Signup")}>Sign up</button>
+          </p>
+        </div>
       </div>
     </>
   );
