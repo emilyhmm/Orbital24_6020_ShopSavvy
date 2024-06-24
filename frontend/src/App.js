@@ -3,7 +3,7 @@ import { useState } from "react";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 
-function App() {
+function App() { 
   const [currentForm, setCurrentForm] = useState("Signup");
   const toggleForm = (formName) => {
     setCurrentForm(formName);

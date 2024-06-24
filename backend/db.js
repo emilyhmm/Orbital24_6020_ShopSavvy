@@ -1,15 +1,17 @@
 const mongoose = require("mongoose")
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const mongoURI = process.env.MONGO_URI;
 const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb://localhost:27017/orbital", { //replace the link ltr
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
+        await mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         console.log("MongoDB connected")
     } catch (err) {
         console.error(err.message)
         process.exit(1)
     }
 }
-
+  
 module.exports = connectDB

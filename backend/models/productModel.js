@@ -20,18 +20,6 @@ var productSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
-    category: {
-      type: String,
-      required: true,
-    },
-    brand: {
-      type: String,
-      required: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-    },
     sold: {
       type: Number,
       default: 0,

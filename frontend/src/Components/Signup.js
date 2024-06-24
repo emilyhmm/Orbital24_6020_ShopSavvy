@@ -12,10 +12,11 @@ function Signup({ toggleForm }) {
   const [errors, setErrors] = useState({});
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(SignupValidation(values));
+    const validationErrors = await SignupValidation(values);
+    setErrors(validationErrors);
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
-        const response = await axios.post("http://localhost:5000/signup", values); 
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/signup`, values); 
         console.log('Signup response:', response.data);
       } catch (error) {
         console.error('Error submitting form:', error.response ? error.response.data : error.message);
@@ -66,6 +67,7 @@ function Signup({ toggleForm }) {
           </div>
           <div className="signup">
             <button type="submit">Sign up</button>
+            {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
       </div>

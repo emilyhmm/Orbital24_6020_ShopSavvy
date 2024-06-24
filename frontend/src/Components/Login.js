@@ -8,10 +8,11 @@ function Login({ toggleForm }) {
   const [errors, setErrors] = useState({});
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(LoginValidation(values)); 
+    const validationErrors = await LoginValidation(values);
+    setErrors(validationErrors); 
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
-        const response = await axios.post("http://localhost:5000/login", values); 
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/login`, values);
         console.log('Login response:', response.data);
         // then redirects to products homepage
       } catch (error) {
@@ -54,6 +55,7 @@ function Login({ toggleForm }) {
           </div>
           <div className="signup">
             <button type="submit">Login</button>
+            {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
       </div>
