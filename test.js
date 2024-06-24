@@ -1,22 +1,14 @@
-const Product = require("../models/productModel");
+const { isDisabled } = require("@testing-library/user-event/dist/utils");
 const puppeteer = require("puppeteer");
-const asyncHandler = require("express-async-handler");
 
-/*
-    @desc scrapes amazon search page based on user defined search term
-    @route POST /api/user/scrape
-    @access Public
-*/
-
-const webscraper = asyncHandler(async (req, res) => {
-    //can implement check that req is null?
-    const { searchTerm } = req.body
-    const searchpage = "https://www.amazon.sg/s?k=".concat(searchTerm);
+(async () => {
+    const term = "computer league of ";
+    const searchpage = "https://www.amazon.sg/s?k=".concat(term);
     let result = [];
     let isNextDisabled = false;
 
     const browser = await puppeteer.launch({
-        headless: false, //so that browser doesnt launch 
+        headless: false,
         defaultViewport: false, 
         userDataDir: "./tmp",
     });
@@ -30,7 +22,7 @@ const webscraper = asyncHandler(async (req, res) => {
             "div.s-main-slot.s-result-list.s-search-results.sg-row > .s-result-item"
         ); 
 
-        //looping through every element to extract out product title, price and image, and product link
+        //looping through every element to extract out product title, price and image
         for (const i of productHandles) {
 
             let title = "Null";
@@ -53,20 +45,17 @@ const webscraper = asyncHandler(async (req, res) => {
             try {
                 link = await page.evaluate(el => el.querySelector("h2 > a").getAttribute("href"), i);
                 link = `https://www.amazon.sg${link}`; //to construct the full link
-            } catch (error){}
+            } catch (error){ 
+                console.log(error);
+            }
 
             //filtering out null values
-            if(title !== "Null" && price !== "Null" && link !== "Null") {
+            if(title !== "Null" && price !== "Null") {
                 result.push({"title": title, "price": price, "image": image, "link": link})
             }
 
         }
-
-        if(result.length > 5) {
-            break;
-        }
         
-        //goes to the next page if there is one
         try {
             await page.waitForSelector('.s-pagination-item.s-pagination-next', { visible: true });
             let next_disabled = await page.$('span.s-pagination-item.s-pagination-next.s-pagination-disabled') !== null;
@@ -82,9 +71,6 @@ const webscraper = asyncHandler(async (req, res) => {
             isNextDisabled = true;
         }
     }
+    console.log(result);
+})();
 
-    await browser.close();
-    res.json({result});
-});
-
-module.exports = { webscraper }

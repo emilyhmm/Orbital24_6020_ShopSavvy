@@ -7,14 +7,16 @@ import { MdLockOutline } from "react-icons/md";
 import { MdLogin } from "react-icons/md";
 
 import axios from "axios";
+import '../../App.css'
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = await LoginValidation(values);
-    setErrors(validationErrors); 
+    setErrors(validationErrors);  
     if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
       try {
         const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/login`, values);
@@ -68,7 +70,7 @@ function Login({ toggleForm }) {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default Login;
