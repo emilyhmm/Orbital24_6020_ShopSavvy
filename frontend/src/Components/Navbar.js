@@ -36,8 +36,8 @@ function Header() {
             {/*3rd link */}
             <Link to = "/" className = "header__link">
                 <div className = "header__option">
-                    <span className = "header__optionLineOne"> Your </span>
-                    <span className = "header__optionLineOne"> Cart </span>
+                    <span className = "header__optionLineOne"> You </span>
+                    <span className = "header__optionLineTwo">Prime</span>
                 </div>
             </Link>
             </div>

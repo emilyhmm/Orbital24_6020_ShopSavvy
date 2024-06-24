@@ -62,7 +62,7 @@ const webscraper = asyncHandler(async (req, res) => {
 
         }
 
-        if(result.length > 100) {
+        if(result.length > 5) {
             break;
         }
         
