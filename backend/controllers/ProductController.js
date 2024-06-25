@@ -9,14 +9,8 @@ const asyncHandler = require("express-async-handler");
 */
 
 const webscraper = asyncHandler(async (req, res) => {
-    try {
-        console.log(req) 
-        const { searchTerm } = req.body
-    } catch (error) {
-        res.json(error);
-    }
     //can implement check that req is null?
-    
+    const { searchTerm } = req.body
     const searchpage = "https://www.amazon.sg/s?k=".concat(searchTerm);
     let result = [];
     let isNextDisabled = false;
