@@ -21,7 +21,7 @@ const webscraper = asyncHandler(async (req, res) => {
             defaultViewport: false, 
             userDataDir: "./tmp",
         });
-    } catch {
+    } catch (error) {
         res.json("here");
     }
 
