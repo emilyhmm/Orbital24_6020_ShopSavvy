@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Button, CardActionArea, CardActions } from '@mui/material';
+import '../App.css'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -33,15 +39,38 @@ function Productlist() {
     <div>
       <h1> Searching for: {searchTerm}</h1>
       {products.length > 0 ? (
-        <ul>
+        <div className = "product__cardsdisplay" style={{background: "CDCDCD"}} >
           {products.map(product => (
-            <li key={product.title}>
-                <img className = "header__logo" src = {product.image} alt = "ShopSavvy logo" />
-                <h1 onClick={ () => handleNavigation(`${product.link}`)} target="_blank">{product.title}</h1>
-                <h2>{product.price}</h2>
-            </li>
+              <Card sx={{ maxWidth: 345, margin:0.46
+               }}>
+              <CardActionArea>
+                <div style={{background: "CDCDCD"}}>
+                  <CardMedia
+                      component="img"
+                      height="200"
+                      image= {product.image}
+                      alt= {product.title}
+                      sx={{ padding: "1em 1em 0 1em", objectFit: "contain" } }
+                  />
+                </div>
+
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product.title}
+                  </Typography>
+                  <Typography gutterBottom variant="h4" component="div">
+                    {product.price}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Button size="small" color="primary">
+                  Add to cart
+                </Button>
+              </CardActions>
+            </Card>
           ))}
-        </ul>
+        </div>
       ) : (
         <p>No products found</p>
       )}
