@@ -22,7 +22,7 @@ const webscraper = asyncHandler(async (req, res) => {
             userDataDir: "./tmp",
         });
     } catch {
-        res.json(error);
+        res.json("here");
     }
 
         
