@@ -10,7 +10,7 @@ const asyncHandler = require("express-async-handler");
 
 const webscraper = asyncHandler(async (req, res) => {
     try {
-        console.log(req)
+        console.log(req) 
     } catch (error) {
         res.json(error);
     }
@@ -21,7 +21,7 @@ const webscraper = asyncHandler(async (req, res) => {
     let isNextDisabled = false;
 
     const browser = await puppeteer.launch({
-        headless: false, //so that browser doesnt launch 
+        headless: true, //so that browser doesnt launch 
         defaultViewport: false, 
         userDataDir: "./tmp",
     });
