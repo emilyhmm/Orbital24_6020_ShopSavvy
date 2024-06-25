@@ -9,22 +9,23 @@ const asyncHandler = require("express-async-handler");
 */
 
 const webscraper = asyncHandler(async (req, res) => {
+    try {
+        console.log(req) 
+        const { searchTerm } = req.body
+    } catch (error) {
+        res.json(error);
+    }
     //can implement check that req is null?
-    const { searchTerm } = req.body
+    
     const searchpage = "https://www.amazon.sg/s?k=".concat(searchTerm);
     let result = [];
     let isNextDisabled = false;
 
-    try {
-        const browser = await puppeteer.launch({
-            headless: true, //so that browser doesnt launch 
-            defaultViewport: false, 
-            userDataDir: "./tmp",
-        });
-    } catch (error) {
-        res.json("here");
-    }
-
+    const browser = await puppeteer.launch({
+        headless: true, //so that browser doesnt launch 
+        defaultViewport: false, 
+        userDataDir: "./tmp",
+    });
         
     const page = await browser.newPage();
     await page.goto(searchpage);
