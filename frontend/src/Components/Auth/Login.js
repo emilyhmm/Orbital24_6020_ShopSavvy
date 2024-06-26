@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
-import '../../Css_Style_Sheets/App.css'
+import "../../Css_Style_Sheets/App.css";
 
 function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -9,22 +9,26 @@ function Login({ toggleForm }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(LoginValidation(values)); 
-    if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
+    setErrors(LoginValidation(values));
+    if (Object.keys(errors).length === 0) {
+      // Proceed only if there are no validation errors
       try {
-            const response = await fetch('http://localhost:5000/api/user/login', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ values })
-    })
-        console.log('Login response:', response.data);
+        const response = await fetch("http://localhost:5000/api/user/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ values }),
+        });
+        console.log("Login response:", response.data);
         // then redirects to products homepage
       } catch (error) {
-        console.error('Error submitting form:', error.response ? error.response.data : error.message);
+        console.error(
+          "Error submitting form:",
+          error.response ? error.response.data : error.message
+        );
       }
     }
   };
-  
+
   const handleInput = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -68,6 +72,6 @@ function Login({ toggleForm }) {
       </div>
     </div>
   );
-}  
+}
 
 export default Login;

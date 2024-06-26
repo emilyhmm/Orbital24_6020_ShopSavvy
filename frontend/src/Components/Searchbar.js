@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import SearchIcon from '@material-ui/icons/Search';
-import '../Css_Style_Sheets/App.css'
+import React, { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
+import "../App.css";
 
 function Searchbar() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    console.log('Event:', e);
     e.preventDefault();
     try {
       navigate(`/products?search=${input}`);
     } catch (error) {
-      console.error('Error submitting form:', error.response ? error.response.data : error.message);
+      console.error(
+        "Error submitting form:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -36,4 +37,3 @@ function Searchbar() {
   );
 }
 export default Searchbar;
-

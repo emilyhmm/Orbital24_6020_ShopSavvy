@@ -1,28 +1,33 @@
 import React from "react";
 import { useState } from "react";
-import SignupValidation from "./SignupValidation";
-import axios from "axios";
-import "../../Css_Style_Sheets/App.css";
+import LoginValidation from "./LoginValidation";
+import "./Login.css";
+import { MdOutlineMail } from "react-icons/md";
+import { MdLockOutline } from "react-icons/md";
+import { MdLogin } from "react-icons/md";
 
-function Signup({ toggleForm }) {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-    password2: "",
-  });
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "../../App.css";
+
+function Login({ toggleForm }) {
+  const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(SignupValidation(values));
+    const validationErrors = await LoginValidation(values);
+    setErrors(validationErrors);
     if (Object.keys(errors).length === 0) {
       // Proceed only if there are no validation errors
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/user/signup",
+          `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
           values
         );
-        console.log("Signup response:", response.data);
+        console.log("Login response:", response.data);
+        navigate(`/`);
       } catch (error) {
         console.error(
           "Error submitting form:",
@@ -37,56 +42,47 @@ function Signup({ toggleForm }) {
   };
 
   return (
-    <div className="container">
-      <div className="ShopSavvy__Title"> ShopSavvy </div>
-      <div className="header1">
-        <div className="text"> Create an account </div>
-        <div className="underline"></div>
-      </div>
-      <div className="inputs">
+    <>
+      <div className="container">
+        <h1>Login</h1>
         <form onSubmit={handleSubmit}>
-          <div className="input">
+          <div className="input-box">
             <input
               type="email"
               name="email"
               placeholder="Email"
               onChange={handleInput}
             />
+            <MdOutlineMail className="icon" />
             {errors.email && <p className="textdanger">{errors.email}</p>}
           </div>
-          <div className="input">
+          <div className="input-box">
             <input
               type="password"
               name="password"
               placeholder="Password"
               onChange={handleInput}
             />
+            <MdLockOutline className="icon" />
             {errors.password && <p className="textdanger">{errors.password}</p>}
           </div>
-          <div className="input">
-            <input
-              type="password"
-              name="password2"
-              placeholder="Confirm password"
-              onChange={handleInput}
-            />
-            {errors.password2 && (
-              <p className="textdanger">{errors.password2}</p>
-            )}
-          </div>
           <div className="signup">
-            <button type="submit">Sign up</button>
+            <button type="submit">
+              Login
+              <MdLogin />
+            </button>
+            {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
+        <div className="login">
+          <p>Don't have an account?</p>
+          <p>
+            <button onClick={() => toggleForm("Signup")}>Sign up</button>
+          </p>
+        </div>
       </div>
-      <div className="login">
-        <p>Already have an account?</p>
-        <p>
-          <button onClick={() => toggleForm("Login")}>Login</button>
-        </p>
-      </div>
-    </div>
+    </>
   );
 }
 
-export default Signup;
+export default Login;
