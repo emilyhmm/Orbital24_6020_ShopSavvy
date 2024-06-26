@@ -11,6 +11,7 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
             return res.sendStatus(403) //forbidden
         } 
         req.user = user;
+        console.log(user)
         next();
     })
 });

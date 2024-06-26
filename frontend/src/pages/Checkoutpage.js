@@ -1,10 +1,12 @@
+import React from 'react';
 import NavBar from "../Components/Navbar";
+import Cart from "../Components/Cart"
 
-function Checkoutpage() {
+function Checkoutpage({ cart, setCart }) {
     return ( 
         <div>
-            <NavBar>
-            </NavBar>
+            <NavBar />
+            <Cart cart={cart} setCart={setCart} />
         </div>
      );
 }

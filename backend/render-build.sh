@@ -23,3 +23,25 @@ apt-get install -y \
   libxdamage1 \
   libxrandr2 \
   xdg-utils
+  gconf-service \
+  libexpat1 \
+  libfontconfig1 \
+  libgcc1 \
+  libgconf-2-4 \
+  libgdk-pixbuf2.0-0 \
+  libgtk-3-0 \
+  libpango-1.0-0 \
+  libpangocairo-1.0-0 \
+  libstdc++6 \
+  libx11-6 \
+  libxcb1 \
+  libxext6 \
+  libxfixes3 \
+  libxi6 \
+  libxrender1 \
+  libxss1 \
+  libxtst6 \
+  libappindicator1 \
+  lsb-release \
+  xdg-utils \
+  wget

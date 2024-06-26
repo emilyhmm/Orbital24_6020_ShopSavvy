@@ -10,10 +10,9 @@ const handleNavigation = (link) => {
     window.location.href = `${link}`;
 };
 
-function Productlist() {
+function Productlist({ setCart }) {
     const query = useQuery();
     const searchTerm = query.get('search');
-    console.log(searchTerm);
     const [products, setProducts] = useState([]);
 
     useEffect((searchTerm) => {
@@ -26,8 +25,17 @@ function Productlist() {
                 console.error('Error fetching products:', error.response ? error.response.data : error.message);
             }
         };
-            fetchProducts(searchTerm);
+            fetchProducts();
         }, [searchTerm]);
+
+    const addToCart = async (product) => {
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/cart`, { product, quantity: 1 });
+        setCart(response.data);
+        } catch (error) {
+        console.error('Error adding to cart:', error.response ? error.response.data : error.message);
+        }
+      };
 
   return (
     <div>
@@ -39,6 +47,7 @@ function Productlist() {
                 <img className = "header__logo" src = {product.image} alt = "ShopSavvy logo" />
                 <h1 onClick={ () => handleNavigation(`${product.link}`)} target="_blank">{product.title}</h1>
                 <h2>{product.price}</h2>
+                <button onClick={() => addToCart(product)}>Add to Cart</button>
             </li>
           ))}
         </ul>
