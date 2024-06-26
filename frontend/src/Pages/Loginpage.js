@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Signup from "../Components/Auth/Signup";
-import Login from "../Components/Auth/Login";
+import Signup from "../Components/signup/signup2.js";
+import Login from "../Components/login/Login2.js";
 import Header from "../Components/Navbar";
 
 function Loginpage() {
@@ -11,14 +11,13 @@ function Loginpage() {
   };
 
   return (
-      <div className="Loginpage">
-        <Header />
-        {currentForm === "Signup" ? (
-          <Signup toggleForm={toggleForm} />
-        ) : (
-          <Login toggleForm={toggleForm} />
-        )}
-      </div>
+    <div className="Loginpage">
+      {currentForm === "Signup" ? (
+        <Signup toggleForm={toggleForm} />
+      ) : (
+        <Login toggleForm={toggleForm} />
+      )}
+    </div>
   );
 }
 
