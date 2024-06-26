@@ -143,3 +143,9 @@
   cursor: pointer;
   background-color: transparent;
 }
+
+.product__cardsdisplay{
+  display: flex; flex-wrap: wrap;
+  justify-content: space-around;
+  justify-content: space-between;
+}

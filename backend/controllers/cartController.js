@@ -13,14 +13,14 @@ const getUserCart = async (userId) => {
 
 // Get Cart
 const getCart = async (req, res) => {
-  const userId = req.user._id; // assuming user ID is in the request
+  const userId = req.user.id; // assuming user ID is in the request
   const cart = await getUserCart(userId);
   res.json(cart.items);
 };
 
 // Add to Cart
 const addToCart = async (req, res) => {
-  const userId = req.user._id; // assuming user ID is in the request
+  const userId = req.user.id; // assuming user ID is in the request
   const { product } = req.body;
   const cart = await getUserCart(userId);
 
@@ -40,7 +40,7 @@ const addToCart = async (req, res) => {
 
 // Update Cart Item
 const updateCartItem = async (req, res) => {
-  const userId = req.user._id; // assuming user ID is in the request
+  const userId = req.user.id; // assuming user ID is in the request
   const { quantity } = req.body;
   const { title } = req.params;
   const cart = await getUserCart(userId);
@@ -57,14 +57,14 @@ const updateCartItem = async (req, res) => {
 
 // Remove from Cart
 const removeFromCart = async (req, res) => {
-  const userId = req.user._id; // assuming user ID is in the request
+  const userId = req.user.id; // assuming user ID is in the request
   const { title } = req.params;
   const cart = await getUserCart(userId);
 
   const itemIndex = cart.items.findIndex(item => item.title === title);
   if (itemIndex > -1) {
     const [item] = cart.items.splice(itemIndex, 1);
-    await CartItem.findByIdAndRemove(item._id);
+    await CartItem.findByIdAndRemove(item.id);
   }
 
   await cart.save();

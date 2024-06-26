@@ -10,13 +10,13 @@ function Loginpage() {
   };
 
   return (
-      <div className="Loginpage">
-        {currentForm === "Signup" ? (
-          <Signup toggleForm={toggleForm} />
-        ) : (
-          <Login toggleForm={toggleForm} />
-        )}
-      </div>
+    <div className="Loginpage">
+      {currentForm === "Signup" ? (
+        <Signup toggleForm={toggleForm} />
+      ) : (
+        <Login toggleForm={toggleForm} />
+      )}
+    </div>
   );
 }
 

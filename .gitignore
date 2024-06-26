@@ -5,4 +5,4 @@ tmp/
 test.js
 node_modules
 /testfrontend
-.cache/
+backend/.cache/
