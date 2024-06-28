@@ -1,8 +1,5 @@
-import React, { Component } from 'react'
-import {
-    BrowserRouter as Router,
-    Link
-} from "react-router-dom";
+import React from 'react'
+import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import '../App.css'

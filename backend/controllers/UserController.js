@@ -49,8 +49,6 @@ const loginUser = asyncHandler(async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ error: "Invalid password" });
         }
-        res.json({ message: 'Login successful' });
-
 
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
@@ -62,7 +60,6 @@ const loginUser = asyncHandler(async (req, res) => {
             sameSite: 'None', //cross-site cookie 
             maxAge: 30 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
         });
-
         res.json({ accessToken });
 
     } catch (error) {
@@ -76,30 +73,27 @@ const loginUser = asyncHandler(async (req, res) => {
     @route GET /api/user/refresh
     @access Public
 */
-const refresh = asyncHandler(async (res, req) => {
-    const cookie = req.cookie;
-    if (!cookie?.refreshToken) {
-        return res.status(401).json({message : "Unauthorised"});
+const refresh = asyncHandler(async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const refreshToken = cookie.refreshToken;
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
 
-    jwt.verify(
-        refreshToken,
-        process.env.REFRESH_TOKEN_SECRET,
-        (err, decoded) => {
-            if (err) {
-                return res.status(403).json({message: "Forbidden"});
+        User.findOne({ email: decoded.email }).exec((err, user) => {
+            if (err || !user) {
+                return res.status(401).json({ message: "Unauthorized" });
             }
 
-            const foundUser = User.findOne({ email: decoded.email }).exec();
-            if (!foundUser) return res.status(401).json({ message: 'Unauthorized' });
-
-            const newAccessToken = generateAccessToken({foundUser});
-
-            res.json({newAccessToken})
-        }
-    )
+            const newAccessToken = generateAccessToken(user);
+            res.json({ accessToken: newAccessToken });
+        });
+    });
 });
 
 /*

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Cookies from 'js-cookie';
 import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -16,10 +17,6 @@ import "../App.css";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-
-const handleNavigation = (link) => {
-  window.location.href = `${link}`;
-};
 
 function Productlist({ setCart }) {
   const query = useQuery();
@@ -52,8 +49,17 @@ function Productlist({ setCart }) {
 
     const addToCart = async (product) => {
       try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/cart`, { product, quantity: 1 });
+        const token = Cookies.get('refreshToken'); 
+        if (!token) {
+          throw new Error('No token found');
+        }
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/cart/add`, { product, quantity: 1 }, 
+          { headers: {
+            Authorization: `Bearer ${token}`,
+        }, withCredentials: true });
+        
         setCart(response.data);
+        console.log('Product added to cart:', response.data);
         } catch (error) {
         console.error('Error adding to cart:', error.response ? error.response.data : error.message);
         }

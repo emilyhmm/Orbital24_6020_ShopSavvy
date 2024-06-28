@@ -1,4 +1,7 @@
-const authMiddleware = asyncHandler(async (req, res, next) => {
+const jwt = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler');
+
+const isAuthenticated = asyncHandler(async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && req.headers.authorization.split(" ")[1];
     
@@ -11,7 +14,8 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
             return res.sendStatus(403) //forbidden
         } 
         req.user = user;
-        console.log(user)
         next();
     })
 });
+
+module.exports = isAuthenticated;
