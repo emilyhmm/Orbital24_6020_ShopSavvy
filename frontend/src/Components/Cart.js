@@ -30,11 +30,11 @@ function Cart({ cart, setCart }) {
   const updateCartItem = async (title, quantity) => {
     const token = localStorage.getItem("token");
     console.log(token);
-    console.log(quantity);
     try {
       const encodedTitle = encodeURIComponent(title);
       const response = await axios.put(
         `${process.env.REACT_APP_API_BASE_URL}/api/cart/update/${encodedTitle}`,
+        { title, quantity },
         {
           headers: {
             Authorization: `Bearer ${token}`,
