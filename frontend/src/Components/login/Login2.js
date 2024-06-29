@@ -29,7 +29,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        shoppysavvy
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

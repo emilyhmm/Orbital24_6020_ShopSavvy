@@ -1,45 +1,6 @@
 const puppeteer = require("puppeteer");
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
-const validateMongoDbId = require("../utils/validateMongodbID");
-
-const deleteProduct = asyncHandler(async (req, res) => {
-  const { id } = req.params; // Extract the id from req.params
-  try {
-    validateMongoDbId(id); // Validate the MongoDB ID
-    const deletedProduct = await Product.findByIdAndDelete(id); // Use findByIdAndDelete
-    if (!deletedProduct) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-    res.json(deletedProduct);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-const updateProduct = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  try {
-    validateMongoDbId(id);
-
-    if (req.body.title) {
-      req.body.slug = slugify(req.body.title);
-    }
-
-    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedProduct) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    res.json(updatedProduct);
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
-  }
-});
 
 require("dotenv").config();
 
