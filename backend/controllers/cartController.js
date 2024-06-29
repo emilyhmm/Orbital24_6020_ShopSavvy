@@ -69,7 +69,7 @@ const removeFromCart = async (req, res) => {
   const itemIndex = cart.items.findIndex((item) => item.title === title);
   if (itemIndex > -1) {
     const [item] = cart.items.splice(itemIndex, 1);
-    await CartItem.findByIdAndRemove(item.email);
+    await CartItem.findByIdAndDelete(item.email);
   }
 
   await cart.save();

@@ -29,10 +29,21 @@ function Cart({ cart, setCart }) {
   }, [setCart]);
 
   const updateCartItem = async (title, quantity) => {
+    const token = localStorage.getItem("token");
     try {
+      if (quantity <= 0) {
+        await removeFromCart(title); // Remove item if quantity is zero or less
+        return;
+      }
+      const encodedTitle = encodeURIComponent(title);
       const response = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/cart/update${title}`,
-        { quantity }
+        `${process.env.REACT_APP_API_BASE_URL}/api/cart/update/${encodedTitle}`,
+        { title, quantity },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setCart(response.data);
     } catch (error) {
@@ -44,9 +55,16 @@ function Cart({ cart, setCart }) {
   };
 
   const removeFromCart = async (title) => {
+    const token = localStorage.getItem("token");
     try {
+      const encodedTitle = encodeURIComponent(title);
       const response = await axios.delete(
-        `${process.env.REACT_APP_API_BASE_URL}/api/cart/remove${title}`
+        `${process.env.REACT_APP_API_BASE_URL}/api/cart/remove/${encodedTitle}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setCart(response.data);
     } catch (error) {

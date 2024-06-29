@@ -48,12 +48,9 @@ function Productlist({ setCart }) {
   );
 
   const addToCart = async (product) => {
+    let token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
       console.log(token);
-      if (!token) {
-        throw new Error("No token found");
-      }
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/api/cart/add`,
         { product, quantity: 1 },
@@ -69,21 +66,26 @@ function Productlist({ setCart }) {
       setCart(response.data);
       console.log("Product added to cart:", response.data);
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response.status === 403) {
         try {
-          const refreshToken = Cookies.get();
+          const refreshToken = Cookies.get("refreshToken");
+          console.log(refreshToken);
+          console.log(Cookies);
           const newToken = await axios.post(
             `${process.env.REACT_APP_API_BASE_URL}/api/user/refresh`,
             {
               refreshToken,
             }
           );
-
+          console.log("ref");
           // Update access token in state or local storage
-          localStorage.setItem("accessToken", newToken);
+          token = localStorage.setItem("accessToken", newToken);
+          console.log(token);
         } catch (error) {
           console.error("Error refreshing token:", error);
         }
+      }
+      if (error.response.status === 401) {
         console.error(
           "Error adding to cart:",
           error.response ? error.response.data : error.message

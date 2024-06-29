@@ -4,7 +4,6 @@ const asyncHandler = require("express-async-handler");
 const isAuthenticated = asyncHandler(async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && req.headers.authorization.split(" ")[1];
-
   if (token == null) {
     return res.status(500).json("No token"); //unexpected error
   }
