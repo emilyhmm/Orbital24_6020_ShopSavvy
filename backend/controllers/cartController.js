@@ -1,9 +1,9 @@
-const Cart = require('../models/cartModel');
-const CartItem = require('../models/cartItemModel');
+const Cart = require("../models/cartModel");
+const CartItem = require("../models/cartItemModel");
 
 // Helper function to get cart by userId
 const getUserCart = async (userId) => {
-  let cart = await Cart.findOne({ userId }).populate('items');
+  let cart = await Cart.findOne({ userId }).populate("items");
   if (!cart) {
     cart = new Cart({ userId, items: [] });
     await cart.save();
@@ -13,23 +13,29 @@ const getUserCart = async (userId) => {
 
 // Get Cart
 const getCart = async (req, res) => {
-  const userId = req.user.email; // assuming user ID is in the request
+  console.log(req.user.user._id);
+  const userId = req.user.user._id; // assuming user ID is in the request
   const cart = await getUserCart(userId);
   res.json(cart.items);
 };
 
 // Add to Cart
 const addToCart = async (req, res) => {
-  const userId = req.user.email; // assuming user ID is in the request
+  const userId = req.user.user._id; // assuming user ID is in the request
   const { product } = req.body;
   const cart = await getUserCart(userId);
 
-  const existingItem = cart.items.find(item => item.title === product.title);
+  const existingItem = cart.items.find((item) => item.title === product.title);
   if (existingItem) {
     existingItem.quantity += 1;
     await existingItem.save();
   } else {
-    const newItem = new CartItem({ ...product, quantity: 1 });
+    const newItem = new CartItem({
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    });
     await newItem.save();
     cart.items.push(newItem);
   }
@@ -40,12 +46,12 @@ const addToCart = async (req, res) => {
 
 // Update Cart Item
 const updateCartItem = async (req, res) => {
-  const userId = req.user.email; // assuming user ID is in the request
+  const userId = req.user.user._id; // assuming user ID is in the request
   const { quantity } = req.body;
   const { title } = req.params;
   const cart = await getUserCart(userId);
 
-  const item = cart.items.find(item => item.title === title);
+  const item = cart.items.find((item) => item.title === title);
   if (item) {
     item.quantity = quantity;
     await item.save();
@@ -57,11 +63,11 @@ const updateCartItem = async (req, res) => {
 
 // Remove from Cart
 const removeFromCart = async (req, res) => {
-  const userId = req.user.email; // assuming user ID is in the request
+  const userId = req.user.user._id; // assuming user ID is in the request
   const { title } = req.params;
   const cart = await getUserCart(userId);
 
-  const itemIndex = cart.items.findIndex(item => item.title === title);
+  const itemIndex = cart.items.findIndex((item) => item.title === title);
   if (itemIndex > -1) {
     const [item] = cart.items.splice(itemIndex, 1);
     await CartItem.findByIdAndRemove(item.email);

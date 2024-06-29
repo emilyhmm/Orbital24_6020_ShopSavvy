@@ -1,9 +1,11 @@
+import React from "react";
 import NavBar from "../Components/Navbar";
+import Productlist from "../Components/Productlist";
 
-function Homepage() {
+function Homepage({ setCart }) {
   return (
     <div>
-      <NavBar></NavBar>
+      <NavBar />
     </div>
   );
 }

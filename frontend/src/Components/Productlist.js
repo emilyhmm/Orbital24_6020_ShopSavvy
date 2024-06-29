@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -47,28 +47,55 @@ function Productlist({ setCart }) {
     [searchTerm]
   );
 
-    const addToCart = async (product) => {
-      try {
-        const token = Cookies.get('refreshToken'); 
-        if (!token) {
-          throw new Error('No token found');
-        }
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/cart/add`, { product, quantity: 1 }, 
-          { headers: {
+  const addToCart = async (product) => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log(token);
+      if (!token) {
+        throw new Error("No token found");
+      }
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/api/cart/add`,
+        { product, quantity: 1 },
+        {
+          headers: {
             Authorization: `Bearer ${token}`,
-        }, withCredentials: true });
-        
-        setCart(response.data);
-        console.log('Product added to cart:', response.data);
-        } catch (error) {
-        console.error('Error adding to cart:', error.response ? error.response.data : error.message);
+          },
+          withCredentials: true,
         }
-      };
+      );
+      console.log(response);
+
+      setCart(response.data);
+      console.log("Product added to cart:", response.data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        try {
+          const refreshToken = Cookies.get();
+          const newToken = await axios.post(
+            `${process.env.REACT_APP_API_BASE_URL}/api/user/refresh`,
+            {
+              refreshToken,
+            }
+          );
+
+          // Update access token in state or local storage
+          localStorage.setItem("accessToken", newToken);
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+        }
+        console.error(
+          "Error adding to cart:",
+          error.response ? error.response.data : error.message
+        );
+      }
+    }
+  };
 
   return (
     <div>
       <span>
-        <h1 style={{ textAlign: "right" }}>Searching for: {searchTerm}</h1>
+        <h1 style={{ textAlign: "left" }}>Searching for: {searchTerm}</h1>
       </span>
 
       {loading ? (
@@ -111,7 +138,11 @@ function Productlist({ setCart }) {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Button size="small" color="primary" onClick={() => addToCart(product)}>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => addToCart(product)}
+                    >
                       Add to cart
                     </Button>
                   </CardActions>

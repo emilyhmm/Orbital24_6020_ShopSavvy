@@ -1,40 +1,62 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from "react";
+import axios from "axios";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 function Cart({ cart, setCart }) {
-
-    useEffect(() => {
-        const fetchCart = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/cart/view`);
-                setCart(response.data);
-            } catch (error) {
-                console.error('Error fetching cart:', error.response ? error.response.data : error.message);
-            }
-        };
-        fetchCart();
-    }, [setCart]);
-
-    const updateCartItem = async (title, quantity) => {
-        try {
-        const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/cart/update${title}`, { quantity });
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log(token);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/api/cart/view`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setCart(response.data);
-        } catch (error) {
-        console.error('Error updating cart:', error.response ? error.response.data : error.message);
-        }
+      } catch (error) {
+        console.error(
+          "Error fetching cart:",
+          error.response ? error.response.data : error.message
+        );
+      }
     };
+    fetchCart();
+  }, [setCart]);
 
-    const removeFromCart = async (title) => {
-        try {
-            const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/cart/remove${title}`);
-            setCart(response.data);
-        } catch (error) {
-        console.error('Error removing from cart:', error.response ? error.response.data : error.message);
-        }
+  const updateCartItem = async (title, quantity) => {
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_BASE_URL}/api/cart/update${title}`,
+        { quantity }
+      );
+      setCart(response.data);
+    } catch (error) {
+      console.error(
+        "Error updating cart:",
+        error.response ? error.response.data : error.message
+      );
     }
+  };
 
-  return ( 
+  const removeFromCart = async (title) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/api/cart/remove${title}`
+      );
+      setCart(response.data);
+    } catch (error) {
+      console.error(
+        "Error removing from cart:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+
+  return (
     <div>
       <h1>Your Cart</h1>
       {cart && cart.length > 0 ? (
@@ -45,10 +67,20 @@ function Cart({ cart, setCart }) {
               <p>{item.price}</p>
               <img src={item.image} alt={item.title} />
               <div>
-                <button onClick={() => updateCartItem(item.title, item.quantity + 1)}>+</button>
+                <button
+                  onClick={() => updateCartItem(item.title, item.quantity + 1)}
+                >
+                  +
+                </button>
                 <span>{item.quantity}</span>
-                <button onClick={() => updateCartItem(item.title, item.quantity - 1)}>-</button>
-                <button onClick={() => removeFromCart(item.title)}>Remove <FaRegTrashCan /></button>
+                <button
+                  onClick={() => updateCartItem(item.title, item.quantity - 1)}
+                >
+                  -
+                </button>
+                <button onClick={() => removeFromCart(item.title)}>
+                  Remove <FaRegTrashCan />
+                </button>
               </div>
             </li>
           ))}

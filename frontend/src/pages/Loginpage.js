@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Signup from "../Components/signup/Signup.js";
 import Login from "../Components/login/Login.js";
-
+import NavBar from "../Components/Navbar";
 function Loginpage() {
   const [currentForm, setCurrentForm] = useState("Signup");
 
@@ -11,6 +11,7 @@ function Loginpage() {
 
   return (
     <div className="Loginpage">
+      <NavBar />
       {currentForm === "Signup" ? (
         <Signup toggleForm={toggleForm} />
       ) : (
