@@ -3,33 +3,6 @@ const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongodbID");
 
-const createProduct = asyncHandler(async (req, res) => {
-  try {
-    const { title, price } = req.body;
-
-    if (!title || !price) {
-      return res.status(400).json({ message: "Title and price are required" });
-    }
-
-    if (isNaN(price) || price < 0) {
-      return res
-        .status(400)
-        .json({ message: "Price must be a non-negative number" });
-    }
-
-    // Generate slug from title
-    req.body.slug = slugify(title);
-
-    // Create new product
-    const newProduct = await Product.create(req.body);
-
-    // Respond with the created product
-    res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(500).json({ message: "Server Error" });
-  }
-});
-
 const deleteProduct = asyncHandler(async (req, res) => {
   const { id } = req.params; // Extract the id from req.params
   try {
@@ -68,7 +41,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-require('dotenv').config();
+require("dotenv").config();
 
 /*
     @desc scrapes amazon search page based on user defined search term
