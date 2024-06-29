@@ -68,6 +68,8 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+require('dotenv').config();
+
 /*
     @desc scrapes amazon search page based on user defined search term
     @route POST /api/user/scrape

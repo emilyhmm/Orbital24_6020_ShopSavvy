@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -17,14 +18,9 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const handleNavigation = (link) => {
-  window.location.href = `${link}`;
-};
-
-function Productlist() {
+function Productlist({ setCart }) {
   const query = useQuery();
   const searchTerm = query.get("search");
-  console.log(searchTerm);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -51,10 +47,57 @@ function Productlist() {
     [searchTerm]
   );
 
+  const addToCart = async (product) => {
+    let token = localStorage.getItem("token");
+    try {
+      console.log(token);
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/api/cart/add`,
+        { product, quantity: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+
+      setCart(response.data);
+      console.log("Product added to cart:", response.data);
+    } catch (error) {
+      if (error.response.status === 403) {
+        try {
+          const refreshToken = Cookies.get("refreshToken");
+          console.log(refreshToken);
+          console.log(Cookies);
+          const newToken = await axios.post(
+            `${process.env.REACT_APP_API_BASE_URL}/api/user/refresh`,
+            {
+              refreshToken,
+            }
+          );
+          console.log("ref");
+          // Update access token in state or local storage
+          token = localStorage.setItem("accessToken", newToken);
+          console.log(token);
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+        }
+      }
+      if (error.response.status === 401) {
+        console.error(
+          "Error adding to cart:",
+          error.response ? error.response.data : error.message
+        );
+      }
+    }
+  };
+
   return (
     <div>
       <span>
-        <h1 style={{ textAlign: "right" }}>Searching for: {searchTerm}</h1>
+        <h1 style={{ textAlign: "left" }}>Searching for: {searchTerm}</h1>
       </span>
 
       {loading ? (
@@ -97,7 +140,11 @@ function Productlist() {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => addToCart(product)}
+                    >
                       Add to cart
                     </Button>
                   </CardActions>

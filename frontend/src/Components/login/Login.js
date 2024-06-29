@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import LoginValidation from "./LoginValidation";
 import "./Login.css";
+import "./Login.css";
 import { MdOutlineMail } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
 import { MdLogin } from "react-icons/md";
@@ -26,9 +27,15 @@ function Login({ toggleForm }) {
           `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
           values
         );
-        console.log("Login response:", response.data);
+        const { accessToken } = response.data;
+        localStorage.setItem("token", accessToken); // Store the token
+        console.log("Logged in and token stored:", accessToken);
         navigate(`/`);
       } catch (error) {
+        console.error(
+          "Error submitting form:",
+          error.response ? error.response.data : error.message
+        );
         console.error(
           "Error submitting form:",
           error.response ? error.response.data : error.message
@@ -36,6 +43,7 @@ function Login({ toggleForm }) {
       }
     }
   };
+
 
   const handleInput = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -52,6 +60,7 @@ function Login({ toggleForm }) {
               name="email"
               placeholder="Email"
               onChange={handleInput}
+            />
             />
             <MdOutlineMail className="icon" />
             {errors.email && <p className="textdanger">{errors.email}</p>}
@@ -71,6 +80,10 @@ function Login({ toggleForm }) {
               Login
               <MdLogin />
             </button>
+            <button type="submit">
+              Login
+              <MdLogin />
+            </button>
             {errors.general && <p>{errors.general}</p>}
           </div>
         </form>
@@ -82,6 +95,7 @@ function Login({ toggleForm }) {
         </div>
       </div>
     </>
+  );
   );
 }
 

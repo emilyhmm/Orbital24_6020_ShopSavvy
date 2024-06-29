@@ -28,25 +28,6 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-const createMerchant = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    // Check if the user already exists
-    const findUser = await User.findOne({ email });
-    if (findUser) {
-      return res.status(400).json({ error: "User already exists" });
-    }
-    // Create new user
-    let user = new User({ email, password });
-    // Save the new user to the database
-    await user.save();
-    res.status(201).json({ message: "Signup successful" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
 /*
     @desc Login users
     @route POST /api/user/login
@@ -79,13 +60,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
     // Create secure cookie with refresh token
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true, //accessible only by web server
+      secure: false, //https if true. make it false to test on local host
+      sameSite: "None", //cross-site cookie
+      maxAge: 30 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+      withCredentials: true,
     });
-
-    // Send the access token in the response
     res.json({ accessToken });
   } catch (error) {
     console.log(error);
@@ -98,25 +78,26 @@ const loginUser = asyncHandler(async (req, res) => {
     @route GET /api/user/refresh
     @access Public
 */
-const refresh = asyncHandler(async (res, req) => {
-  const cookie = req.cookie;
-  if (!cookie?.refreshToken) {
-    return res.status(401).json({ message: "Unauthorised" });
-  }
+const refresh = asyncHandler(async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
 
-  const refreshToken = cookie.refreshToken;
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden" });
     }
 
-    const foundUser = User.findOne({ email: decoded.email }).exec();
-    if (!foundUser) return res.status(401).json({ message: "Unauthorized" });
+    User.findOne({ email: decoded.email }).exec((err, user) => {
+      if (err || !user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
 
-    const newAccessToken = generateAccessToken({ foundUser });
-
-    res.json({ newAccessToken });
+      const newAccessToken = generateAccessToken(user);
+      res.json({ accessToken: newAccessToken });
+    });
   });
 });
 
