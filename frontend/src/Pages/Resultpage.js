@@ -1,11 +1,12 @@
+import React from 'react';
 import NavBar from "../Components/Navbar";
 import Productlist from "../Components/Productlist";
 
-function Resultpage() {
+function Resultpage({ setCart }) {
     return ( 
         <div>
-            <NavBar></NavBar>
-            <Productlist></Productlist>
+            <NavBar />
+            <Productlist setCart={setCart} />
         </div>
      );
 }
