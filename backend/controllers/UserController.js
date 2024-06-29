@@ -39,24 +39,24 @@ const loginUser = asyncHandler(async (req, res) => {
 
   try {
     // Check if the user exists in the database with a case-insensitive email search
-    const user = await User.findOne({ email: new RegExp(`^${email}$`, "i") });
+    const finduser = await User.findOne({
+      email: new RegExp(`^${email}$`, "i"),
+    });
 
     // If the user is not found, respond with an error
     // Check if the user exists in the database
-    const user = await User.findOne({ email });
-    if (!user) {
+    if (!finduser) {
       return res.status(400).json({ error: "User does not exist" });
     }
     // Compare passwords
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, finduser.password);
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
-    res.json({ message: "Login successful" });
 
     // Generate tokens
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
+    const accessToken = generateAccessToken(finduser);
+    const refreshToken = generateRefreshToken(finduser);
 
     // Create secure cookie with refresh token
     res.cookie("refreshToken", refreshToken, {
@@ -66,6 +66,7 @@ const loginUser = asyncHandler(async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
       withCredentials: true,
     });
+
     res.json({ accessToken });
   } catch (error) {
     console.log(error);

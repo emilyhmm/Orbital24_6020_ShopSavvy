@@ -12,7 +12,7 @@ function Loginpage() {
 
   return (
     <div className="Loginpage">
-      <NavBar />
+      <Header />
       {currentForm === "Signup" ? (
         <Signup toggleForm={toggleForm} />
       ) : (

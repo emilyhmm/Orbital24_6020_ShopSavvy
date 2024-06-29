@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { MdOutlineMail, MdLockOutline, MdLogin } from "react-icons/md";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -46,22 +47,28 @@ export default function Login({ toggleForm }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    console.log("here");
     e.preventDefault();
     const validationErrors = await LoginValidation(values);
     setErrors(validationErrors);
-    if (Object.keys(errors).length === 0) {
+    console.log(Object.keys(validationErrors));
+    console.log(Object.keys(validationErrors).length);
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("validation");
       // Proceed only if there are no validation errors
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
           values
         );
-        console.log("Login response:", response.data);
+        const { accessToken } = response.data;
+        localStorage.setItem("token", accessToken); // Store the token
+        console.log("Logged in and token stored:", accessToken);
         navigate(`/`);
       } catch (error) {
         console.error(
           "Error submitting form:",
-          error.response ? error.response.data : error.message
+          error.response?.data || error.message
         );
       }
     }
@@ -106,6 +113,7 @@ export default function Login({ toggleForm }) {
               autoFocus
               onChange={handleInput}
             />
+            {errors.email && <p className="textdanger">{errors.email}</p>}
             <TextField
               margin="normal"
               required
@@ -117,11 +125,13 @@ export default function Login({ toggleForm }) {
               autoComplete="current-password"
               onChange={handleInput}
             />
+            {errors.password && <p className="textdanger">{errors.password}</p>}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onSubmit={handleSubmit}
             >
               Sign In
             </Button>
