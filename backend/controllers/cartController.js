@@ -47,6 +47,7 @@ const addToCart = async (req, res) => {
 // Update Cart Item
 const updateCartItem = async (req, res) => {
   const userId = req.user.user._id; // assuming user ID is in the request
+  console.log(2);
   const { quantity } = req.body;
   const { title } = req.params;
   const cart = await getUserCart(userId);
@@ -70,7 +71,7 @@ const removeFromCart = async (req, res) => {
   const itemIndex = cart.items.findIndex((item) => item.title === title);
   if (itemIndex > -1) {
     const [item] = cart.items.splice(itemIndex, 1);
-    await CartItem.findByIdAndRemove(item.email);
+    await CartItem.findByIdAndDelete(item.email);
   }
 
   await cart.save();
