@@ -4,6 +4,7 @@ const authRouter = require("./routes/authRoute");
 const productRouter = require("./routes/productRoute");
 const cartRouter = require("./routes/cartRoute");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 
