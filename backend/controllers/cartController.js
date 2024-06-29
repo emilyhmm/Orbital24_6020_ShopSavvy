@@ -13,15 +13,14 @@ const getUserCart = async (userId) => {
 
 // Get Cart
 const getCart = async (req, res) => {
-  console.log(req.user.user._id);
-  const userId = req.user.user._id; // assuming user ID is in the request
+  const userId = req.user.user._id;
   const cart = await getUserCart(userId);
   res.json(cart.items);
 };
 
 // Add to Cart
 const addToCart = async (req, res) => {
-  const userId = req.user.user._id; // assuming user ID is in the request
+  const userId = req.user.user._id;
   const { product } = req.body;
   const cart = await getUserCart(userId);
 
@@ -46,7 +45,7 @@ const addToCart = async (req, res) => {
 
 // Update Cart Item
 const updateCartItem = async (req, res) => {
-  const userId = req.user.user._id; // assuming user ID is in the request
+  const userId = req.user.user._id;
   const { quantity } = req.body;
   const { title } = req.params;
   const cart = await getUserCart(userId);
@@ -63,7 +62,7 @@ const updateCartItem = async (req, res) => {
 
 // Remove from Cart
 const removeFromCart = async (req, res) => {
-  const userId = req.user.user._id; // assuming user ID is in the request
+  const userId = req.user.user._id;
   const { title } = req.params;
   const cart = await getUserCart(userId);
 

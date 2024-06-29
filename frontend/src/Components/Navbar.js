@@ -4,7 +4,8 @@ import Searchbar from "./Searchbar"
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import '../App.css'
 
-function Header() {
+function Header({ cart }) {
+    const quantity = cart.reduce((total, item) => total + item.quantity, 0);
     return (
         <nav className="header">
             <Link to = "/">
@@ -44,7 +45,7 @@ function Header() {
                 <div className = "header__optionBasket">
                     <ShoppingCartIcon/>
                     {/*Number of items in basket */}
-                    <span className = 'header_optionLineTwo header__basketCount' >2</span>
+                    <span className = 'header_optionLineTwo header__basketCount' >{quantity}</span>
                 </div>
             </Link>
         </nav>

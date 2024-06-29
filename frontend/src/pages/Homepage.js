@@ -1,11 +1,10 @@
 import React from "react";
 import NavBar from "../Components/Navbar";
-import Productlist from "../Components/Productlist";
 
-function Homepage({ setCart }) {
+function Homepage({ cart }) {
   return (
     <div>
-      <NavBar />
+      <NavBar cart={cart} />
     </div>
   );
 }

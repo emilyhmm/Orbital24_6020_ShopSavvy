@@ -1,8 +1,8 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const authRouter = require("./routes/authRoute");
 const productRouter = require("./routes/productRoute");
 const cartRouter = require("./routes/cartRoute");
+const paymentRouter = require('./routes/paymentRoute');
 const cookieParser = require('cookie-parser');
 
 const app = express()
@@ -18,13 +18,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-//body parsers
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user', authRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/payment', paymentRouter);
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {

@@ -4,6 +4,7 @@ import Login from './pages/Loginpage';
 import Home from './pages/Homepage';
 import Checkout from './pages/Checkoutpage';
 import Resultpage from './pages/Resultpage';
+import Paymentpage from './pages/Paymentpage';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -12,10 +13,11 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home cart={cart} />} />
           <Route path="/checkout" element={<Checkout cart={cart} setCart={setCart} />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/products" element={<Resultpage setCart={setCart}/>} />
+          <Route path="/products" element={<Resultpage cart={cart} setCart={setCart}/>} />
+          <Route path="/payment" element={<Paymentpage />} />
         </Routes>
       </div>
     </Router>
