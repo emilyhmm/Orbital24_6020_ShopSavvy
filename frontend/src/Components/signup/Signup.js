@@ -9,21 +9,30 @@ function Signup({ toggleForm }) {
     password: "",
     password2: "",
   });
+
   const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = await SignupValidation(values);
     setErrors(validationErrors);
-    if (Object.keys(errors).length === 0) { // Proceed only if there are no validation errors
+    if (Object.keys(errors).length === 0) {
+      // Proceed only if there are no validation errors
       try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/signup`, values); 
-        console.log('Signup response:', response.data);
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_BASE_URL}/api/user/signup`,
+          values
+        );
+        console.log("Signup response:", response.data);
       } catch (error) {
-        console.error('Error submitting form:', error.response ? error.response.data : error.message);
+        console.error(
+          "Error submitting form:",
+          error.response ? error.response.data : error.message
+        );
       }
     }
   };
-  
+
   const handleInput = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -55,11 +64,9 @@ function Signup({ toggleForm }) {
             type="password"
             name="password2"
             placeholder="Confirm password"
-              onChange={handleInput}
-            />
-            {errors.password2 && (
-            <p className="textdanger">{errors.password2}</p>
-          )}
+            onChange={handleInput}
+          />
+          {errors.password2 && <p className="textdanger">{errors.password2}</p>}
         </div>
         <div className="signup">
           <button type="submit">Sign up</button>
