@@ -37,7 +37,19 @@ function Copyright(props) {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+const defaultTheme = createTheme({
+  palette: {
+    anger: createColor("#F40B27"),
+    apple: createColor("#5DBA40"),
+    steelBlue: createColor("#5C76B7"),
+    violet: createColor("#BC00A3"),
+    orange: createColor("#F79326"),
+    black: createColor("#0C0C0C"),
+  },
+});
 
 export default function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
@@ -134,8 +146,9 @@ export default function Login({ toggleForm }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onSubmit={handleSubmit}
+              color="black"
             >
-              Sign In
+              <span style={{ color: "white" }}>Sign In</span>
             </Button>
             <Grid container>
               <Grid item xs></Grid>
