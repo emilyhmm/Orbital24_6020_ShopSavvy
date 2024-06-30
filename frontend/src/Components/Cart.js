@@ -29,6 +29,10 @@ function Cart({ cart, setCart }) {
   }, [setCart]);
 
   const updateCartItem = async (title, quantity) => {
+    if (quantity <= 0) {
+      await removeFromCart(title);
+      return;
+    }
     const token = localStorage.getItem("token");
     try {
       if (quantity <= 0) {

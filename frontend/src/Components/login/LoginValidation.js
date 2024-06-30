@@ -10,7 +10,7 @@ async function LoginValidation(values) {
   } else if (!emailPattern.test(values.email)) {
     error.email = "Invalid email";
   } else {
-    error.email = "";
+    error.email = null;
   }
   if (values.password === "") {
     error.password = "Please enter your password";
@@ -18,7 +18,7 @@ async function LoginValidation(values) {
     error.password =
       "Password must have at least 8 characters with uppercase, lowercase and digits";
   } else {
-    error.password = "";
+    error.password = null;
   }
 
   if (!error.email && !error.password) {
@@ -32,7 +32,7 @@ async function LoginValidation(values) {
       );
 
       if (response.data.accessToken) {
-        error.general = "";
+        error.general = null;
       }
     } catch (err) {
       if (err.response && err.response.data) {

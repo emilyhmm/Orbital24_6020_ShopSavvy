@@ -12,16 +12,12 @@ const app = express();
 const connectDB = require("./db");
 connectDB();
 
-const whitelist = ["https://shoppysavvy.vercel.app"];
-
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+    "http://localhost:3000",
+    "https://orbital24-6020-shopsavvy.onrender.com",
+  ],
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));

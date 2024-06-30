@@ -56,6 +56,7 @@ export default function SignUp({ toggleForm }) {
   const [errors, setErrors] = useState({});
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({})
     const validationErrors = await SignupValidation(values);
     setErrors(validationErrors);
     if (Object.keys(errors).length === 0) {
@@ -97,7 +98,7 @@ export default function SignUp({ toggleForm }) {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -131,6 +132,7 @@ export default function SignUp({ toggleForm }) {
                   onChange={handleInput}
                 />
               </Grid>
+              {errors.email && <p className="textdanger">{errors.email}</p>}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -143,6 +145,21 @@ export default function SignUp({ toggleForm }) {
                   onChange={handleInput}
                 />
               </Grid>
+              {errors.password && <p className="textdanger">{errors.password}</p>}
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password2"
+                  label="Confirm Password"
+                  type="password"
+                  id="password2"
+                  autoComplete="new-password"
+                  onChange={handleInput}
+                />
+              </Grid>
+              {errors.password2 && <p className="textdanger">{errors.password2}</p>}
+              {errors.general && <p>{errors.general}</p>}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={

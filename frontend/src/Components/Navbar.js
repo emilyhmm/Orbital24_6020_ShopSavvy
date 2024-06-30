@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import { useContext } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { AuthContext } from "../Contexts/AuthContext";
 import "../App.css";
 
 function Header({ cart }) {
     const quantity = cart.reduce((total, item) => total + item.quantity, 0);
+    const { isLoggedIn, logout } = useContext(AuthContext);
     return (
         <nav className="header">
             <Link to = "/">
@@ -16,12 +18,21 @@ function Header({ cart }) {
             </div>
             <div className = "header__nav">
               {/*1st link */}
-              <Link to = "/login" className = "header__link">
-                  <div className = "header__option">
-                      <span className = "header__optionLineOne"> Hello, </span>
-                      <span className = "header__optionLineTwo">Sign In or Sign Out</span>
+              {isLoggedIn ? (
+                <Link to="/" className="header__link" onClick={logout}>
+                  <div className="header__option">
+                    <span className="header__optionLineOne">Hello, User</span>
+                    <span className="header__optionLineTwo">Sign Out</span>
                   </div>
-              </Link>
+                </Link>
+              ) : (
+                <Link to="/login" className="header__link">
+                  <div className="header__option">
+                    <span className="header__optionLineOne">Hello,</span>
+                    <span className="header__optionLineTwo">Sign In</span>
+                  </div>
+                </Link>
+              )}
           
               {/*2nd link */}
               <Link to = "/" className = "header__link">

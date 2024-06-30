@@ -61,10 +61,9 @@ const loginUser = asyncHandler(async (req, res) => {
     // Create secure cookie with refresh token
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true, //accessible only by web server
-      secure: false, //https if true. make it false to test on local host
+      secure: true, //https if true. make it false to test on local host
       sameSite: "None", //cross-site cookie
       maxAge: 30 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-      withCredentials: true,
     });
 
     res.json({ accessToken });
@@ -108,11 +107,16 @@ const refresh = asyncHandler(async (req, res) => {
     @access Public
 */
 const logout = asyncHandler(async (req, res) => {
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    secure: true,
-  });
-  res.redirect("/login");
+  try {
+    console.log("here");
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+    });
+    res.redirect("/login");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = { createUser, loginUser, refresh, logout };
