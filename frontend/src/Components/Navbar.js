@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link } from "react-router-dom";
-import Searchbar from "./Searchbar"
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import '../App.css'
+import React, { Component } from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import Searchbar from "./Searchbar";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import "../App.css";
 
 function Header({ cart }) {
     const quantity = cart.reduce((total, item) => total + item.quantity, 0);
@@ -31,15 +31,6 @@ function Header({ cart }) {
                 </div>
             </Link>
 
-            {/*3rd link */}
-            <Link to = "/" className = "header__link">
-                <div className = "header__option">
-                    <span className = "header__optionLineOne"> You </span>
-                    <span className = "header__optionLineTwo">Prime</span>
-                </div>
-            </Link>
-            </div>
-
             {/*Basket Icon with number*/}
             <Link to = "/checkout" className = "header__link"> 
                 <div className = "header__optionBasket">
@@ -49,7 +40,7 @@ function Header({ cart }) {
                 </div>
             </Link>
         </nav>
-    );
-};
+      )
+    )
 
 export default Header;

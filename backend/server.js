@@ -5,16 +5,25 @@ const cartRouter = require("./routes/cartRoute");
 const paymentRouter = require('./routes/paymentRoute');
 const cookieParser = require('cookie-parser');
 
-const app = express()
-
-const connectDB = require("./db")
-connectDB()
-
 const cors = require("cors");
+
+const app = express();
+
+const connectDB = require("./db");
+connectDB();
+
+const whitelist = ["https://shoppysavvy.vercel.app"];
+
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true,
+  origin: function (origin, callback) {
+    if (whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
 };
+
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
@@ -27,7 +36,7 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/payment', paymentRouter);
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log('server is running on port',PORT)
+  console.log("server is running on port", PORT);
 });
