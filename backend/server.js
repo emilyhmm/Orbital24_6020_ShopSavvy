@@ -15,7 +15,7 @@ connectDB();
 const corsOptions = {
   origin: [
     "http://localhost:3000",
-    "https://orbital24-6020-shopsavvy.onrender.com",
+    "https://shoppysavvy.vercel.app",
   ],
   optionsSuccessStatus: 200,
 };
