@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+
 
 function Cart({ cart, setCart }) {
   useEffect(() => {
@@ -82,11 +83,6 @@ function Cart({ cart, setCart }) {
     let price = parseFloat(item.price.replace('S$', ''));
     return total + price * item.quantity;
   }, 0);
-  
-  const navigate = useNavigate();
-  const handleCheckout = () => {
-    navigate('/payment', { state: { cart: cart } });
-  };
 
   return (
     <div>
@@ -115,7 +111,9 @@ function Cart({ cart, setCart }) {
             ))}
           </ul>
           <h2>Total: ${totalAmount.toFixed(2)}</h2>
-          <button onClick={handleCheckout} >Checkout</button>
+          <Link to="/payment">
+            <button>Checkout</button>
+          </Link>
         </div>
         ) : (
           <p>No items in cart</p>

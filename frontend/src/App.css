@@ -158,7 +158,7 @@
   padding: 20px; /* Added padding */
   background-color: #f8f8f8; /* Light background */
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   margin: auto;
 }
@@ -175,7 +175,6 @@
   margin-bottom: 20px;
 }
 
-/* Add any additional specific styles for the payment form elements */
 .payment-form .form-group {
   display: flex;
   flex-direction: column;
