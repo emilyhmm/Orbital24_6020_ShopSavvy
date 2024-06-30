@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -48,6 +48,7 @@ function Productlist({ setCart }) {
   );
 
   const addToCart = async (product) => {
+    console.log(product);
     let token = localStorage.getItem("token");
     try {
       console.log(token);
@@ -58,7 +59,6 @@ function Productlist({ setCart }) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          withCredentials: true,
         }
       );
       console.log(response);

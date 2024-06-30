@@ -4,7 +4,7 @@ import Login from "../Components/login/Login2.js";
 import Header from "../Components/Navbar";
 
 function Loginpage() {
-  const [currentForm, setCurrentForm] = useState("Signup");
+  const [currentForm, setCurrentForm] = useState("Login");
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);
@@ -13,10 +13,10 @@ function Loginpage() {
   return (
     <div className="Loginpage">
       <Header />
-      {currentForm === "Signup" ? (
-        <Signup toggleForm={toggleForm} />
-      ) : (
+      {currentForm === "Login" ? (
         <Login toggleForm={toggleForm} />
+      ) : (
+        <Signup toggleForm={toggleForm} />
       )}
     </div>
   );

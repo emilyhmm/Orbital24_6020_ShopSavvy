@@ -16,8 +16,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import LoginValidation from "./LoginValidation";
+import { AuthContext } from "../../Contexts/AuthContext";
 
 function Copyright(props) {
   return (
@@ -45,15 +46,18 @@ export default function Login({ toggleForm }) {
   const [values, setValues] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     console.log("here");
     e.preventDefault();
     const validationErrors = await LoginValidation(values);
     setErrors(validationErrors);
-    console.log(Object.keys(validationErrors));
-    console.log(Object.keys(validationErrors).length);
-    if (Object.keys(validationErrors).length === 0) {
+    console.log(errors);
+    console.log(Object.values(errors));
+    if (Object.values(errors).length !== 0) {
+      setErrors({});
+    } else {
       console.log("validation");
       // Proceed only if there are no validation errors
       try {
@@ -64,6 +68,7 @@ export default function Login({ toggleForm }) {
         const { accessToken } = response.data;
         localStorage.setItem("token", accessToken); // Store the token
         console.log("Logged in and token stored:", accessToken);
+        login();
         navigate(`/`);
       } catch (error) {
         console.error(
@@ -147,6 +152,7 @@ export default function Login({ toggleForm }) {
                 </Link>
               </Grid>
             </Grid>
+            {errors.general && <p>{errors.general}</p>}
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
