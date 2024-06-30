@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SignupValidation from "./SignupValidation";
 import axios from "axios";
 
@@ -54,12 +55,16 @@ export default function SignUp({ toggleForm }) {
     password2: "",
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({})
     const validationErrors = await SignupValidation(values);
     setErrors(validationErrors);
-    if (Object.keys(errors).length === 0) {
+    if (Object.values(errors).length !== 0) {
+      setErrors({});
+    } else {
+      console.log("validation");
       // Proceed only if there are no validation errors
       try {
         const response = await axios.post(
@@ -67,6 +72,7 @@ export default function SignUp({ toggleForm }) {
           values
         );
         console.log("Signup response:", response.data);
+        navigate(`/`);
       } catch (error) {
         console.error(
           "Error submitting form:",
