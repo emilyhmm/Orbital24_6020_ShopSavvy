@@ -1,12 +1,13 @@
 import { useContext } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AuthContext } from "../Contexts/AuthContext";
 import "../App.css";
 
 function Header({ cart }) {
-    const quantity = cart.reduce((total, item) => total + item.quantity, 0);
+    console.log(cart)
+    const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
     const { isLoggedIn, logout } = useContext(AuthContext);
     return (
         <nav className="header">
