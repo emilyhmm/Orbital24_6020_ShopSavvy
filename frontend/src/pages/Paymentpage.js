@@ -1,12 +1,12 @@
 import React from 'react';
 import Payment from '../Components/Payment';
 
-function Paymentpage() {
+function Paymentpage({ cart, setCart }) {
   return (
     <div className="paymentpage">
       <header className="payment-header">
         <h1>Complete your purchase</h1>
-        <Payment />
+        <Payment cart={cart} setCart={setCart} />
       </header>
     </div>
   );
