@@ -128,7 +128,7 @@ function Cart({ cart, setCart }) {
                     <div className="cart__row main align-items-center">
                       <div className="col-2">
                         <img
-                          className="cart.img"
+                          className="cart__img"
                           src={item.image}
                           alt={item.title}
                         />
@@ -211,7 +211,7 @@ function Cart({ cart, setCart }) {
               </div>
             </div>
             <Link to="/payment">
-              <button className="btn">Checkout</button>
+              <button className="summarybutton__btn">Checkout</button>
             </Link>
           </div>
         </div>

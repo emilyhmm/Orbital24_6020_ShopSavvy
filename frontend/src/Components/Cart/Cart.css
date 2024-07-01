@@ -10,7 +10,7 @@
   margin-bottom: 20px;
 }
 
-.cart-title h4 {
+.cart__title h4 {
   margin-bottom: 0;
 }
 .cart__wrap {
@@ -34,23 +34,19 @@
   margin-bottom: 10px;
 }
 
-.cart .row.main {
-  padding: 10px 0;
-}
-
-.cart img {
+.cart__img {
   width: 100%; /* Set the max width for images */
   height: 150px;
   object-fit: contain;
 }
 
-.cart .border {
+.cart__border {
   border: 1px solid #ccc;
   padding: 5px 10px;
   cursor: pointer;
 }
 
-.cart .border:hover {
+.cart__border:hover {
   background-color: #f8f9fa;
 }
 
@@ -71,7 +67,7 @@
   text-decoration: underline;
 }
 
-.back-to-shop .text-muted {
+.back-to-shop__text-muted {
   margin-left: 5px;
 }
 
@@ -82,33 +78,29 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.summary h5 {
-  margin-bottom: 20px;
-}
-
-.summary .row {
+.summary__row {
   margin-bottom: 10px;
 }
 
-.summary .row:first-child {
+.summary__row:first-child {
   margin-top: 10px;
 }
 
-.summary form {
+.summary__form {
   margin-top: 20px;
 }
 
-.summary select {
+.summar__select {
   width: 100%;
   padding: 5px;
 }
 
-.summary input[type="text"] {
+.summary__input[type="text"] {
   width: 100%;
   padding: 5px;
 }
 
-.summary button.btn {
+.summarybutton__btn {
   width: 100%;
   padding: 10px;
   background-color: #000000;
@@ -118,7 +110,7 @@
   cursor: pointer;
 }
 
-.summary button.btn:hover {
+.summarybutton__btn:hover {
   background-color: #42474d;
 }
 
