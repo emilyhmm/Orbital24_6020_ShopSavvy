@@ -55,22 +55,22 @@ export default function SignUp({ toggleForm }) {
     password2: "",
   });
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     const validationErrors = await SignupValidation(values);
-    setErrors(validationErrors);
-    if (Object.values(errors).length !== 0) {
-      setErrors({});
+
+    if (Object.values(validationErrors).length !== 0) {
+      setErrors(validationErrors);
     } else {
       console.log("validation");
       // Proceed only if there are no validation errors
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_BASE_URL}/api/user/signup`,
-          values
-        );
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/signup`, values);
+        setSuccess(true)
         console.log("Signup response:", response.data);
         navigate(`/`);
       } catch (error) {
@@ -166,6 +166,7 @@ export default function SignUp({ toggleForm }) {
               </Grid>
               {errors.password2 && <p className="textdanger">{errors.password2}</p>}
               {errors.general && <p>{errors.general}</p>}
+              {success && <p>Signup successful!</p>}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -180,7 +181,6 @@ export default function SignUp({ toggleForm }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onSubmit={handleSubmit}
               color="black"
             >
               <span style={{ color: "white" }}>Sign Up</span>

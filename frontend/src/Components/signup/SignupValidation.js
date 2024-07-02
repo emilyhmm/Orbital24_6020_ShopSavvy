@@ -9,24 +9,18 @@ async function SignupValidation(values) {
       error.email = "Please enter your email";
     } else if (!emailPattern.test(values.email)) {
       error.email = "Invalid email";
-    } else {
-      error.email = "";
     }
     if (values.password === "") {
       error.password = "Please enter your password";
     } else if (!passwordPattern.test(values.password)) {
       error.password =
         "Password must have at least 8 characters with uppercase, lowercase and digits";
-    } else {
-      error.password = "";
-    }
+    } 
     if (values.password2 === "") {
       error.password2 = "Please enter your password again";
     } else if (values.password2 !== values.password) {
       error.password2 = "Passwords do not match";
-    } else {
-      error.password2 = "";
-    }
+    } 
 
     if (!error.email && !error.password && !error.password2) {
       try {
@@ -35,9 +29,6 @@ async function SignupValidation(values) {
           password: values.password
         });
   
-        if (response.data.message === 'Signup successful') {
-          error.general = "";
-        }
       } catch (err) {
         if (err.response && err.response.data) {
           error.general = err.response.data.error;

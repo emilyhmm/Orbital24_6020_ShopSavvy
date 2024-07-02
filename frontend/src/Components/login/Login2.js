@@ -58,12 +58,9 @@ export default function Login({ toggleForm }) {
   const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
-    console.log("here");
     e.preventDefault();
     const validationErrors = await LoginValidation(values);
     setErrors(validationErrors);
-    console.log(errors);
-    console.log(Object.values(errors));
     if (Object.values(errors).length !== 0) {
       setErrors({});
     } else {
