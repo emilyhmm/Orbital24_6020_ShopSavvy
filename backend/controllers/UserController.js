@@ -37,7 +37,6 @@ const createUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
   try {
     // Check if the user exists in the database with a case-insensitive email search
     const finduser = await User.findOne({

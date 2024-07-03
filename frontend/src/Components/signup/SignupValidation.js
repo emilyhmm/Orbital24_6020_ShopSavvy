@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 async function SignupValidation(values) {
     let error = {};
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,22 +18,6 @@ async function SignupValidation(values) {
       error.password2 = "Please enter your password again";
     } else if (values.password2 !== values.password) {
       error.password2 = "Passwords do not match";
-    } 
-
-    if (!error.email && !error.password && !error.password2) {
-      try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/signup`, {
-          email: values.email,
-          password: values.password
-        });
-  
-      } catch (err) {
-        if (err.response && err.response.data) {
-          error.general = err.response.data.error;
-        } else {
-          error.general = "An error occurred. Please try again.";
-        }
-      }
     }
     return error;
   }

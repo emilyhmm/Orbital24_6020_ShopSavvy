@@ -6,7 +6,6 @@ import { AuthContext } from "../Contexts/AuthContext";
 import "../App.css";
 
 function Header({ cart }) {
-    console.log(cart)
     const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
     const { isLoggedIn, logout } = useContext(AuthContext);
     return (

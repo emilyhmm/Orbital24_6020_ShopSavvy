@@ -1,5 +1,3 @@
-import axios from "axios";
-
 async function LoginValidation(values) {
   let error = {};
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,24 +13,6 @@ async function LoginValidation(values) {
   } else if (!passwordPattern.test(values.password)) {
     error.password =
       "Password must have at least 8 characters with uppercase, lowercase and digits";
-  }
-
-  if (!error.email && !error.password) {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
-        {
-          email: values.email,
-          password: values.password,
-        }
-      );
-    } catch (err) {
-      if (err.response && err.response.data) {
-        error.general = err.response.data.error;
-      } else {
-        error.general = "An error occurred. Please try again.";
-      }
-    }
   }
   return error;
 }
