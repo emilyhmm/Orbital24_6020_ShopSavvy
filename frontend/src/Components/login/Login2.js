@@ -59,10 +59,10 @@ export default function Login({ toggleForm }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     const validationErrors = await LoginValidation(values);
-    setErrors(validationErrors);
-    if (Object.values(errors).length !== 0) {
-      setErrors({});
+    if (Object.values(validationErrors).length !== 0) {
+      setErrors(validationErrors);
     } else {
       console.log("validation");
       // Proceed only if there are no validation errors
@@ -137,6 +137,7 @@ export default function Login({ toggleForm }) {
               onChange={handleInput}
             />
             {errors.password && <p className="textdanger">{errors.password}</p>}
+            {errors.general && <p>{errors.general}</p>}
             <Button
               type="submit"
               fullWidth
@@ -159,7 +160,6 @@ export default function Login({ toggleForm }) {
                 </Link>
               </Grid>
             </Grid>
-            {errors.general && <p>{errors.general}</p>}
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
