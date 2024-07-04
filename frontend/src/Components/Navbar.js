@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { AuthContext } from "../Contexts/AuthContext";
+import { AuthContext, UserContext } from "../Contexts/AuthContext";
 import "../App.css";
 
 function Header({ cart }) {
     const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
     const { isLoggedIn, logout } = useContext(AuthContext);
+    const { firstName } = useContext(UserContext);
+
     return (
         <nav className="header">
             <Link to = "/">
@@ -21,7 +23,7 @@ function Header({ cart }) {
               {isLoggedIn ? (
                 <Link to="/" className="header__link" onClick={logout}>
                   <div className="header__option">
-                    <span className="header__optionLineOne">Hello, User</span>
+                    <span className="header__optionLineOne">Hello, {firstName}</span>
                     <span className="header__optionLineTwo">Sign Out</span>
                   </div>
                 </Link>

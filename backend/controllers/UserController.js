@@ -119,4 +119,17 @@ const logout = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createUser, loginUser, refresh, logout };
+const profile = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.user.user._id).select('-password'); // Exclude password
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    res.json(user); // Return user details including first name
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+module.exports = { createUser, loginUser, refresh, logout, profile };
