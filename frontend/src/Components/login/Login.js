@@ -113,49 +113,50 @@ export default function Login({ toggleForm }) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={handleInput}
-            />
-            {errors.email && (
-                <Grid item xs={12}>
-                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.email}</p>
-                </Grid>
-            )}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleInput}
-            />
-            {errors.password && (
-                <Grid item xs={12}>
-                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.password}</p>
-                </Grid>
-            )}
-            {errors.general && (
-                <Grid item xs={12}>
-                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.general}</p>
-                </Grid>
-            )}
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={handleInput}
+                />
+              </Grid>
+              {errors.email && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.email}</p>
+                  </Grid>
+              )}
+              <Grid item xs={12}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleInput}
+                />
+              </Grid>
+              {errors.password && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.password}</p>
+                  </Grid>
+              )}
+              {errors.general && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.general}</p>
+                  </Grid>
+              )}
+            </Grid>
             <Button
               type="submit"
               fullWidth
