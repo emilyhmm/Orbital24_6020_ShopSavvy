@@ -10,12 +10,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
 import { useState, useContext } from "react";
 import LoginValidation from "./LoginValidation";
 import { AuthContext } from "../../Contexts/AuthContext";
+import "../../App.css";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -129,7 +130,11 @@ export default function Login({ toggleForm }) {
               autoFocus
               onChange={handleInput}
             />
-            {errors.email && <p className="textdanger">{errors.email}</p>}
+            {errors.email && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.email}</p>
+                </Grid>
+            )}
             <TextField
               margin="normal"
               required
@@ -141,8 +146,16 @@ export default function Login({ toggleForm }) {
               autoComplete="current-password"
               onChange={handleInput}
             />
-            {errors.password && <p className="textdanger">{errors.password}</p>}
-            {errors.general && <p>{errors.general}</p>}
+            {errors.password && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.password}</p>
+                </Grid>
+            )}
+            {errors.general && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.general}</p>
+                </Grid>
+            )}
             <Button
               type="submit"
               fullWidth

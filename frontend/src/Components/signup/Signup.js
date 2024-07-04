@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import SignupValidation from "./SignupValidation";
+import "../../App.css";
 import axios from "axios";
 
 const { palette } = createTheme();
@@ -49,18 +50,24 @@ function Copyright(props) {
 
 export default function SignUp({ toggleForm }) {
   const [values, setValues] = useState({
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     password2: "",
   });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [check, setCheck] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-    const validationErrors = await SignupValidation(values);
+    setSubmitted(true);
 
+    const validationErrors = await SignupValidation(values);
+    console.log(Object.values(validationErrors))
     if (Object.values(validationErrors).length !== 0) {
       setErrors(validationErrors);
     } else {
@@ -106,30 +113,57 @@ export default function SignUp({ toggleForm }) {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {success && (
+            <Box
+              sx={{
+                marginTop: 4,
+                p: '8px 10px',
+                border: "1px solid green",
+                borderRadius: "4px",
+                backgroundColor: "#d4edda",
+                color: "green",
+                width: '70%', 
+                fontSize: '0.9rem',
+                textAlign: 'center',
+              }}
+            > Signup successful! Please sign in 
+            </Box>
+          )}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-          {success && <p>Signup successful! Please sign in</p>}
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="firstname"
                   required
                   fullWidth
-                  id="firstName"
+                  id="firstname"
                   label="First Name"
                   autoFocus
+                  onChange={handleInput}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="lastname"
                   label="Last Name"
-                  name="lastName"
+                  name="lastname"
                   autoComplete="family-name"
+                  onChange={handleInput}
                 />
               </Grid>
+              {errors.firstname && (
+                <Grid item xs={12} sm={6}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.firstname}</p>
+                </Grid>
+              )}
+              {errors.lastname && (
+                <Grid item xs={12} sm={6}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.lastname}</p>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -141,7 +175,11 @@ export default function SignUp({ toggleForm }) {
                   onChange={handleInput}
                 />
               </Grid>
-              {errors.email && <p className="textdanger">{errors.email}</p>}
+              {errors.email && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.email}</p>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -154,7 +192,11 @@ export default function SignUp({ toggleForm }) {
                   onChange={handleInput}
                 />
               </Grid>
-              {errors.password && <p className="textdanger">{errors.password}</p>}
+              {errors.password && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.password}</p>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -167,14 +209,30 @@ export default function SignUp({ toggleForm }) {
                   onChange={handleInput}
                 />
               </Grid>
-              {errors.password2 && <p className="textdanger">{errors.password2}</p>}
-              {errors.general && <p>{errors.general}</p>}
+              {errors.password2 && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.password2}</p>
+                </Grid>
+              )}
+              {errors.general && (
+                <Grid item xs={12}>
+                  <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.general}</p>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox value="terms&cons" color="primary" required />
+                    <Checkbox 
+                    value="terms&cons" 
+                    color="primary" 
+                    checked={check}
+                    onChange={() => setCheck(!check)}
+                    required />
                   }
-                  label="I agree to the terms and coditions"
+                  label="I agree to the terms and conditions"
+                  sx={{
+                    color: !check && submitted ? 'red' : 'inherit', 
+                  }}
                 />
               </Grid>
             </Grid>
@@ -184,6 +242,7 @@ export default function SignUp({ toggleForm }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               color="black"
+              disabled={!check}
             >
               <span style={{ color: "white" }}>Sign Up</span>
             </Button>

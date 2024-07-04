@@ -10,7 +10,7 @@ const { generateRefreshToken, generateAccessToken } = require("../jwtToken");
     @access Public
 */
 const createUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { firstname, email, password } = req.body;
   try {
     // Check if the user already exists
     const findUser = await User.findOne({ email });
@@ -19,7 +19,7 @@ const createUser = asyncHandler(async (req, res) => {
     }
     
     // Create new user
-    let user = new User({ email, password });
+    let user = new User({ firstname, email, password });
     // Save the new user to the database
     await user.save();
     res.status(201).json({ message: "Signup successful" });

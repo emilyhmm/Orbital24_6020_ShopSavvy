@@ -203,3 +203,8 @@
 .payment-form button:hover {
   background-color: #444;
 }
+.textdanger {
+  color: red;
+  font-size: 0.875rem; 
+  margin-top: 4px; 
+}

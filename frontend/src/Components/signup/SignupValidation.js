@@ -2,7 +2,12 @@ async function SignupValidation(values) {
     let error = {};
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
-  
+    if (values.firstname === "") {
+      error.firstname = "Please enter your first name";
+    } 
+    if (values.lastname === "") {
+      error.lastname = "Please enter your last name";
+    } 
     if (values.email === "") {
       error.email = "Please enter your email";
     } else if (!emailPattern.test(values.email)) {
