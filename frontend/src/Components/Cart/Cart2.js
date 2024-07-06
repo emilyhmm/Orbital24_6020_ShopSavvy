@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import axiosInstance from "../Utils/AxiosInstance";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
@@ -7,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AuthContext } from "../../Contexts/AuthContext";
+import axiosInstance from "../../Utils/AxiosInstance";
 
 function Cart({ cart, setCart }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,15 +24,7 @@ function Cart({ cart, setCart }) {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/cart/view`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axiosInstance.get("/api/cart/view");
         setCart(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -52,8 +46,8 @@ function Cart({ cart, setCart }) {
         return;
       }
       const encodedTitle = encodeURIComponent(title);
-      const response = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/api/cart/update/${encodedTitle}`,
+      const response = await axiosInstance.put(
+        `/api/cart/update/${encodedTitle}`,
         { title, quantity },
         {
           headers: {
@@ -74,8 +68,8 @@ function Cart({ cart, setCart }) {
     const token = localStorage.getItem("token");
     try {
       const encodedTitle = encodeURIComponent(title);
-      const response = await axios.delete(
-        `${process.env.REACT_APP_API_BASE_URL}/api/cart/remove/${encodedTitle}`,
+      const response = await axiosInstance.delete(
+        `/api/cart/remove/${encodedTitle}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -70,7 +70,8 @@ export default function Login({ toggleForm }) {
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
-          values
+          values,
+          { withCredentials: true }
         );
         const { accessToken } = response.data;
         localStorage.setItem("token", accessToken); // Store the token
@@ -113,7 +114,12 @@ export default function Login({ toggleForm }) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -129,9 +135,14 @@ export default function Login({ toggleForm }) {
                 />
               </Grid>
               {errors.email && (
-                  <Grid item xs={12}>
-                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.email}</p>
-                  </Grid>
+                <Grid item xs={12}>
+                  <p
+                    className="textdanger"
+                    style={{ margin: 0, textAlign: "left" }}
+                  >
+                    {errors.email}
+                  </p>
+                </Grid>
               )}
               <Grid item xs={12}>
                 <TextField
@@ -147,14 +158,24 @@ export default function Login({ toggleForm }) {
                 />
               </Grid>
               {errors.password && (
-                  <Grid item xs={12}>
-                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.password}</p>
-                  </Grid>
+                <Grid item xs={12}>
+                  <p
+                    className="textdanger"
+                    style={{ margin: 0, textAlign: "left" }}
+                  >
+                    {errors.password}
+                  </p>
+                </Grid>
               )}
               {errors.general && (
-                  <Grid item xs={12}>
-                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.general}</p>
-                  </Grid>
+                <Grid item xs={12}>
+                  <p
+                    className="textdanger"
+                    style={{ margin: 0, textAlign: "left" }}
+                  >
+                    {errors.general}
+                  </p>
+                </Grid>
               )}
             </Grid>
             <Button

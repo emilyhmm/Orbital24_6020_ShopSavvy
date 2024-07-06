@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import { useState, useEffect } from "react";
+import axiosInstance from "../Utils/AxiosInstance";
 function Order() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/order/view`);
+        const response = await axiosInstance.get(`/api/order/view`);
         setOrders(response.data);
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error("Error fetching orders:", error);
       }
     };
 
@@ -24,14 +23,16 @@ function Order() {
         <p>You have no orders.</p>
       ) : (
         <ul>
-          {orders.map(order => (
+          {orders.map((order) => (
             <li>
               <p>Date: {new Date(order.createdAt).toLocaleString()}</p>
               <p>Total: ${order.total}</p>
               <ul>
-                {order.items.map(item => (
+                {order.items.map((item) => (
                   <li key={item.productId}>
-                    <span>{item.productName} - Quantity: {item.quantity}</span>
+                    <span>
+                      {item.productName} - Quantity: {item.quantity}
+                    </span>
                   </li>
                 ))}
               </ul>
