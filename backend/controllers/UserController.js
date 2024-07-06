@@ -17,7 +17,7 @@ const createUser = asyncHandler(async (req, res) => {
     if (findUser) {
       return res.status(400).json({ error: "User already exists" });
     }
-
+    
     // Create new user
     let user = new User({ firstname, email, password });
     // Save the new user to the database
@@ -80,29 +80,25 @@ const loginUser = asyncHandler(async (req, res) => {
 */
 const refresh = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+
   if (!refreshToken) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  try {
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-    const user = await User.findOne({ email: decoded.id.email }).exec();
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized" });
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Forbidden" });
     }
 
-    const newAccessToken = generateAccessToken(user);
-    res.json({ accessToken: newAccessToken });
-  } catch (error) {
-    console.log(error);
-    if (error.name === "TokenExpiredError") {
-      return res.status(403).json({ message: "Forbidden" });
-    } else if (err.name === "JsonWebTokenError") {
-      return res.status(403).json({ message: "Invalid token" });
-    } else {
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  }
+    User.findOne({ email: decoded.email }).exec((err, user) => {
+      if (err || !user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const newAccessToken = generateAccessToken(user);
+      res.json({ accessToken: newAccessToken });
+    });
+  });
 });
 
 /*
@@ -125,14 +121,14 @@ const logout = asyncHandler(async (req, res) => {
 
 const profile = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.user.user._id).select("-password"); // Exclude password
+    const user = await User.findById(req.user.user._id).select('-password'); // Exclude password
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({ msg: 'User not found' });
     }
     res.json(user); // Return user details including first name
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
