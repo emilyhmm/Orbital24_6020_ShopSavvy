@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import axiosInstance from "../../Utils/AxiosInstance";
+import axiosInstance from "../Utils/AxiosInstance";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AuthContext } from "../../Contexts/AuthContext";
+import axiosInstance from "../../Utils/AxiosInstance";
 
 function Cart({ cart, setCart }) {
   const [isLoading, setIsLoading] = useState(true);
