@@ -25,6 +25,7 @@ const webscraper = asyncHandler(async (req, res) => {
       defaultViewport: null,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       userDataDir: "./tmp",
+      ignoreDefaultArgs: ["--disable-extensions"],
     });
 
     const page = await browser.newPage();
