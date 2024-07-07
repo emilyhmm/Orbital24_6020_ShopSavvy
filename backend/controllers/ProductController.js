@@ -107,7 +107,7 @@ const webscraper = asyncHandler(async (req, res) => {
     res.json({ result });
   } catch (error) {
     console.error("Error in web scraping:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json(error);
   }
 });
 
