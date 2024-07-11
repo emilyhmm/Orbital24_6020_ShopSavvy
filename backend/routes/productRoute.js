@@ -1,13 +1,11 @@
 const express = require("express");
 const {
   webscraper,
-  createProduct,
-  deleteProduct,
-  updateProduct,
+  reviewscraper,
 } = require("../controllers/ProductController");
 const router = express.Router();
-const { isAdmin, authMiddleware } = require("../middleware/authMiddleware");
 
 router.post("/scrape", webscraper);
+router.post("/review", reviewscraper);
 
 module.exports = router;

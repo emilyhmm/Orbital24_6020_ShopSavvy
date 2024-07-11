@@ -10,7 +10,7 @@ import { AuthContext } from "../../Contexts/AuthContext";
 
 function Cart({ cart, setCart }) {
   const [isLoading, setIsLoading] = useState(true);
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {

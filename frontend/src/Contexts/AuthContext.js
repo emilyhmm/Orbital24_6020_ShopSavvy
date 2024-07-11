@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     // fetching first name from signup
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem("token");
         const response = await axios.get(
           `${process.env.REACT_APP_API_BASE_URL}/api/user/profile`,
           {
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
             },
           }
         );
-        console.log(response.data)
+        console.log(response.data);
         const { firstname } = response.data;
         setFirstName(firstname);
       } catch (error) {

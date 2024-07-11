@@ -36,8 +36,6 @@ const webscraper = asyncHandler(async (req, res) => {
         "div.s-main-slot.s-result-list.s-search-results.sg-row > .s-result-item"
       );
 
-      console.log(productHandles);
-
       for (const i of productHandles) {
         let title = "Null";
         let price = "Null";
@@ -120,10 +118,8 @@ const webscraper = asyncHandler(async (req, res) => {
 });
 
 const reviewscraper = asyncHandler(async (req, res) => {
-  const term = "owala";
-  const productpage =
-    "https://www.amazon.sg/Owala-FreeSip-Insulated-Stainless-BPA-Free/dp/B0BZYCJK89/ref=sr_1_2?dib=eyJ2IjoiMSJ9.RcV4SG2y5sdrUX4bgZNUKUJww2T31hDfWphiBLRIxl4_BtCGSi8HdctZJxiRZm3FhVvN8dEQtnhs8LRKSLCbwMXLMpfDDyzskLkzV0OkhJID5EA5ZgSgU0lPKxXvZ_b3UjAqR-mwng7zSNFfbNYz_09TGiBIc7W3yYHD6UpzgV6ihDGONbpI4D4RH8ep0JB5KdvloI_aaqRDo2YdA-kPysDFGOHSDe8eKaAwZuxQmzwqB_5cur4LnmGjB5hTujZbPcZhO6Y9NShrf9Q46GE-gk1KlY9-ZMO1_zHBlhqsaIw._laI6x3SUMjkOpZ0LzK8y5Z3w13OYORLjepqQzfZaD8&dib_tag=se&keywords=owala&qid=1720427114&sr=8-2&th=1";
-
+  const productpage = req.body.productlink;
+  console.log(productpage);
   let result = [];
   let isNextDisabled = false;
 
@@ -194,7 +190,9 @@ const reviewscraper = asyncHandler(async (req, res) => {
       result.push({ name: name, rating: rating, text: text });
     }
   }
+  await browser.close();
   console.log(result);
+  res.json({ result });
   console.log("done");
 });
 module.exports = { webscraper, reviewscraper };

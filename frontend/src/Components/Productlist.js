@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useLocation, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Card from "@mui/material/Card";
@@ -14,38 +14,37 @@ import {
 } from "@mui/material";
 import "../App.css";
 
+import { ProductContext } from "../Contexts/ProductContext";
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-function Productlist({ setCart }) {
+function ProductList({ setCart }) {
   const query = useQuery();
   const searchTerm = query.get("search");
-  const [products, setProducts] = useState([]);
+  const { products, setProducts } = useContext(ProductContext);
   const [loading, setLoading] = useState(false);
 
-  useEffect(
-    (searchTerm) => {
-      const fetchProducts = async (searchTerm) => {
-        try {
-          setLoading(true);
-          const response = await axios.post(
-            `${process.env.REACT_APP_API_BASE_URL}/api/product/scrape`,
-            { searchTerm: query.get("search") }
-          );
-          setProducts(response.data.result);
-          setLoading(false);
-        } catch (error) {
-          console.error(
-            "Error fetching products:",
-            error.response ? error.response.data : error.message
-          );
-        }
-      };
-      fetchProducts(searchTerm);
-    },
-    [searchTerm]
-  );
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_BASE_URL}/api/product/scrape`,
+          { searchTerm }
+        );
+        setProducts(response.data.result);
+        setLoading(false);
+      } catch (error) {
+        console.error(
+          "Error fetching products:",
+          error.response ? error.response.data : error.message
+        );
+      }
+    };
+    fetchProducts();
+  }, [searchTerm, setProducts]);
 
   const addToCart = async (product) => {
     console.log(product);
@@ -94,6 +93,13 @@ function Productlist({ setCart }) {
     }
   };
 
+  const generateUrlSafeTitle = (title) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+  };
+
   return (
     <div>
       <span>
@@ -120,25 +126,35 @@ function Productlist({ setCart }) {
             >
               {products.map((product) => (
                 <Card sx={{ maxWidth: 345, margin: 0.46 }} key={product.title}>
-                  <CardActionArea>
-                    <div>
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        image={product.image}
-                        alt={product.title}
-                        sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
-                      />
-                    </div>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {product.title}
-                      </Typography>
-                      <Typography gutterBottom variant="h4" component="div">
-                        {product.price}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                  <Link
+                    to={{
+                      pathname: `/product/${generateUrlSafeTitle(product.title)}`,
+                    }}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <CardActionArea>
+                      <div>
+                        <CardMedia
+                          component="img"
+                          height="200"
+                          image={product.image}
+                          alt={product.title}
+                          sx={{
+                            padding: "1em 1em 0 1em",
+                            objectFit: "contain",
+                          }}
+                        />
+                      </div>
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {product.title}
+                        </Typography>
+                        <Typography gutterBottom variant="h4" component="div">
+                          {product.price}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Link>
                   <CardActions>
                     <Button
                       size="small"
@@ -160,4 +176,4 @@ function Productlist({ setCart }) {
   );
 }
 
-export default Productlist;
+export default ProductList;
