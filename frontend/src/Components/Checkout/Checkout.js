@@ -30,6 +30,8 @@ import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import ToggleColorMode from "./ToggleColorMode";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthContext"
+import axios from 'axios';
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
   return (
@@ -95,12 +97,13 @@ function getStepContent(step, { cart }) {
   }
 }
 
-export default function Checkout({ cart }) {
+export default function Checkout({ cart, setCart }) {
   const [mode, setMode] = React.useState("light");
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const checkoutTheme = createTheme(getCheckoutTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
+  const { isLoggedIn } = React.useContext(AuthContext);
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -116,6 +119,36 @@ export default function Checkout({ cart }) {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log(cart)
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/order/`, 
+        { items: cart }, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/cart/clear`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      setCart([])
+    } catch (error) {
+      console.error('Error processing payment:', error);
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (activeStep === steps.length - 1) {
+      handleSubmit();
+    }
+    handleNext();
   };
 
   return (
@@ -146,21 +179,27 @@ export default function Checkout({ cart }) {
               height: 150,
             }}
           >
-            <Button
-              startIcon={<ArrowBackRoundedIcon />}
-              component="a"
-              href="/checkout"
-              sx={{ ml: "-8px" }}
-            >
-              Back to
-              <img
-                src={
-                  "https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg"
-                }
-                style={logoStyle}
-                alt="Sitemark's logo"
-              />
-            </Button>
+            {isLoggedIn ? (
+              <Link to = '/checkout'>
+                <Button
+                  startIcon={<ArrowBackRoundedIcon />}
+                  component="a"
+                  sx={{ ml: "-8px" }}
+                >
+                  Back to cart
+                </Button>
+              </Link>
+            ) : (
+              <Link to = "/login">
+                <Button
+                  startIcon={<ArrowBackRoundedIcon />}
+                  component="a"
+                  sx={{ ml: "-8px" }}
+                >
+                  Back to cart
+                </Button>
+              </Link>
+            )}
           </Box>
           <Box
             sx={{
@@ -331,7 +370,7 @@ export default function Checkout({ cart }) {
                   <strong>&nbsp;#140396</strong>. We have emailed your order
                   confirmation and will update you once its shipped.
                 </Typography>
-                <Link to="/">
+                <Link to="/order">
                   <Button
                     variant="contained"
                     sx={{
@@ -390,7 +429,7 @@ export default function Checkout({ cart }) {
                   <Button
                     variant="contained"
                     endIcon={<ChevronRightRoundedIcon />}
-                    onClick={handleNext}
+                    onClick={handleButtonClick}
                     sx={{
                       width: { xs: "100%", sm: "fit-content" },
                     }}

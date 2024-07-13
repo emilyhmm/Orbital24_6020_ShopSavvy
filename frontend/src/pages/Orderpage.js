@@ -1,10 +1,10 @@
 import Order from "../Components/Order";
 import NavBar from "../Components/Navbar";
 
-function Orderpage({ cart }) {
+function Orderpage() {
     return (
       <div>
-        <NavBar cart={cart} />
+        <NavBar />
         <Order />
       </div>
     );

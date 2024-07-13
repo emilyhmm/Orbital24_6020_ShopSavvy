@@ -31,7 +31,7 @@ function Info({ cart }) {
               secondary={`Quantity: ${product.quantity}`}
             />
             <Typography variant="body1" fontWeight="medium">
-              ${product.price}
+              {product.price}
             </Typography>
           </ListItem>
         ))}

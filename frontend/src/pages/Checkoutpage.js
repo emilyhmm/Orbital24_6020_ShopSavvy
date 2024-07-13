@@ -5,7 +5,7 @@ import Cart from "../Components/Cart/Cart2";
 function Checkoutpage({ cart, setCart }) {
   return (
     <div>
-      <NavBar cart={cart} />
+      <NavBar />
       <Cart cart={cart} setCart={setCart} />
     </div>
   );

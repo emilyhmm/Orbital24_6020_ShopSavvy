@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Card from "@mui/material/Card";
@@ -13,6 +13,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import "../App.css";
+import { AuthContext } from "../Contexts/AuthContext"
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -23,6 +24,8 @@ function Productlist({ setCart }) {
   const searchTerm = query.get("search");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(
     (searchTerm) => {
@@ -48,10 +51,12 @@ function Productlist({ setCart }) {
   );
 
   const addToCart = async (product) => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
     console.log(product);
     let token = localStorage.getItem("token");
     try {
-      console.log(token);
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/api/cart/add`,
         { product, quantity: 1 },
@@ -61,8 +66,7 @@ function Productlist({ setCart }) {
           },
         }
       );
-      console.log(response);
-
+      console.log(token)
       setCart(response.data);
       console.log("Product added to cart:", response.data);
     } catch (error) {

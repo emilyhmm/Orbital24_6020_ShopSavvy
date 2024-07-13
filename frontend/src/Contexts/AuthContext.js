@@ -13,17 +13,21 @@ export const AuthProvider = ({ children }) => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token")
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/user/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data)
-        const { firstname } = response.data;
-        setFirstName(firstname);
+        if (token) {
+          setIsLoggedIn(true);
+          // fetching first name from signup
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/api/user/profile`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const { firstname } = response.data;
+          setFirstName(firstname);
+        }
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

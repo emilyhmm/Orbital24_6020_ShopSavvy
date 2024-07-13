@@ -2,10 +2,10 @@ import React from 'react';
 import NavBar from "../Components/Navbar";
 import Productlist from "../Components/Productlist";
 
-function Resultpage({ cart, setCart }) {
+function Resultpage({ setCart }) {
     return ( 
         <div>
-            <NavBar cart={cart} />
+            <NavBar />
             <Productlist setCart={setCart} />
         </div>
      );
