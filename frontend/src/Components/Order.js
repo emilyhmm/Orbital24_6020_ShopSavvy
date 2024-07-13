@@ -56,7 +56,7 @@ function Order() {
           {orders.map(order => (
             <li>
               <p>Date: {new Date(order.date).toLocaleString()}</p>
-              <p>Total: ${order.total}</p>
+              <p>Total: S${order.total.toFixed(2)}</p>
               <ul>
                 {order.items.map(item => (
                   <li key={item._id}>

@@ -8,6 +8,6 @@ router.get("/view", isAuthenticated, getCart);
 router.post("/add", isAuthenticated, addToCart);
 router.put("/update/:title", isAuthenticated, updateCartItem);
 router.delete("/remove/:title", isAuthenticated, removeFromCart);
-router.get("/clear", isAuthenticated, clearCart)
+router.delete("/clear", isAuthenticated, clearCart)
 
 module.exports = router;

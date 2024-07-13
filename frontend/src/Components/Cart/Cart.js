@@ -20,7 +20,7 @@ function Cart({ cart, setCart }) {
     }
 
   useEffect(() => {
-    const fetchCart = async () => {
+    const viewCart = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
@@ -31,6 +31,7 @@ function Cart({ cart, setCart }) {
             },
           }
         );
+        console.log(response.data)
         setCart(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -41,8 +42,8 @@ function Cart({ cart, setCart }) {
         setIsLoading(false);
       }
     };
-    fetchCart();
-  }, [setCart]);
+    viewCart();
+  }, []);
 
   const updateCartItem = async (title, quantity) => {
     const token = localStorage.getItem("token");

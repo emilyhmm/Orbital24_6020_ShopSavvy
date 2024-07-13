@@ -31,6 +31,7 @@ import Review from "./Review";
 import ToggleColorMode from "./ToggleColorMode";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext"
+import { CartContext } from "../../Contexts/CartContext"
 import axios from 'axios';
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
@@ -104,6 +105,7 @@ export default function Checkout({ cart, setCart }) {
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
   const { isLoggedIn } = React.useContext(AuthContext);
+  const { fetchCart } = React.useContext(CartContext)
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -132,13 +134,14 @@ export default function Checkout({ cart, setCart }) {
             Authorization: `Bearer ${token}`,
           },
         })
-      await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/cart/clear`,
+      await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/cart/clear`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
       setCart([])
+      fetchCart()
     } catch (error) {
       console.error('Error processing payment:', error);
     }

@@ -77,10 +77,9 @@ const removeFromCart = async (req, res) => {
 };
 
 const clearCart = async (req, res) => {
-  await Cart.deleteMany({ user: req.user.user._id });
-  const cart = await Cart.find({ user: req.user.user._id }).populate('items');
-  console.log('hey')
-  res.status(200).json(cart);
+  await Cart.deleteMany({ userId: req.user.user._id });
+  const cart = await Cart.find({ userId: req.user.user._id }).populate('items');
+  res.status(200).json({ message: "Cart cleared successfully" });
 }
 
 module.exports = { getCart, addToCart, updateCartItem, removeFromCart, clearCart };
