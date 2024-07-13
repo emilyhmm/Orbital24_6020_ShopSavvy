@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
-    // fetching first name from signup
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token")
@@ -44,7 +43,6 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/api/user/logout`
       );
-      // Handle the response if needed
       console.log(response.data);
     } catch (error) {
       console.error("Error during logout:", error);

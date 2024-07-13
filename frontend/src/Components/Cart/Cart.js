@@ -7,10 +7,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { AuthContext } from "../../Contexts/AuthContext";
+import { CartContext } from '../../Contexts/CartContext';
 
 function Cart({ cart, setCart }) {
   const [isLoading, setIsLoading] = useState(true);
   const { isLoggedIn } = useContext(AuthContext);
+  const { fetchCart } = useContext(CartContext);
   const navigate = useNavigate();
   
   if (!isLoggedIn) {
@@ -59,6 +61,7 @@ function Cart({ cart, setCart }) {
           },
         }
       );
+      fetchCart()
       setCart(response.data);
     } catch (error) {
       console.error(
@@ -80,6 +83,7 @@ function Cart({ cart, setCart }) {
           },
         }
       );
+      fetchCart();
       setCart(response.data);
     } catch (error) {
       console.error(

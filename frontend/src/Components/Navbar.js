@@ -1,45 +1,21 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AuthContext, UserContext } from "../Contexts/AuthContext";
+import { CartContext } from "../Contexts/CartContext";
 import "../App.css";
-import axios from 'axios';
 
 function Header() {
     const { isLoggedIn, logout } = useContext(AuthContext);
     const { firstName } = useContext(UserContext);
-    const [quantity, setQuantity] = useState(0);
-    const fetchCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/cart/view`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const cart = response.data;
-        const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
-        setQuantity(quantity)
-      } catch (error) {
-        console.error(
-          "Error fetching cart:", error.response ? error.response.data : error.message
-        );
-      }
-    };
-    useEffect(() => {
-      if (isLoggedIn) {
-          fetchCart();
-      }
-  }, [isLoggedIn]);
+    const { quantity, fetchCart } = useContext(CartContext);
     
     const handleLogout = async () => {
       try {
         logout(); 
         localStorage.removeItem("token");
+        fetchCart(); // reset cart to 0
         window.location.href = '/';
       } catch (error) {
         console.error("Error logging out:", error);

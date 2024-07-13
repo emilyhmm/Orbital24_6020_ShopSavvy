@@ -13,7 +13,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import "../App.css";
-import { AuthContext } from "../Contexts/AuthContext"
+import { AuthContext } from "../Contexts/AuthContext";
+import { CartContext } from '../Contexts/CartContext';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -25,6 +26,7 @@ function Productlist({ setCart }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
+  const { fetchCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(
@@ -66,6 +68,7 @@ function Productlist({ setCart }) {
           },
         }
       );
+      fetchCart()
       console.log(token)
       setCart(response.data);
       console.log("Product added to cart:", response.data);
