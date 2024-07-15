@@ -9,31 +9,33 @@ export const CartProvider = ({ children }) => {
   const { isLoggedIn } = useContext(AuthContext);
 
   const fetchCart = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/api/cart/view`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const cart = response.data;
-      const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
-      setQuantity(quantity)
-    } catch (error) {
-      console.error(
-        "Error fetching cart:", error.response ? error.response.data : error.message
-      );
+    const token = localStorage.getItem("token");
+    if (isLoggedIn && token) {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/api/cart/view`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const cart = response.data;
+        const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
+        setQuantity(quantity)
+      } catch (error) {
+        console.error(
+          "Error fetching cart:", error.response ? error.response.data : error.message
+        );
+      }
+    } else {
+      setQuantity(0)
     }
   };
   
   useEffect(() => {
-    if (isLoggedIn) {
-        fetchCart();
-    }
-}, [isLoggedIn]);
+    fetchCart();
+  }, [isLoggedIn]);
 
   return (
     <CartContext.Provider value={{ quantity, fetchCart }}>

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AuthContext, UserContext } from "../Contexts/AuthContext";
@@ -10,18 +10,17 @@ function Header() {
     const { isLoggedIn, logout } = useContext(AuthContext);
     const { firstName } = useContext(UserContext);
     const { quantity, fetchCart } = useContext(CartContext);
+    const navigate = useNavigate();
     
     const handleLogout = async () => {
       try {
-        logout(); 
-        localStorage.removeItem("token");
+        await logout();     
         fetchCart(); // reset cart to 0
-        window.location.href = '/';
+        navigate('/');
       } catch (error) {
         console.error("Error logging out:", error);
       }
     };
-
     return (
         <nav className="header">
             <Link to = "/">

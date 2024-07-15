@@ -113,6 +113,7 @@ const logout = asyncHandler(async (req, res) => {
       httpOnly: true,
       secure: true,
     });
+    res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     console.log(error);
   }
