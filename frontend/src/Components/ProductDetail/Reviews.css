@@ -1,5 +1,5 @@
 .reviews-container {
-  width: 100%;
+  width: 70%;
   margin: 0 auto;
   padding: 20px;
   align-items: left;
@@ -16,12 +16,14 @@
   padding: 15px;
   margin-bottom: 15px;
   background-color: #fff;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .review-metadata {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px; /* Adjust spacing between review items */
+  margin-bottom: 10px;
 }
 
 .review-info {
@@ -33,13 +35,13 @@
   margin-bottom: 5px;
   text-align: left;
   font-family: "Inter", sans-serif;
-  font-weight: bold; /* Ensure name is bold */
+  font-weight: bold;
 }
 
 .review-rating {
   font-size: 1.1em;
   text-align: left;
-  margin-bottom: 5px; /* Adjust spacing between name and rating */
+  margin-bottom: 5px;
 }
 
 .review-text {
@@ -51,14 +53,22 @@
 }
 
 .review-sentiment {
+  display: flex;
+  flex-wrap: wrap;
   font-size: 0.9em;
   color: #555;
   flex: 1;
-  text-align: right; /* Align sentiment analysis text to the right */
+  text-align: right;
+  flex-wrap: wrap;
 }
 
 .no-reviews-message {
   font-size: 1.1em;
   color: #777;
   text-align: center;
+}
+@media (max-width: 768px) {
+  .review-info {
+    align-items: flex-start;
+  }
 }

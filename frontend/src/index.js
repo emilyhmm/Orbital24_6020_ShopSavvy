@@ -13,9 +13,9 @@ root.render(
     <AuthProvider>
       <CartProvider>
         <ProductProvider>
-        <App />
+          <App />
+        </ProductProvider>
       </CartProvider>
-      </ProductProvider>
     </AuthProvider>
   </React.StrictMode>
 );

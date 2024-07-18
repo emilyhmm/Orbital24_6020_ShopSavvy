@@ -163,13 +163,16 @@ const reviewscraper = asyncHandler(async (req, res) => {
           el.querySelector(".review-text-content > span").textContent.trim(),
         i
       );
+      if (text.length > 280) {
+        text = "Null";
+      }
     } catch (error) {}
 
     try {
       rating = await page.evaluate(
         (el) =>
           el
-            .querySelector('i[data-hook="review-star-rating"]')
+            .querySelector(".review-rating> span.a-icon-alt")
             .textContent.trim(),
         i
       );
