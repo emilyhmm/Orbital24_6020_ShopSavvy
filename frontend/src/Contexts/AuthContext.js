@@ -9,23 +9,28 @@ export const AuthProvider = ({ children }) => {
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
-    // fetching first name from signup
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/api/user/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data);
-        const { firstname } = response.data;
-        setFirstName(firstname);
+        if (token) {
+          // fetching first name from signup
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/api/user/profile`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const { firstname } = response.data;
+          setFirstName(firstname);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setIsLoggedIn(false);
       }
     };
 
@@ -37,17 +42,13 @@ export const AuthProvider = ({ children }) => {
   const login = () => setIsLoggedIn(true);
   const logout = async () => {
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/user/logout`
-      );
-      // Handle the response if needed
-      console.log(response.data);
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/logout`);
+      localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      setFirstName("");
     } catch (error) {
       console.error("Error during logout:", error);
     }
-
-    setIsLoggedIn(false);
-    setFirstName("");
   };
 
   return (

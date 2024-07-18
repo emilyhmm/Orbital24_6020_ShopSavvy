@@ -76,4 +76,10 @@ const removeFromCart = async (req, res) => {
   res.json(cart.items);
 };
 
-module.exports = { getCart, addToCart, updateCartItem, removeFromCart };
+const clearCart = async (req, res) => {
+  await Cart.deleteMany({ userId: req.user.user._id });
+  const cart = await Cart.find({ userId: req.user.user._id }).populate('items');
+  res.status(200).json({ message: "Cart cleared successfully" });
+}
+
+module.exports = { getCart, addToCart, updateCartItem, removeFromCart, clearCart };

@@ -1,12 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-
+import { FaRegTrashAlt } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import "./Cart.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { AuthContext } from "../../Contexts/AuthContext";
+import { CartContext } from '../../Contexts/CartContext';
 
 function Cart({ cart, setCart }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const { isLoggedIn } = useContext(AuthContext);
+  const { fetchCart } = useContext(CartContext);
+  const navigate = useNavigate();
+  
+  if (!isLoggedIn) {
+      navigate("/login");
+    }
+
   useEffect(() => {
-    const fetchCart = async () => {
+    const viewCart = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
@@ -17,22 +31,21 @@ function Cart({ cart, setCart }) {
             },
           }
         );
+        console.log(response.data)
         setCart(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error(
           "Error fetching cart:",
           error.response ? error.response.data : error.message
         );
+        setIsLoading(false);
       }
     };
-    fetchCart();
-  }, [setCart]);
+    viewCart();
+  }, []);
 
   const updateCartItem = async (title, quantity) => {
-    if (quantity <= 0) {
-      await removeFromCart(title);
-      return;
-    }
     const token = localStorage.getItem("token");
     try {
       if (quantity <= 0) {
@@ -49,6 +62,7 @@ function Cart({ cart, setCart }) {
           },
         }
       );
+      fetchCart()
       setCart(response.data);
     } catch (error) {
       console.error(
@@ -70,6 +84,7 @@ function Cart({ cart, setCart }) {
           },
         }
       );
+      fetchCart();
       setCart(response.data);
     } catch (error) {
       console.error(
@@ -79,45 +94,132 @@ function Cart({ cart, setCart }) {
     }
   };
 
-  const totalAmount = cart.reduce((total, item) => { // iterate over each item in cart
-    let price = parseFloat(item.price.replace('S$', ''));
+  const totalAmount = cart.reduce((total, item) => {
+    let price = parseFloat(item.price.replace("S$", ""));
     return total + price * item.quantity;
   }, 0);
 
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
-    <div>
-      <h1>Your Cart</h1>
-      {cart && cart.length > 0 ? (
-        <div>
-          <ul>
-            {cart.map((item, index) => (
-              <li key={index}>
-                <h2>{item.title}</h2>
-                <p>{item.price}</p>
-                <img src={item.image} alt={item.title} />
-                <div>
-                  <button onClick={() => updateCartItem(item.title, item.quantity + 1)}>
-                    +
-                  </button>
-                  <span> {item.quantity} </span>
-                  <button onClick={() => updateCartItem(item.title, item.quantity - 1)}>
-                    -
-                  </button>
-                  <button onClick={() => removeFromCart(item.title)}>
-                    Remove <FaRegTrashCan />
-                  </button>
+    <div className="cart__card">
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : cart.length > 0 ? (
+        <div className="cart__row">
+          <div className="col-md-8 cart">
+            <div className="title">
+              <div className="cart__row">
+                <div className="col">
+                  <h4>
+                    <b>Shopping Cart</b>
+                  </h4>
                 </div>
-              </li>
-            ))}
-          </ul>
-          <h2>Total: ${totalAmount.toFixed(2)}</h2>
-          <Link to="/payment">
-            <button>Checkout</button>
-          </Link>
+                <div className="col align-self-center text-right text-muted">
+                  {cart.length} items
+                </div>
+              </div>
+            </div>
+            <div class="cart__wrap">
+              {cart.map((item) => (
+                <div class="cart__wrap">
+                  <div
+                    key={item.title}
+                    className="cart__row border-top border-bottom"
+                  >
+                    <div className="cart__row main align-items-center">
+                      <div className="col-2">
+                        <img
+                          className="cart__img"
+                          src={item.image}
+                          alt={item.title}
+                        />
+                      </div>
+                      <div className="col">
+                        <div className="cart__row text-muted">
+                          {item.category}
+                        </div>
+                        <div className="cart__row">{item.title}</div>
+                      </div>
+                      <div className="col">
+                        <button
+                          className="border"
+                          onClick={() =>
+                            updateCartItem(item.title, item.quantity - 1)
+                          }
+                        >
+                          -
+                        </button>
+                        <span className="border mx-2">{item.quantity}</span>
+                        <button
+                          className="border"
+                          onClick={() =>
+                            updateCartItem(item.title, item.quantity + 1)
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="col"> {item.price}</div>
+                      <div className="col">
+                        <FaRegTrashAlt
+                          className="close"
+                          onClick={() => removeFromCart(item.title)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="back-to-shop">
+              <Link to="/">
+                <ArrowBackIosIcon />
+              </Link>
+              <span className="text-muted">Back to shop</span>
+            </div>
+          </div>
+          <div className="col-md-4 summary">
+            <div>
+              <h5>
+                <b>Summary</b>
+              </h5>
+            </div>
+            <hr />
+            <div className="cart__row">
+              <div className="col" style={{ paddingLeft: 0 }}>
+                TOTAL ITEMS: {totalItems}
+              </div>
+              <div className="col text-right">S$ {totalAmount.toFixed(2)}</div>
+            </div>
+            <form>
+              <p>SHIPPING</p>
+              <select>
+                <option className="text-muted">
+                  Standard-Delivery- S$ 5.00
+                </option>
+              </select>
+            </form>
+            <div
+              className="cart__row"
+              style={{
+                borderTop: "1px solid rgba(0,0,0,.1)",
+                padding: "2vh 0",
+              }}
+            >
+              <div className="col">TOTAL PRICE</div>
+              <div className="col text-right">
+                S$ {(totalAmount + 5).toFixed(2)}
+              </div>
+            </div>
+            <Link to="/payment">
+              <button className="summarybutton__btn">Checkout</button>
+            </Link>
+          </div>
         </div>
-        ) : (
-          <p>No items in cart</p>
-        )}
+      ) : (
+        <p>No items in cart</p>
+      )}
     </div>
   );
 }

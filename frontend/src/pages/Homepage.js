@@ -5,7 +5,7 @@ import ImageSlider from "../Components/Homepage/ImageSlider";
 import HeroSection from "../Components/Homepage/Herosection";
 import Footer from "../Components/Homepage/Footer";
 
-function Homepage({ cart }) {
+function Homepage() {
   const slides = [
     {
       url: "./images/3.png",
@@ -35,7 +35,7 @@ function Homepage({ cart }) {
   };
   return (
     <div>
-      <NavBar cart={cart} />
+      <NavBar />
       <HeroSection />
       <div
         style={{

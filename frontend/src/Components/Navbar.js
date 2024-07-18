@@ -1,15 +1,26 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AuthContext, UserContext } from "../Contexts/AuthContext";
+import { CartContext } from "../Contexts/CartContext";
 import "../App.css";
 
-function Header({ cart }) {
-    const quantity = cart.length > 0 ? cart.reduce((total, item) => total + item.quantity, 0) : 0;
+function Header() {
     const { isLoggedIn, logout } = useContext(AuthContext);
     const { firstName } = useContext(UserContext);
-
+    const { quantity, fetchCart } = useContext(CartContext);
+    const navigate = useNavigate();
+    
+    const handleLogout = async () => {
+      try {
+        await logout();     
+        fetchCart(); // reset cart to 0
+        navigate('/');
+      } catch (error) {
+        console.error("Error logging out:", error);
+      }
+    };
     return (
         <nav className="header">
             <Link to = "/">
@@ -21,7 +32,7 @@ function Header({ cart }) {
             <div className = "header__nav">
               {/*1st link */}
               {isLoggedIn ? (
-                <Link to="/" className="header__link" onClick={logout}>
+                <Link to="/" className="header__link" onClick={handleLogout}>
                   <div className="header__option">
                     <span className="header__optionLineOne">Hello, {firstName}</span>
                     <span className="header__optionLineTwo">Sign Out</span>
@@ -39,8 +50,7 @@ function Header({ cart }) {
               {/*2nd link */}
               <Link to = "/order" className = "header__link">
                   <div className = "header__option">
-                      <span className = "header__optionLineOne"> Returns </span>
-                      <span className = "header__optionLineTwo">& Orders</span>
+                      <span className = "header__order"> Orders </span>
                   </div>
               </Link>
 
@@ -49,7 +59,7 @@ function Header({ cart }) {
                   <div className = "header__optionBasket">
                       <ShoppingCartIcon/>
                       {/*Number of items in basket */}
-                      <span className = 'header_optionLineTwo header__basketCount' >{quantity}</span>
+                      <span className = 'header__basketCount' >{quantity}</span>
                   </div>
               </Link>
             </div>
