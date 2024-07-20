@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { IoSettingsSharp } from "react-icons/io5";
 import { AuthContext, UserContext } from "../Contexts/AuthContext";
 import { CartContext } from "../Contexts/CartContext";
 import "../App.css";
@@ -11,7 +12,7 @@ function Header() {
     const { firstName } = useContext(UserContext);
     const { quantity, fetchCart } = useContext(CartContext);
     const navigate = useNavigate();
-    
+
     const handleLogout = async () => {
       try {
         await logout();     
@@ -30,7 +31,7 @@ function Header() {
                 <Searchbar/>
             </div>
             <div className = "header__nav">
-              {/*1st link */}
+              {/*login logout link */}
               {isLoggedIn ? (
                 <Link to="/" className="header__link" onClick={handleLogout}>
                   <div className="header__option">
@@ -47,14 +48,14 @@ function Header() {
                 </Link>
               )}
           
-              {/*2nd link */}
+              {/*order link */}
               <Link to = "/order" className = "header__link">
                   <div className = "header__option">
                       <span className = "header__order"> Orders </span>
                   </div>
               </Link>
 
-              {/*Basket Icon with number*/}
+              {/*Basket icon with number*/}
               <Link to = "/checkout" className = "header__link"> 
                   <div className = "header__optionBasket">
                       <ShoppingCartIcon/>
@@ -62,6 +63,15 @@ function Header() {
                       <span className = 'header__basketCount' >{quantity}</span>
                   </div>
               </Link>
+
+              {/*Settings */}
+              {isLoggedIn && (
+                <Link to = "/settings" className = "header__link"> 
+                  <div className = "header__optionSettings">
+                    <IoSettingsSharp size={25} style={{ margin: '10px' }} />
+                  </div>
+                </Link>
+              )}
             </div>
         </nav>
       )

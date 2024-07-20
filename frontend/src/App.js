@@ -6,6 +6,8 @@ import Checkout from './pages/Checkoutpage';
 import Resultpage from './pages/Resultpage';
 import Paymentpage from './pages/Paymentpage';
 import Orderpage from './pages/Orderpage';
+import Quizpage from './pages/Quizpage';
+import Settingspage from './pages/Settingspage'
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -20,6 +22,8 @@ function App() {
           <Route path="/products" element={<Resultpage setCart={setCart} />} />
           <Route path="/payment" element={<Paymentpage cart={cart} setCart={setCart} />} />
           <Route path="/order" element={<Orderpage />} />
+          <Route path="/quiz" element={<Quizpage />} />
+          <Route path='/settings' element={<Settingspage />} />
         </Routes>
       </div>
     </Router>

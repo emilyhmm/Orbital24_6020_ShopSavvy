@@ -1,4 +1,3 @@
-import React from "react";
 import NavBar from "../Components/Navbar";
 import Cart from "../Components/Cart/Cart";
 
