@@ -5,19 +5,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./Contexts/AuthContext";
 import { CartProvider } from "./Contexts/CartContext";
+import { QuizProvider } from "./Contexts/QuizContext";
 import { ProductProvider } from "./Contexts/ProductContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <CartProvider>
+  // disable strict mode for testing
+  //<React.StrictMode>
+  <AuthProvider>
+    <CartProvider>
+      <QuizProvider>
         <ProductProvider>
           <App />
         </ProductProvider>
-      </CartProvider>
-    </AuthProvider>
-  </React.StrictMode>
+      </QuizProvider>
+    </CartProvider>
+  </AuthProvider>
+  //</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

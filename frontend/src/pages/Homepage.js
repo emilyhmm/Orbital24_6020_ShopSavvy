@@ -1,4 +1,3 @@
-import React from "react";
 import NavBar from "../Components/Navbar";
 import "../App.css";
 import ImageSlider from "../Components/Homepage/ImageSlider";
@@ -44,6 +43,7 @@ function Homepage() {
           fontWeight: "bold",
           background: "#ffff",
         }}
+        className="dm-serif-display-regular"
       >
         Check out the LATEST trends!
       </div>

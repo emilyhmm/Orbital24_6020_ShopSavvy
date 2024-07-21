@@ -76,7 +76,7 @@ export default function Login({ toggleForm }) {
         localStorage.setItem("token", accessToken); // Store the token
         console.log("Logged in and token stored:", accessToken);
         login();
-        navigate(`/`);
+        navigate('/quiz');
       } catch (error) {
         if (error.response && error.response.data) {
           setErrors({ general: error.response.data.error });
@@ -162,7 +162,6 @@ export default function Login({ toggleForm }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onSubmit={handleSubmit}
               color="black"
             >
               <span style={{ color: "white" }}>Sign In</span>

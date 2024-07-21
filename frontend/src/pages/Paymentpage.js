@@ -1,4 +1,3 @@
-import React from "react";
 import Checkout from "../Components/Checkout/Checkout";
 
 function Paymentpage({ cart, setCart }) {

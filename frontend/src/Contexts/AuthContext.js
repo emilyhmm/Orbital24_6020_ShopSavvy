@@ -39,12 +39,24 @@ export const AuthProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
-  const login = () => setIsLoggedIn(true);
+  useEffect(() => {
+    // Check localStorage for login status
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const login = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem("isLoggedIn", "true");
+  };
+
   const logout = async () => {
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/logout`);
       localStorage.removeItem("token");
       setIsLoggedIn(false);
+      localStorage.removeItem("isLoggedIn");
       setFirstName("");
     } catch (error) {
       console.error("Error during logout:", error);

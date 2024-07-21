@@ -4,13 +4,15 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { ProductContext } from "../../Contexts/ProductContext";
 import { AuthContext } from "../../Contexts/AuthContext";
+import { CartContext } from '../../Contexts/CartContext';
 import Reviews from "./Reviews";
 import "./ProductDetail.css"; // Import CSS for styling
 
 const ProductDetail = ({ setCart }) => {
   const { title } = useParams();
   const { products } = useContext(ProductContext);
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
+  const { fetchCart } = useContext(CartContext);
   const navigate = useNavigate();
   const product = products.find(
     (product) =>
@@ -49,7 +51,7 @@ const ProductDetail = ({ setCart }) => {
         }
       );
       console.log(response);
-
+      fetchCart()
       setCart(response.data);
       console.log("Product added to cart:", response.data);
     } catch (error) {

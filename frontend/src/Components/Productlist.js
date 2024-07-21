@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Card from "@mui/material/Card";
@@ -13,9 +13,9 @@ import {
   CircularProgress,
 } from "@mui/material";
 import "../App.css";
+import { ProductContext } from "../Contexts/ProductContext";
 import { AuthContext } from "../Contexts/AuthContext";
 import { CartContext } from "../Contexts/CartContext";
-import { ProductContext } from "../Contexts/ProductContext";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -67,7 +67,6 @@ function ProductList({ setCart }) {
         }
       );
       fetchCart();
-      console.log(token);
       setCart(response.data);
       console.log("Product added to cart:", response.data);
     } catch (error) {
