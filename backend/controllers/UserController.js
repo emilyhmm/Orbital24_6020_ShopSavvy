@@ -42,7 +42,6 @@ const loginUser = asyncHandler(async (req, res) => {
     const finduser = await User.findOne({
       email: new RegExp(`^${email}$`, "i"),
     });
-
     // If the user is not found, respond with an error
     // Check if the user exists in the database
     if (!finduser) {
@@ -66,7 +65,9 @@ const loginUser = asyncHandler(async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
 
-    res.json({ accessToken });
+    // Only redirect to quiz page if user has not done the quiz before
+    const showQuiz = !finduser.completedQuiz;
+    res.json({ accessToken, showQuiz });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Server error" });

@@ -72,11 +72,17 @@ export default function Login({ toggleForm }) {
           `${process.env.REACT_APP_API_BASE_URL}/api/user/login`,
           values
         );
-        const { accessToken } = response.data;
+        const { accessToken, showQuiz } = response.data;
+        console.log('showquiz', showQuiz)
         localStorage.setItem("token", accessToken); // Store the token
         console.log("Logged in and token stored:", accessToken);
         login();
-        navigate('/quiz');
+        if (showQuiz) {
+          navigate('/quiz');
+        } else {
+          navigate('/')
+        }
+        
       } catch (error) {
         if (error.response && error.response.data) {
           setErrors({ general: error.response.data.error });

@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     refreshToken: {
         type: String,
     },
+    completedQuiz: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 // hashing the password

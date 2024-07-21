@@ -1,4 +1,5 @@
 const Quiz = require('../models/quizModel');
+const User = require("../models/userModel");
 
 const viewQuiz = async (req, res) => {
     const userId = req.user.user._id;
@@ -7,6 +8,7 @@ const viewQuiz = async (req, res) => {
         const quizResult = await Quiz.findOne({ userId });
 
         if (quizResult) {
+            await User.findByIdAndUpdate(userId, { hasCompletedQuiz: true });
             res.status(200).send(quizResult.results);
         } else {
             res.status(404).send({ message: 'No quiz results found' });
@@ -18,12 +20,17 @@ const viewQuiz = async (req, res) => {
 }
 
 const saveQuiz = async (req, res) => {
+    const email = req.user.user.email
     const userId = req.user.user._id;
     const { results } = req.body;
 
     try {
-        let quizResult = await Quiz.findOne({ userId });
+        // Set quiz to completed in db
+        let user = await User.findOne({ email });
+        user.completedQuiz = true;
+        await user.save()
 
+        let quizResult = await Quiz.findOne({ userId });
         if (quizResult) {
             quizResult.results = results;
             await quizResult.save();
