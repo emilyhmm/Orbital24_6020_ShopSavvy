@@ -121,7 +121,6 @@ const reviewscraper = asyncHandler(async (req, res) => {
   const productpage = req.body.productlink;
   console.log(productpage);
   let result = [];
-  let isNextDisabled = false;
 
   const browser = await puppeteer.launch({
     headless: true,
