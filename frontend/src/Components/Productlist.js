@@ -15,7 +15,7 @@ import {
 import "../App.css";
 import { ProductContext } from "../Contexts/ProductContext";
 import { AuthContext } from "../Contexts/AuthContext";
-import { CartContext } from '../Contexts/CartContext';
+import { CartContext } from "../Contexts/CartContext";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -66,7 +66,7 @@ function ProductList({ setCart }) {
           },
         }
       );
-      fetchCart()
+      fetchCart();
       setCart(response.data);
       console.log("Product added to cart:", response.data);
     } catch (error) {

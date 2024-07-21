@@ -4,13 +4,12 @@ const puppeteer = require("puppeteer");
 (async () => {
   const term = "owala";
   const productpage =
-    "https://www.amazon.sg/Owala-FreeSip-Insulated-Stainless-BPA-Free/dp/B0BZYCJK89/ref=sr_1_2?dib=eyJ2IjoiMSJ9.RcV4SG2y5sdrUX4bgZNUKUJww2T31hDfWphiBLRIxl4_BtCGSi8HdctZJxiRZm3FhVvN8dEQtnhs8LRKSLCbwMXLMpfDDyzskLkzV0OkhJID5EA5ZgSgU0lPKxXvZ_b3UjAqR-mwng7zSNFfbNYz_09TGiBIc7W3yYHD6UpzgV6ihDGONbpI4D4RH8ep0JB5KdvloI_aaqRDo2YdA-kPysDFGOHSDe8eKaAwZuxQmzwqB_5cur4LnmGjB5hTujZbPcZhO6Y9NShrf9Q46GE-gk1KlY9-ZMO1_zHBlhqsaIw._laI6x3SUMjkOpZ0LzK8y5Z3w13OYORLjepqQzfZaD8&dib_tag=se&keywords=owala&qid=1720427114&sr=8-2&th=1";
-
+    "https://www.amazon.com/Acer-A115-32-C96U-Processor-Microsoft-Subscription/dp/B0BL35XNF5?th=1";
   let result = [];
   let isNextDisabled = false;
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     defaultViewport: null,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
     userDataDir: "./tmp",

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem("token");
         if (token) {
           // fetching first name from signup
           const response = await axios.get(
@@ -26,12 +26,11 @@ export const AuthProvider = ({ children }) => {
           setFirstName(firstname);
           setIsLoggedIn(true);
         } else {
-          setIsLoggedIn(false)
+          setIsLoggedIn(false);
         }
-        
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setIsLoggedIn(false)
+        setIsLoggedIn(false);
       }
     };
 
@@ -42,22 +41,22 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check localStorage for login status
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-        setIsLoggedIn(true);
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      setIsLoggedIn(true);
     }
   }, []);
 
   const login = () => {
     setIsLoggedIn(true);
-    localStorage.setItem('isLoggedIn', 'true')
+    localStorage.setItem("isLoggedIn", "true");
   };
 
   const logout = async () => {
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/user/logout`);
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
       setIsLoggedIn(false);
-      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem("isLoggedIn");
       setFirstName("");
     } catch (error) {
       console.error("Error during logout:", error);
