@@ -3,6 +3,7 @@ const authRouter = require("./routes/authRoute");
 const productRouter = require("./routes/productRoute");
 const cartRouter = require("./routes/cartRoute");
 const orderRouter = require('./routes/orderRoute');
+const quizRouter = require('./routes/quizRoute');
 const cookieParser = require('cookie-parser');
 
 const cors = require("cors");
@@ -31,6 +32,7 @@ app.use('/api/user', authRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/quiz', quizRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

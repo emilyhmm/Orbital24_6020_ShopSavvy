@@ -15,7 +15,7 @@ function Quiz() {
     const { firstName } = useContext(UserContext);
     const navigate = useNavigate();
     const [factors, setFactors] = useState(factorList);
-    const { setQuizResults } = useContext(QuizContext);
+    const { setQuizResults, saveQuiz } = useContext(QuizContext);
 
     const onDragEnd = (result) => {
         if (!result.destination) return;
@@ -29,6 +29,7 @@ function Quiz() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setQuizResults(factors)
+        await saveQuiz(factors)
         navigate('/')
         console.log('User Preferences:', factors);
     };
