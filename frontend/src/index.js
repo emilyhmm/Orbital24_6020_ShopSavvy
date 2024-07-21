@@ -12,15 +12,15 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // disable strict mode for testing
   //<React.StrictMode>
-    <AuthProvider>
-      <CartProvider>
-        <QuizProvider>
-          <ProductProvider>
-            <App />
-          </ProductProvider>
-        </QuizProvider>
-      </CartProvider>
-    </AuthProvider>
+  <AuthProvider>
+    <CartProvider>
+      <QuizProvider>
+        <ProductProvider>
+          <App />
+        </ProductProvider>
+      </QuizProvider>
+    </CartProvider>
+  </AuthProvider>
   //</React.StrictMode>
 );
 
