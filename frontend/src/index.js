@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./Contexts/AuthContext";
 import { CartProvider } from "./Contexts/CartContext";
 import { QuizProvider } from "./Contexts/QuizContext";
+import { ProductProvider } from "./Contexts/ProductContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <AuthProvider>
       <CartProvider>
         <QuizProvider>
-          <App />
+          <ProductProvider>
+            <App />
+          </ProductProvider>
         </QuizProvider>
       </CartProvider>
     </AuthProvider>

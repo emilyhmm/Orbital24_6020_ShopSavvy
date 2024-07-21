@@ -72,7 +72,12 @@ const webscraper = asyncHandler(async (req, res) => {
           link = `https://www.amazon.sg${link}`;
         } catch (error) {}
 
-        if (title !== "Null" && price !== "Null" && link !== "Null") {
+        if (
+          title !== "Null" &&
+          price !== "Null" &&
+          image !== "Null" &&
+          link !== "Null"
+        ) {
           result.push({ title: title, price: price, image: image, link: link });
         }
       }
@@ -112,4 +117,82 @@ const webscraper = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { webscraper };
+const reviewscraper = asyncHandler(async (req, res) => {
+  const productpage = req.body.productlink;
+  console.log(productpage);
+  let result = [];
+  let isNextDisabled = false;
+
+  const browser = await puppeteer.launch({
+    headless: true,
+    defaultViewport: null,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    userDataDir: "./tmp",
+    ignoreDefaultArgs: ["--disable-extensions"],
+  });
+
+  const page = await browser.newPage();
+  await page.goto(productpage);
+
+  //if product page has "see more reviews"
+  try {
+    await page.waitForSelector(".a-link-emphasis.a-text-bold", {
+      timeout: 3000,
+    });
+    await page.click(".a-link-emphasis.a-text-bold");
+  } catch (error) {
+    res.json("There are no reviews");
+  }
+
+  await page.waitForSelector(".a-section.a-spacing-none.review-views");
+  const reviewHandles = await page.$$(
+    ".a-section.a-spacing-none.review-views > .a-section",
+    {
+      timeout: 3000,
+    }
+  );
+
+  for (const i of reviewHandles) {
+    let text = "Null";
+    let rating = "Null";
+    let name = "Null";
+
+    try {
+      text = await page.evaluate(
+        (el) =>
+          el.querySelector(".review-text-content > span").textContent.trim(),
+        i
+      );
+    } catch (error) {}
+
+    try {
+      rating = await page.evaluate(
+        (el) =>
+          el
+            .querySelector('i[data-hook="review-star-rating"]')
+            .textContent.trim(),
+        i
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      name = await page.evaluate(
+        (el) => el.querySelector("span.a-profile-name").textContent.trim(),
+        i
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (name !== "Null" && rating !== "Null" && text !== "Null") {
+      result.push({ name: name, rating: rating, text: text });
+    }
+  }
+  await browser.close();
+  console.log(result);
+  res.json({ result });
+  console.log("done");
+});
+module.exports = { webscraper, reviewscraper };
