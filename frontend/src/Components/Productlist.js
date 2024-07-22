@@ -135,7 +135,7 @@ function ProductList({ setCart }) {
                     to={{
                       pathname: `/product/${generateUrlSafeTitle(product.title)}`,
                     }}
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: "none" }} // Remove underline from the link
                   >
                     <CardActionArea>
                       <div>
@@ -151,10 +151,30 @@ function ProductList({ setCart }) {
                         />
                       </div>
                       <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          sx={{
+                            textAlign: "left",
+                            fontFamily: "Inter, sans-serif",
+                            fontWeight: "500",
+                            color: "black",
+                          }}
+                        >
                           {product.title}
                         </Typography>
-                        <Typography gutterBottom variant="h4" component="div">
+                        <Typography
+                          gutterBottom
+                          variant="h4"
+                          component="div"
+                          sx={{
+                            textAlign: "left",
+                            fontFamily: "Inter, sans-serif",
+                            fontWeight: "600",
+                            color: "black",
+                          }}
+                        >
                           {product.price}
                         </Typography>
                       </CardContent>
