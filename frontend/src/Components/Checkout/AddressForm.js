@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -12,7 +10,7 @@ const FormGrid = styled(Grid)(() => ({
   flexDirection: "column",
 }));
 
-export default function AddressForm() {
+export default function AddressForm({ values, errors, handleInput }) {
   return (
     <Grid container spacing={3}>
       <FormGrid item xs={12} md={6}>
@@ -20,26 +18,38 @@ export default function AddressForm() {
           First name
         </FormLabel>
         <OutlinedInput
-          id="first-name"
-          name="first-name"
-          type="name"
+          id="firstName"
+          name="firstName"
+          type="firstName"
           placeholder="John"
           autoComplete="first name"
           required
+          onChange={handleInput}
         />
+        {errors.firstName && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.firstName}</p>
+          </Grid>
+        )}
       </FormGrid>
       <FormGrid item xs={12} md={6}>
         <FormLabel htmlFor="last-name" required>
           Last name
         </FormLabel>
         <OutlinedInput
-          id="last-name"
-          name="last-name"
-          type="last-name"
+          id="lastName"
+          name="lastName"
+          type="lastName"
           placeholder="Snow"
           autoComplete="last name"
           required
+          onChange={handleInput}
         />
+        {errors.lastName && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.lastName}</p>
+          </Grid>
+        )}
       </FormGrid>
       <FormGrid item xs={12}>
         <FormLabel htmlFor="address1" required>
@@ -52,7 +62,13 @@ export default function AddressForm() {
           placeholder="Street name and number"
           autoComplete="shipping address-line1"
           required
+          onChange={handleInput}
         />
+        {errors.address1 && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.address1}</p>
+          </Grid>
+        )}
       </FormGrid>
       <FormGrid item xs={12}>
         <FormLabel htmlFor="address2">Address line 2</FormLabel>
@@ -63,6 +79,7 @@ export default function AddressForm() {
           placeholder="Apartment, suite, unit, etc. (optional)"
           autoComplete="shipping address-line2"
           required
+          onChange={handleInput}
         />
       </FormGrid>
       <FormGrid item xs={6}>
@@ -76,7 +93,13 @@ export default function AddressForm() {
           placeholder="New York"
           autoComplete="City"
           required
+          onChange={handleInput}
         />
+        {errors.city && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.city}</p>
+          </Grid>
+        )}
       </FormGrid>
       <FormGrid item xs={6}>
         <FormLabel htmlFor="state" required>
@@ -89,7 +112,13 @@ export default function AddressForm() {
           placeholder="NY"
           autoComplete="State"
           required
+          onChange={handleInput}
         />
+        {errors.state && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.state}</p>
+          </Grid>
+        )}
       </FormGrid>
       <FormGrid item xs={6}>
         <FormLabel htmlFor="zip" required>
@@ -102,7 +131,13 @@ export default function AddressForm() {
           placeholder="12345"
           autoComplete="shipping postal-code"
           required
+          onChange={handleInput}
         />
+        {errors.zip && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.zip}</p>
+          </Grid>
+        )}
       </FormGrid>
       <FormGrid item xs={6}>
         <FormLabel htmlFor="country" required>
@@ -115,13 +150,13 @@ export default function AddressForm() {
           placeholder="United States"
           autoComplete="shipping country"
           required
+          onChange={handleInput}
         />
-      </FormGrid>
-      <FormGrid item xs={12}>
-        <FormControlLabel
-          control={<Checkbox name="saveAddress" value="yes" />}
-          label="Use this address for payment details"
-        />
+        {errors.country && (
+          <Grid item xs={12}>
+            <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.country}</p>
+          </Grid>
+        )}
       </FormGrid>
     </Grid>
   );

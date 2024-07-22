@@ -23,8 +23,6 @@ function Order() {
             },
           });
         setOrders(response.data);
-        console.log('data',response.data)
-        console.log('da order',orders)
       } catch (error) {
         console.error('Error fetching orders:', error);
       }
@@ -55,6 +53,7 @@ function Order() {
           <button onClick={clearOrders}>Clear all orders</button> 
           {orders.map(order => (
             <li>
+              <p>Order number: {order.orderNumber}</p>
               <p>Date: {new Date(order.date).toLocaleString()}</p>
               <p>Total: S${order.total.toFixed(2)}</p>
               <ul>

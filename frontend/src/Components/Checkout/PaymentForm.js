@@ -1,23 +1,14 @@
 import * as React from "react";
 
-import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import SimCardRoundedIcon from "@mui/icons-material/SimCardRounded";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 
 import { styled } from "@mui/system";
 
@@ -26,15 +17,12 @@ const FormGrid = styled("div")(() => ({
   flexDirection: "column",
 }));
 
-export default function PaymentForm() {
-  const [paymentType, setPaymentType] = React.useState("creditCard");
+export default function PaymentForm({ values, errors, handleInput }) {
   const [cardNumber, setCardNumber] = React.useState("");
   const [cvv, setCvv] = React.useState("");
   const [expirationDate, setExpirationDate] = React.useState("");
 
-  const handlePaymentTypeChange = (event) => {
-    setPaymentType(event.target.value);
-  };
+
 
   const handleCardNumberChange = (event) => {
     const value = event.target.value.replace(/\D/g, "");
@@ -42,6 +30,7 @@ export default function PaymentForm() {
     if (value.length <= 16) {
       setCardNumber(formattedValue);
     }
+    handleInput(event)
   };
 
   const handleCvvChange = (event) => {
@@ -49,6 +38,7 @@ export default function PaymentForm() {
     if (value.length <= 3) {
       setCvv(value);
     }
+    handleInput(event)
   };
 
   const handleExpirationDateChange = (event) => {
@@ -57,67 +47,12 @@ export default function PaymentForm() {
     if (value.length <= 4) {
       setExpirationDate(formattedValue);
     }
+    handleInput(event)
   };
-
+  
   return (
     <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
-      <FormControl component="fieldset" fullWidth>
-        <RadioGroup
-          aria-label="Payment options"
-          name="paymentType"
-          value={paymentType}
-          onChange={handlePaymentTypeChange}
-          sx={{
-            flexDirection: { sm: "column", md: "row" },
-            gap: 2,
-          }}
-        >
-          <Card
-            raised={paymentType === "creditCard"}
-            sx={{
-              maxWidth: { sm: "100%", md: "50%" },
-              flexGrow: 1,
-              outline: "1px solid",
-              outlineColor:
-                paymentType === "creditCard" ? "primary.main" : "divider",
-              backgroundColor:
-                paymentType === "creditCard" ? "background.default" : "",
-            }}
-          >
-            <CardActionArea onClick={() => setPaymentType("creditCard")}>
-              <CardContent
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <CreditCardRoundedIcon color="primary" fontSize="small" />
-                <Typography fontWeight="medium">Card</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card
-            raised={paymentType === "bankTransfer"}
-            sx={{
-              maxWidth: { sm: "100%", md: "50%" },
-              flexGrow: 1,
-              outline: "1px solid",
-              outlineColor:
-                paymentType === "bankTransfer" ? "primary.main" : "divider",
-              backgroundColor:
-                paymentType === "bankTransfer" ? "background.default" : "",
-            }}
-          >
-            <CardActionArea onClick={() => setPaymentType("bankTransfer")}>
-              <CardContent
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <AccountBalanceRoundedIcon color="primary" fontSize="small" />
-                <Typography fontWeight="medium">Bank account</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </RadioGroup>
-      </FormControl>
-      {paymentType === "creditCard" && (
-        <Box
+      <Box
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -163,13 +98,19 @@ export default function PaymentForm() {
                   Card number
                 </FormLabel>
                 <OutlinedInput
-                  id="card-number"
-                  autoComplete="card-number"
+                  id="cardNumber"
+                  autoComplete="cardNumber"
+                  name="cardNumber"
                   placeholder="0000 0000 0000 0000"
                   required
                   value={cardNumber}
                   onChange={handleCardNumberChange}
                 />
+                {errors.cardNumber && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.cardNumber}</p>
+                  </Grid>
+                )}
               </FormGrid>
               <FormGrid sx={{ maxWidth: "20%" }}>
                 <FormLabel htmlFor="cvv" required>
@@ -177,12 +118,18 @@ export default function PaymentForm() {
                 </FormLabel>
                 <OutlinedInput
                   id="cvv"
-                  autoComplete="CVV"
+                  autoComplete="cvv"
+                  name="cvv"
                   placeholder="123"
                   required
                   value={cvv}
                   onChange={handleCvvChange}
                 />
+                {errors.cvv && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.cvv}</p>
+                  </Grid>
+                )}
               </FormGrid>
             </Box>
             <Box sx={{ display: "flex", gap: 2 }}>
@@ -191,77 +138,41 @@ export default function PaymentForm() {
                   Name
                 </FormLabel>
                 <OutlinedInput
-                  id="card-name"
-                  autoComplete="card-name"
+                  id="name"
+                  autoComplete="name"
+                  name="name"
                   placeholder="John Smith"
                   required
+                  onChange={handleInput}
                 />
+                {errors.name && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.name}</p>
+                  </Grid>
+                )}
               </FormGrid>
               <FormGrid sx={{ flexGrow: 1 }}>
                 <FormLabel htmlFor="card-expiration" required>
                   Expiration date
                 </FormLabel>
                 <OutlinedInput
-                  id="card-expiration"
-                  autoComplete="card-expiration"
+                  id="expirationDate"
+                  autoComplete="expirationDate"
+                  name="expirationDate"
                   placeholder="MM/YY"
                   required
                   value={expirationDate}
                   onChange={handleExpirationDateChange}
                 />
+                {errors.expirationDate && (
+                  <Grid item xs={12}>
+                    <p className="textdanger" style={{ margin: 0, textAlign: 'left' }}>{errors.expirationDate}</p>
+                  </Grid>
+                )}
               </FormGrid>
             </Box>
           </Box>
-          <FormControlLabel
-            control={<Checkbox name="saveCard" />}
-            label="Remember credit card details for next time"
-          />
-        </Box>
-      )}
-
-      {paymentType === "bankTransfer" && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <Alert severity="warning" icon={<WarningRoundedIcon />}>
-            Your order will be processed once we receive the funds.
-          </Alert>
-          <Typography variant="subtitle1" fontWeight="medium">
-            Bank account
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Please transfer the payment to the bank account details shown below.
-          </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Bank:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              Mastercredit
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Account number:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              123456789
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Routing number:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              987654321
-            </Typography>
-          </Box>
-        </Box>
-      )}
+      </Box>
     </Stack>
   );
 }
