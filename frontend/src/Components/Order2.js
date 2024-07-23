@@ -6,7 +6,6 @@ import {
   Typography,
   Button,
   Card,
-  CardHeader,
   CardContent,
   CardActions,
   Grid,
@@ -106,15 +105,29 @@ function Order() {
                 <CardContent>
                   <Box
                     display="flex"
+                    justifyContent="space-between"
                     alignItems="center"
                     sx={{ marginBottom: 2 }}
                   >
-                    <StorefrontIcon sx={{ marginRight: 1, fontSize: 40 }} />
+                    <Box display="flex" alignItems="center">
+                      <StorefrontIcon sx={{ marginRight: 1, fontSize: 40 }} />
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "600",
+                          textAlign: "left",
+                          fontFamily: "Inter, sans-serif",
+                          color: "#333",
+                        }}
+                      >
+                        {`Order number: ${order.orderNumber}`}
+                      </Typography>
+                    </Box>
                     <Typography
                       variant="h6"
                       sx={{
                         fontWeight: "600",
-                        textAlign: "left",
+                        textAlign: "right",
                         fontFamily: "Inter, sans-serif",
                         color: "#333",
                       }}
