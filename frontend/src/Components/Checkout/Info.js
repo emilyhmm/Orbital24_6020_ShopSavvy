@@ -6,7 +6,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 
 function Info({ cart }) {
-  console.log(cart);
   const totalPrice = cart
     .reduce((total, product) => {
       const price = parseFloat(product.price.replace("S$", ""));

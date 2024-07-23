@@ -32,6 +32,7 @@ import ToggleColorMode from "./ToggleColorMode";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext"
 import { CartContext } from "../../Contexts/CartContext"
+import { AddressValidation, CardValidation } from "./PaymentValidation";
 import axios from 'axios';
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
@@ -78,26 +79,6 @@ ToggleCustomTheme.propTypes = {
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
-const logoStyle = {
-  width: "140px",
-  height: "56px",
-  marginLeft: "-4px",
-  marginRight: "-8px",
-};
-
-function getStepContent(step, { cart }) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review cart={cart} />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
 export default function Checkout({ cart, setCart }) {
   const [mode, setMode] = React.useState("light");
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
@@ -106,6 +87,22 @@ export default function Checkout({ cart, setCart }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const { isLoggedIn } = React.useContext(AuthContext);
   const { fetchCart } = React.useContext(CartContext)
+  const [orderNumber, setOrderNumber] = React.useState('');
+  const [errors, setErrors] = React.useState({});
+  const [values, setValues] = React.useState({
+    firstName: "",
+    lastName: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "",
+    cardNumber: "",
+    expirationDate: "",
+    cvv: "",
+    name: "",
+  });
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -115,25 +112,60 @@ export default function Checkout({ cart, setCart }) {
     setShowCustomTheme((prev) => !prev);
   };
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
+  const handleNext = async() => {
+    setErrors({});
+    if (activeStep === 0) {
+      const validationErrors = await AddressValidation(values);
+      if (Object.keys(validationErrors).length !== 0) {
+        setErrors(validationErrors);
+      } else {
+        setActiveStep(activeStep + 1);
+      }
+    } else if (activeStep === 1) {
+      const validationErrors = await CardValidation(values);
+      console.log(values)
+      if (Object.keys(validationErrors).length !== 0) {
+        setErrors(validationErrors);
+      } else {
+        setActiveStep(activeStep + 1);
+      }
+    } else {
+      setActiveStep(activeStep + 1);
+    };
+  }
 
   const handleBack = () => {
+    if (activeStep === 1) {
+      setValues({
+        firstName: "",
+        lastName: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zip: "",
+        country: "",})
+    } else if (activeStep === 2) {
+      setValues({
+        cardNumber: "",
+        expirationDate: "",
+        cvv: "",
+        name: "",})
+    }
     setActiveStep(activeStep - 1);
   };
 
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log(cart)
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/order/`, 
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/order/create`, 
         { items: cart }, 
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
+      setOrderNumber(response.data.orderNumber)
       await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/cart/clear`,
         {
           headers: {
@@ -147,12 +179,29 @@ export default function Checkout({ cart, setCart }) {
     }
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async() => {
     if (activeStep === steps.length - 1) {
       handleSubmit();
     }
     handleNext();
   };
+
+  const handleInput = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  function getStepContent(step, { cart }) {
+    switch (step) {
+      case 0:
+        return <AddressForm values={values} errors={errors} handleInput={handleInput} />;
+      case 1:
+        return <PaymentForm values={values} errors={errors} handleInput={handleInput} />;
+      case 2:
+        return <Review cart={cart} values={values} />;
+      default:
+        throw new Error("Unknown step");
+    }
+  }
 
   return (
     <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme}>
@@ -250,21 +299,6 @@ export default function Checkout({ cart, setCart }) {
                 justifyContent: "space-between",
               }}
             >
-              <Button
-                startIcon={<ArrowBackRoundedIcon />}
-                component="a"
-                href="/material-ui/getting-started/templates/landing-page/"
-                sx={{ alignSelf: "start" }}
-              >
-                Back to
-                <img
-                  src={
-                    "https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg"
-                  }
-                  style={logoStyle}
-                  alt="Sitemark's logo"
-                />
-              </Button>
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
             </Box>
             <Box
@@ -339,39 +373,13 @@ export default function Checkout({ cart, setCart }) {
               gap: { xs: 5, md: "none" },
             }}
           >
-            <Stepper
-              id="mobile-stepper"
-              activeStep={activeStep}
-              alternativeLabel
-              sx={{ display: { sm: "flex", md: "none" } }}
-            >
-              {steps.map((label) => (
-                <Step
-                  sx={{
-                    ":first-child": { pl: 0 },
-                    ":last-child": { pr: 0 },
-                    "& .MuiStepConnector-root": { top: { xs: 6, sm: 12 } },
-                  }}
-                  key={label}
-                >
-                  <StepLabel
-                    sx={{
-                      ".MuiStepLabel-labelContainer": { maxWidth: "70px" },
-                    }}
-                  >
-                    {label}
-                  </StepLabel>
-                </Step>
-              ))}
-            </Stepper>
             {activeStep === steps.length ? (
               <Stack spacing={2} useFlexGap>
                 <Typography variant="h1">📦</Typography>
-                <Typography variant="h5">Thank you for your order!</Typography>
+                <Typography variant="h5">Thank you for shopping with ShopSavvy!</Typography>
                 <Typography variant="body1" color="text.secondary">
                   Your order number is
-                  <strong>&nbsp;#140396</strong>. We have emailed your order
-                  confirmation and will update you once its shipped.
+                  <strong>&nbsp;{orderNumber}</strong>. You can check your order details now.
                 </Typography>
                 <Link to="/order">
                   <Button
@@ -409,20 +417,6 @@ export default function Checkout({ cart, setCart }) {
                       variant="text"
                       sx={{
                         display: { xs: "none", sm: "flex" },
-                      }}
-                    >
-                      Previous
-                    </Button>
-                  )}
-
-                  {activeStep !== 0 && (
-                    <Button
-                      startIcon={<ChevronLeftRoundedIcon />}
-                      onClick={handleBack}
-                      variant="outlined"
-                      fullWidth
-                      sx={{
-                        display: { xs: "flex", sm: "none" },
                       }}
                     >
                       Previous

@@ -8,17 +8,30 @@ const createOrder = async (req, res) => {
     res.status(400).json({ error: 'Invalid order data' });
     return;
   }
+
   const totalItems = await CartItem.find({ _id: { $in: items } });
   const total = items.reduce((sum, item) => { 
     let price = parseFloat(item.price.replace('S$', ''));
     return sum + price * item.quantity;
   }, 0);
 
+  const generateOrderNumber = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let orderNumber = '#';
+    for (let i = 0; i < 6; i++) {
+      const index = Math.floor(Math.random() * chars.length);
+      orderNumber += chars[index];
+    }
+    return orderNumber;
+  };
+
   try {
+    const orderNumber = generateOrderNumber();
     const order = new Order({
         user: req.user.user._id,
         items: totalItems,
         total: total,
+        orderNumber: orderNumber,
     });
     const createdOrder = await order.save();
     res.status(201).json(createdOrder);

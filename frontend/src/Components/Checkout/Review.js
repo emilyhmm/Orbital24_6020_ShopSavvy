@@ -8,15 +8,25 @@ import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-const addresses = ["1 MUI Drive", "Reactville", "Anytown", "99999", "USA"];
-const payments = [
-  { name: "Card type:", detail: "Visa" },
-  { name: "Card holder:", detail: "Mr. John Smith" },
-  { name: "Card number:", detail: "xxxx-xxxx-xxxx-1234" },
-  { name: "Expiry date:", detail: "04/2024" },
-];
+function Review({ cart, values }) {
+  const [addresses, setAddresses] = React.useState([])
+  const [payments, setPayments] = React.useState([])
+  React.useEffect(() => {
+    if (values.address2 === "") {
+      setAddresses([values.address1, values.city, values.state, values.zip, values.country]);
+    } else {
+      setAddresses([values.address1, values.address2, values.city, values.state, values.zip, values.country]);
+    }
 
-function Review({ cart }) {
+    const last4Digits = values.cardNumber.replace(/\s/g, "").slice(-4);
+    const expirationDate = values.expirationDate.replace(/(\d{2})(\d{2})/, "$1/$2");
+    setPayments([
+      { name: "Card holder:", detail: values.name },
+      { name: "Card number:", detail: `XXXX-XXXX-XXXX-${last4Digits}` },
+      { name: "Expiry date:", detail: expirationDate },
+    ])
+  }, [values]);
+
   const totalPrice = cart
     .reduce((total, product) => {
       const price = parseFloat(product.price.replace("S$", ""));
@@ -54,7 +64,7 @@ function Review({ cart }) {
           <Typography variant="subtitle2" gutterBottom>
             Shipment details
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
+          <Typography gutterBottom>{values.firstName} {values.lastName}</Typography>
           <Typography color="text.secondary" gutterBottom>
             {addresses.join(", ")}
           </Typography>

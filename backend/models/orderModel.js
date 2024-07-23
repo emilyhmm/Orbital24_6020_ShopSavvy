@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema({
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CartItem', required: true }],
   total: { type: Number, required: true },
   date: { type: Date, default: Date.now },
-  status: { type: String, default: 'Pending' }
+  orderNumber: { type: String, required: true },
 });
 
 const Order = mongoose.model('Order', orderSchema);
