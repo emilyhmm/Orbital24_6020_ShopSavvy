@@ -24,12 +24,10 @@ video {
   margin-top: -100px;
 }
 
-.hero-container > p {
+.hero-container > h2 {
   margin-top: 8px;
   color: #f2f2f2;
   font-size: 32px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
 }
 
 .hero-btns {
@@ -142,11 +140,6 @@ h1 {
   margin-bottom: 24px;
   padding: 24px;
   color: #fff;
-}
-
-.footer-subscription > p {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
 }
 
 .footer-subscription-heading {

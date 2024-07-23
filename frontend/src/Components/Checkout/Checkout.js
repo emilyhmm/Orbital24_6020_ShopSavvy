@@ -25,7 +25,6 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import AddressForm from "./AddressForm";
 import getCheckoutTheme from "./getCheckoutTheme";
 import Info from "./Info";
-import InfoMobile from "./InfoMobile";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import ToggleColorMode from "./ToggleColorMode";
@@ -357,9 +356,6 @@ export default function Checkout({ cart, setCart }) {
                   {activeStep >= 2 ? "$144.97" : "$134.98"}
                 </Typography>
               </div>
-              <InfoMobile
-                totalPrice={activeStep >= 2 ? "$144.97" : "$134.98"}
-              />
             </CardContent>
           </Card>
           <Box

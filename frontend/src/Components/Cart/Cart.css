@@ -34,6 +34,16 @@
   margin-bottom: 10px;
 }
 
+.cart__row h4 {
+  align-items: left;
+}
+.cart__row h4 b {
+  font-size: 30px;
+}
+.col-md-4 h5 b {
+  font-size: 30px;
+}
+
 .cart__img {
   width: 100%; /* Set the max width for images */
   height: 150px;

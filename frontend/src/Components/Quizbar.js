@@ -1,10 +1,37 @@
 import { useEffect, useContext } from 'react';
-import { Button, List, ListItem, ListItemText } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import { Button, List, ListItem, ListItemText, Box, Typography, Paper } from '@mui/material';
 import { QuizContext } from '../Contexts/QuizContext';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import '../App.css';
+
+const theme = createTheme({
+    typography: {
+        fontFamily: "Gabarito, sans-serif",
+        fontWeight: 400,
+        fontStyle: "normal",
+    },
+    components: {
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    fontFamily: "Gabarito, sans-serif",
+                    fontWeight: 400,
+                    fontStyle: "normal",
+                    fontSize: '1rem',
+                    lineHeight: '1.5',
+                    letterSpacing: '0.00938em',
+                }
+            }
+        }
+    }
+});
 
 function Quizbar() {
     const { quizResults, setQuizResults } = useContext(QuizContext);
+    const navigate = useNavigate();
+
     const token = localStorage.getItem('token')
     useEffect(() => {
         const fetchQuizResults = async () => {
@@ -14,7 +41,8 @@ function Quizbar() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setQuizResults(response.data);
+                console.log(response.data)
+                setQuizResults(response.data.results);
             } catch (error) {
                 console.error('Error fetching quiz results:', error);
             } 
@@ -22,22 +50,48 @@ function Quizbar() {
         fetchQuizResults();
     }, [token]);
     
-    const handleEdit = async (e) => {
+    const handleEdit = () => {
+        navigate('/quiz')
     }
+
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div>
-                <p style={{ margin: 0 }}>Your preferences: </p>
-                <List style={{ display: 'flex', flexDirection: 'row', gap: '8px', margin: 0 }}>
-                    {quizResults.map((result, index) => (
-                        <ListItem key={index} style={{ padding: 0 }}>
-                            <ListItemText>{index + 1}. {result.text}</ListItemText>
-                        </ListItem>
-                    ))}
-                </List>
-            </div>
-            <Button onClick={handleEdit}>Edit preference</Button>
-        </div>
+        <ThemeProvider theme={theme}>
+            <Paper elevation={3} sx={{ padding: '16px', borderRadius: '8px', backgroundColor: '#FFF6CA' }}>
+                <Typography 
+                    variant="h6" 
+                    gutterBottom 
+                    textAlign='left'
+                    fontSize='24px'
+                >
+                    Your Preferences: 
+                </Typography>
+                <Box display="flex" gap="16px" >
+                    <List sx={{ display: 'flex', flexDirection: 'row', gap: '8px', margin: 0, padding: 0 }} >
+                        {quizResults.map((result, index) => (
+                            <ListItem 
+                                key={index} 
+                                sx={{ 
+                                    padding: '10px 10px 10px 10px', 
+                                    backgroundColor: '#fff', 
+                                    borderRadius: '4px', 
+                                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
+                                    alignItems: 'flex-start',
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                <ListItemText 
+                                    primary={`${index + 1}. ${result.text}`} 
+                                    style={{ textAlign: 'left' }}
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button onClick={handleEdit} >
+                        Edit Preferences
+                    </Button>
+                </Box>
+            </Paper>
+        </ThemeProvider>
     )
 }
 

@@ -1,6 +1,5 @@
 import React from "react";
 import "./Homepage.css";
-import { Button } from "./Button";
 import { Link } from "react-router-dom";
 
 function Footer() {
@@ -21,7 +20,6 @@ function Footer() {
               type="email"
               placeholder="Your Email"
             />
-            <Button buttonStyle="btn--outline">Subscribe</Button>
           </form>
         </div>
       </section>
@@ -35,17 +33,11 @@ function Footer() {
           </div>
           <div class="footer-link-items">
             <h2>Contact Us</h2>
-            <Link to="https://github.com/emilyhmm/Orbital24_6020_ShopSavvy">
-              Contact
-            </Link>
           </div>
         </div>
         <div className="footer-link-wrapper">
           <div class="footer-link-items">
             <h2>Social Media</h2>
-            <Link to="https://github.com/emilyhmm/Orbital24_6020_ShopSavvy">
-              Github
-            </Link>
           </div>
         </div>
       </div>

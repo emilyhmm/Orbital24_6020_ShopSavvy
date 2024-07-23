@@ -108,24 +108,24 @@ function Cart({ cart, setCart }) {
       ) : cart.length > 0 ? (
         <div className="cart__row">
           <div className="col-md-8 cart">
-            <div className="title">
+            <div>
               <div className="cart__row">
-                <div className="col">
+                <div>
                   <h4>
-                    <b>Shopping Cart</b>
+                    <b className="dm-serif-display-regular">Shopping Cart</b>
                   </h4>
                 </div>
-                <div className="col align-self-center text-right text-muted">
+                <div>
                   {cart.length} items
                 </div>
               </div>
             </div>
-            <div class="cart__wrap">
+            <div>
               {cart.map((item) => (
-                <div class="cart__wrap">
+                <div>
                   <div
                     key={item.title}
-                    className="cart__row border-top border-bottom"
+                    className="border-top border-bottom"
                   >
                     <div className="cart__row main align-items-center">
                       <div className="col-2">
@@ -182,21 +182,23 @@ function Cart({ cart, setCart }) {
           <div className="col-md-4 summary">
             <div>
               <h5>
-                <b>Summary</b>
+                <b className="dm-serif-display-regular">Summary</b>
               </h5>
             </div>
             <hr />
             <div className="cart__row">
               <div className="col" style={{ paddingLeft: 0 }}>
-                TOTAL ITEMS: {totalItems}
+                TOTAL ITEMS: 
               </div>
-              <div className="col text-right">S$ {totalAmount.toFixed(2)}</div>
+              <div className="col text-right">
+                {totalItems}
+              </div>
             </div>
             <form>
               <p>SHIPPING</p>
               <select>
                 <option className="text-muted">
-                  Standard-Delivery- S$ 5.00
+                  Standard-Delivery - Free
                 </option>
               </select>
             </form>
@@ -207,9 +209,9 @@ function Cart({ cart, setCart }) {
                 padding: "2vh 0",
               }}
             >
-              <div className="col">TOTAL PRICE</div>
+              <div className="col">TOTAL PRICE: </div>
               <div className="col text-right">
-                S$ {(totalAmount + 5).toFixed(2)}
+                S$ {(totalAmount).toFixed(2)}
               </div>
             </div>
             <Link to="/payment">

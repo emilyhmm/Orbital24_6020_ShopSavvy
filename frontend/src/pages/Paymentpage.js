@@ -4,7 +4,7 @@ function Paymentpage({ cart, setCart }) {
   return (
     <div className="paymentpage">
       <header className="payment-header">
-        <h1>Complete your purchase</h1>
+        <h1 className="dm-serif-display-regular">Complete your purchase</h1>
         <Checkout cart={cart} setCart={setCart} />
       </header>
     </div>
