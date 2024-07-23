@@ -140,7 +140,7 @@ function Reviews({ productlink }) {
                 {sentiments[index] ? (
                   <ReactFC
                     type="angulargauge"
-                    width="15%"
+                    width="30%"
                     height="300"
                     dataFormat="json"
                     dataSource={{
