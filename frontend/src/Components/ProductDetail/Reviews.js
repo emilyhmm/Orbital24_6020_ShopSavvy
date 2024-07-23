@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import FaceIcon from "@mui/icons-material/Face";
@@ -22,7 +22,9 @@ function Reviews({ productlink }) {
           `${process.env.REACT_APP_API_BASE_URL}/api/product/review`,
           { productlink: productlink }
         );
+        console.log('API Response:', response.data);
         setReviews(response.data.result);
+        console.log('reviews', reviews)
         setLoading(false);
       } catch (error) {
         console.error(
