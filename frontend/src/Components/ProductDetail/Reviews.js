@@ -124,7 +124,7 @@ function Reviews({ productlink }) {
     <div className="reviews-container">
       {loading ? (
         <CircularProgress className="reviews-loading-spinner" />
-      ) : reviews.length > 0 ? (
+      ) : reviews.length && reviews.length > 0 ? (
         reviews.map((r, index) => (
           <div key={index} className="review-item">
             <p className="review-text">"{r.text}"</p>
@@ -140,7 +140,7 @@ function Reviews({ productlink }) {
                 {sentiments[index] ? (
                   <ReactFC
                     type="angulargauge"
-                    width="15%"
+                    width="30%"
                     height="300"
                     dataFormat="json"
                     dataSource={{

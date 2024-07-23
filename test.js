@@ -2,79 +2,49 @@ const { isDisabled } = require("@testing-library/user-event/dist/utils");
 const puppeteer = require("puppeteer");
 
 (async () => {
-  const term = "owala";
-  const productpage =
-    "https://www.amazon.com/Acer-A115-32-C96U-Processor-Microsoft-Subscription/dp/B0BL35XNF5?th=1";
-  let result = [];
-  let isNextDisabled = false;
-
-  const browser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: null,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    userDataDir: "./tmp",
-    ignoreDefaultArgs: ["--disable-extensions"],
-  });
-
-  const page = await browser.newPage();
-  await page.goto(productpage);
-
-  //if product page has "see more reviews"
   try {
-    await page.waitForSelector(".a-link-emphasis.a-text-bold", {
-      timeout: 3000,
+    const searchTerm = "owala"; // Destructure searchTerm from req.body
+    if (!searchTerm) {
+    }
+
+    const searchpage = `https://shopee.sg/search?keyword=${encodeURIComponent(searchTerm)}`;
+    let result = [];
+    let isNextDisabled = false;
+
+    const browser = await puppeteer.launch({
+      headless: false,
+      defaultViewport: null,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      userDataDir: "./tmp",
+      ignoreDefaultArgs: ["--disable-extensions"],
     });
-    await page.click(".a-link-emphasis.a-text-bold");
+
+    const page = await browser.newPage();
+    await page.goto(searchpage);
+
+    while (!isNextDisabled) {
+      await page.waitForSelector("ul.shopee-search-item-result__items", {
+        timeout: 30000,
+      });
+      const productHandles = await page.$$("shopee-search-item-result__items");
+      console.log(productHandles);
+      for (const i of productHandles) {
+        let title = "Null";
+        let price = "Null";
+        let image = "Null";
+        let link = "Null";
+
+        try {
+          title = await page.evaluate(
+            (el) => el.querySelector("whitespace-normal").textContent.trim(),
+            i
+          );
+        } catch (error) {}
+      }
+    }
+
+    await browser.close();
   } catch (error) {
-    console.log(error);
+    console.error("Error in web scraping:", error);
   }
-
-  await page.waitForSelector(".a-section.a-spacing-none.review-views");
-  const reviewHandles = await page.$$(
-    ".a-section.a-spacing-none.review-views > .a-section",
-    {
-      timeout: 3000,
-    }
-  );
-
-  for (const i of reviewHandles) {
-    let text = "Null";
-    let rating = "Null";
-    let name = "Null";
-
-    try {
-      text = await page.evaluate(
-        (el) =>
-          el.querySelector(".review-text-content > span").textContent.trim(),
-        i
-      );
-    } catch (error) {}
-
-    try {
-      rating = await page.evaluate(
-        (el) =>
-          el
-            .querySelector('i[data-hook="review-star-rating"]')
-            .textContent.trim(),
-        i
-      );
-    } catch (error) {
-      console.log(error);
-    }
-
-    try {
-      name = await page.evaluate(
-        (el) => el.querySelector("span.a-profile-name").textContent.trim(),
-        i
-      );
-    } catch (error) {
-      console.log(error);
-    }
-
-    if (name !== "Null" && rating !== "Null" && text !== "Null") {
-      result.push({ name: name, rating: rating, text: text });
-    }
-  }
-  console.log(result);
-  console.log("done");
 })();
