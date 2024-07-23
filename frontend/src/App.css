@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
 
 .App {
   text-align: center;
@@ -118,7 +118,7 @@
   font-size: 13px;
   font-weight: 800;
   margin-top: 5px;
-  margin-right: 5px
+  margin-right: 5px;
 }
 
 .header__optionBasket {
@@ -131,7 +131,7 @@
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
-  margin-top: 8px
+  margin-top: 8px;
 }
 
 .container {
@@ -232,6 +232,74 @@
 }
 .textdanger {
   color: red;
-  font-size: 0.875rem; 
-  margin-top: 4px; 
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.order-container {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.order-heading {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.no-orders-message {
+  text-align: center;
+  color: #888;
+}
+
+.order-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.clear-orders-button {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.clear-orders-button:hover {
+  background-color: #c82333;
+}
+
+.order-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.order-date,
+.order-total {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.order-item-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.order-item-details {
+  padding: 5px 0;
+  border-top: 1px solid #eee;
+}
+
+.item-title {
+  font-weight: bold;
 }
