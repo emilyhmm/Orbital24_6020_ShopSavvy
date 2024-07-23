@@ -122,7 +122,7 @@ function Reviews({ productlink }) {
     <div className="reviews-container">
       {loading ? (
         <CircularProgress className="reviews-loading-spinner" />
-      ) : reviews.length > 0 ? (
+      ) : reviews.length && reviews.length > 0 ? (
         reviews.map((r, index) => (
           <div key={index} className="review-item">
             <p className="review-text">"{r.text}"</p>

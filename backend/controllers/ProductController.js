@@ -140,7 +140,8 @@ const reviewscraper = asyncHandler(async (req, res) => {
     });
     await page.click(".a-link-emphasis.a-text-bold");
   } catch (error) {
-    res.json("There are no reviews");
+    res.json({ result });
+    await browser.close();
   }
 
   await page.waitForSelector(".a-section.a-spacing-none.review-views");
