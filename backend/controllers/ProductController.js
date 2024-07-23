@@ -136,7 +136,7 @@ const reviewscraper = asyncHandler(async (req, res) => {
   //if product page has "see more reviews"
   try {
     await page.waitForSelector(".a-link-emphasis.a-text-bold", {
-      timeout: 3000,
+      timeout: 10000,
     });
     await page.click(".a-link-emphasis.a-text-bold");
   } catch (error) {
