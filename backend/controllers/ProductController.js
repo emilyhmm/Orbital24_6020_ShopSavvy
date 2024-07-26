@@ -41,6 +41,8 @@ const webscraper = asyncHandler(async (req, res) => {
         let price = "Null";
         let image = "Null";
         let link = "Null";
+        let rating = "0";
+        let sold = "0";
 
         try {
           title = await page.evaluate(
@@ -72,13 +74,40 @@ const webscraper = asyncHandler(async (req, res) => {
           link = `https://www.amazon.sg${link}`;
         } catch (error) {}
 
+        try {
+          rating = await page.evaluate(
+            (el) => el.querySelector(".a-icon-alt").textContent.trim(),
+            i
+          );
+          rating = rating.slice(0, 3);
+        } catch (error) {}
+
+        try {
+          sold = await page.evaluate(
+            (el) =>
+              el
+                .querySelector(".a-size-base.s-underline-text")
+                .textContent.trim(),
+            i
+          );
+        } catch (error) {}
+
         if (
           title !== "Null" &&
           price !== "Null" &&
           image !== "Null" &&
-          link !== "Null"
+          link !== "Null" &&
+          rating !== "Null" &&
+          sold !== "Null"
         ) {
-          result.push({ title: title, price: price, image: image, link: link });
+          result.push({
+            title: title,
+            price: price,
+            image: image,
+            link: link,
+            rating: rating,
+            sold: sold,
+          });
         }
       }
 
@@ -108,7 +137,7 @@ const webscraper = asyncHandler(async (req, res) => {
         isNextDisabled = true;
       }
     }
-
+    console.log(result);
     await browser.close();
     res.json({ result });
   } catch (error) {
