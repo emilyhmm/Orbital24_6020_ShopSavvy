@@ -62,12 +62,13 @@ function Order() {
   };
 
   return (
-    <Box sx={{ padding: "20px" }}>
+    <Box sx={{ 
+      padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh" }}>
       <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
-        sx={{ marginBottom: 2 }}
+        sx={{ marginBottom: 2, width: "100%" }}
       >
         <StoreIcon sx={{ marginRight: 1, fontSize: 40 }} />
         <Typography
