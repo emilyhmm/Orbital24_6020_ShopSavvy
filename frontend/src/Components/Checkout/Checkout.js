@@ -148,15 +148,7 @@ export default function Checkout({ cart, setCart }) {
     }
   }
 
-  const backgroundStyle = {
-    backgroundImage: 'url("/images/vecteezy_minimalist-style-hand-painted-liquid-background_6915132.jpg") !important' ,
-    backgroundSize: 'cover !important',
-    backgroundRepeat: 'no-repeat !important',
-    backgroundAttachment: 'fixed !important',
-  };
-
   return (
-    <div style={backgroundStyle}>
     <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme} >
       <CssBaseline />
       <Grid container sx={{ height: { xs: "100%", sm: "100dvh" } }}>
@@ -372,6 +364,5 @@ export default function Checkout({ cart, setCart }) {
         </Grid>
       </Grid>
     </ThemeProvider>
-    </div>
   );
 }

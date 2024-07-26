@@ -19,7 +19,7 @@ function App() {
     fontOpticalSizing: 'auto',
     fontWeight: 400,
     fontStyle: 'normal',
-    backgroundImage: 'url("/images/vecteezy_minimalist-style-hand-painted-liquid-background_6915132.jpg")',
+    backgroundImage: 'url("/images/background.jpg")',
     backgroundSize: 'cover', // Optional: Adjust as needed
     backgroundRepeat: 'no-repeat', // Optional: Adjust as needed
     backgroundAttachment: 'fixed',
