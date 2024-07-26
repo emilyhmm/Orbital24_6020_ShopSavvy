@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { ProductContext } from "../../Contexts/ProductContext";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { CartContext } from "../../Contexts/CartContext";
 import Reviews from "./Reviews";
-import "./ProductDetail.css"; // Import CSS for styling
+import "./ProductDetail.css"; 
 
 const ProductDetail = ({ setCart }) => {
   const { title } = useParams();
@@ -83,7 +82,7 @@ const ProductDetail = ({ setCart }) => {
         </button>
       </div>
       <div className="reviews-container">
-        <h2 style={{ textAlign: "left" }}>What Customers Say :</h2>
+        <h2 style={{ textAlign: "center" }}>What Customers Say :</h2>
         <Reviews productlink={product.link} />
       </div>
     </div>

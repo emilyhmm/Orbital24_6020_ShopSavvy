@@ -127,21 +127,21 @@ function Reviews({ productlink }) {
       ) : reviews.length && reviews.length > 0 ? (
         reviews.map((r, index) => (
           <div key={index} className="review-item">
-            <p className="review-text">"{r.text}"</p>
             <div className="review-metadata">
               <div className="review-info">
+                <p className="review-text">"{r.text}"</p>
                 <h3 className="review-name">
                   <FaceIcon className="face-icon" />
                   {r.name}
                 </h3>
                 <h4 className="review-rating">{r.rating}</h4>
               </div>
-              <p className="review-sentiment">
+              <div className="review-sentiment">
                 {sentiments[index] ? (
                   <ReactFC
                     type="angulargauge"
                     width="30%"
-                    height="300"
+                    height="250"
                     dataFormat="json"
                     dataSource={{
                       chart: {
@@ -182,7 +182,7 @@ function Reviews({ productlink }) {
                 ) : (
                   "Loading..."
                 )}
-              </p>
+              </div>
             </div>
           </div>
         ))

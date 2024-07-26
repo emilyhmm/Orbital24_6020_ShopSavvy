@@ -43,8 +43,8 @@ function Footer() {
       </div>
       <section class="social-media">
         <div class="social-media-wrap">
-          <div class="footer-logo">
-            <Link to="/" className="social-logo">
+          <div class="footer-logo" >
+            <Link to="/" className="social-logo" >
               ShopSavvy
               <i class="fab fa-typo3" />
             </Link>

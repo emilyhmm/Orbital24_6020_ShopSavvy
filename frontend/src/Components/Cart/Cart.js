@@ -2,10 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { Typography, Box } from "@mui/material"
 import "./Cart.css";
+import "../../App.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { CartContext } from '../../Contexts/CartContext';
 
@@ -102,127 +105,109 @@ function Cart({ cart, setCart }) {
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="cart__card">
+    <Box className="cart__container" sx={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh" }}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ marginBottom: 2, width: "100%" }}
+      >
+        <ShoppingCartIcon sx={{ marginRight: 1, fontSize: 40 }} />
+        <Typography
+          variant="h4"
+          gutterBottom
+          className="order-heading"
+          style={{
+            textAlign: "center",
+            fontWeight: "500",
+            marginTop: "10px",
+            fontFamily: '"DM Serif Display", serif'
+          }}
+        >
+          Your Shopping Cart
+        </Typography>
+      </Box>
       {isLoading ? (
         <p>Loading...</p>
       ) : cart.length > 0 ? (
-        <div className="cart__row">
-          <div className="col-md-8 cart">
-            <div>
-              <div className="cart__row">
-                <div>
-                  <h4>
-                    <b className="dm-serif-display-regular">Shopping Cart</b>
-                  </h4>
-                </div>
-                <div>
-                  {cart.length} items
-                </div>
-              </div>
-            </div>
-            <div>
+        <Box sx={{ width: "100%", maxWidth: "1200px", marginBottom: 2 }}>
+          <Box className="col-md-12 cart" sx={{ width: "100%", mb: 2 }}>
+            <Box>
               {cart.map((item) => (
-                <div>
-                  <div
-                    key={item.title}
-                    className="border-top border-bottom"
-                  >
-                    <div className="cart__row main align-items-center">
-                      <div className="col-2">
-                        <img
-                          className="cart__img"
-                          src={item.image}
-                          alt={item.title}
-                        />
-                      </div>
-                      <div className="col">
-                        <div className="cart__row text-muted">
-                          {item.category}
-                        </div>
-                        <div className="cart__row">{item.title}</div>
-                      </div>
-                      <div className="col">
-                        <button
-                          className="border"
-                          onClick={() =>
-                            updateCartItem(item.title, item.quantity - 1)
-                          }
-                        >
-                          -
-                        </button>
-                        <span className="border mx-2">{item.quantity}</span>
-                        <button
-                          className="border"
-                          onClick={() =>
-                            updateCartItem(item.title, item.quantity + 1)
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                      <div className="col"> {item.price}</div>
-                      <div className="col">
-                        <FaRegTrashAlt
-                          className="close"
-                          onClick={() => removeFromCart(item.title)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Box key={item.title} className="border-top border-bottom" sx={{ mb: 2 }}>
+                  <Box className="cart__row main align-items-center" sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+                    <Box className="col-2">
+                      <img className="cart__img" src={item.image} alt={item.title} />
+                    </Box>
+                    <Box className="col">
+                      <Box className="cart__row text-muted">{item.category}</Box>
+                      <Box className="cart__row">{item.title}</Box>
+                    </Box>
+                    <Box className="col">
+                      <button
+                        className="border"
+                        onClick={() => updateCartItem(item.title, item.quantity - 1)}
+                      >
+                        -
+                      </button>
+                      <span className="border mx-2">{item.quantity}</span>
+                      <button
+                        className="border"
+                        onClick={() => updateCartItem(item.title, item.quantity + 1)}
+                      >
+                        +
+                      </button>
+                    </Box>
+                    <Box className="col">{item.price}</Box>
+                    <Box className="col">
+                      <FaRegTrashAlt className="close" onClick={() => removeFromCart(item.title)} />
+                    </Box>
+                  </Box>
+                </Box>
               ))}
-            </div>
-            <div className="back-to-shop">
+            </Box>
+
+            <Box className="cart__row" sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+              <Typography className="col gabarito-hello" sx={{ paddingLeft: 0 }}>TOTAL ITEMS:</Typography>
+              <Typography className="col text-right gabarito-hello">{totalItems}</Typography>
+            </Box>
+            <Box className="cart__row" sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+              <Typography className="col gabarito-hello">SHIPPING:</Typography>
+              <Typography className="col text-right gabarito-hello">
+                <select>
+                  <option className="text-muted">Standard Delivery - Free</option>
+                </select>
+              </Typography>
+            </Box>
+            <Box className="cart__row " sx={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid rgba(0,0,0,.1)", py: 2 }}>
+              <Typography className="col gabarito-hello">SUBTOTAL:</Typography>
+              <Typography className="col text-right gabarito-hello">S$ {(totalAmount).toFixed(2)}</Typography>
+            </Box>
+            
+            <Box className="back-to-shop" sx={{ mt: 2, display: "flex", alignItems: "center" }}>
               <Link to="/">
                 <ArrowBackIosIcon />
               </Link>
-              <span className="text-muted">Back to shop</span>
-            </div>
-          </div>
-          <div className="col-md-4 summary">
-            <div>
-              <h5>
-                <b className="dm-serif-display-regular">Summary</b>
-              </h5>
-            </div>
-            <hr />
-            <div className="cart__row">
-              <div className="col" style={{ paddingLeft: 0 }}>
-                TOTAL ITEMS: 
-              </div>
-              <div className="col text-right">
-                {totalItems}
-              </div>
-            </div>
-            <form>
-              <p>SHIPPING</p>
-              <select>
-                <option className="text-muted">
-                  Standard-Delivery - Free
-                </option>
-              </select>
-            </form>
-            <div
-              className="cart__row"
-              style={{
-                borderTop: "1px solid rgba(0,0,0,.1)",
-                padding: "2vh 0",
-              }}
-            >
-              <div className="col">TOTAL PRICE: </div>
-              <div className="col text-right">
-                S$ {(totalAmount).toFixed(2)}
-              </div>
-            </div>
+              <span className="text-muted" style={{ marginLeft: "8px" }}>Back to shop</span>
+            </Box>
+
             <Link to="/payment">
-              <button className="summarybutton__btn">Checkout</button>
+              <button className="summarybutton__btn">CHECKOUT</button>
             </Link>
-          </div>
-        </div>
+          </Box>
+          <Box className="summary" sx={{ width: "100%", maxWidth: "300px", marginTop: 2 }}>
+            
+            
+            
+            
+          </Box>
+        </Box>
       ) : (
-        <p>No items in cart</p>
+        <Typography variant="body1" className="no-orders-message gabarito-hello">
+          Your cart is empty.
+        </Typography>
       )}
-    </div>
+    </Box>
   );
 }
 

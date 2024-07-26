@@ -28,6 +28,7 @@ function Searchbar() {
           placeholder="Type to search..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          style={{ height: '30px', marginTop: '5px' }}
         />
         <button type="submit" className="header__searchButton">
           <SearchIcon className="header__searchIcon" />

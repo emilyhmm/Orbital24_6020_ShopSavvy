@@ -6,7 +6,6 @@ import { AuthContext } from "../../Contexts/AuthContext";
 
 function HeroSection() {
   const { isLoggedIn } = useContext(AuthContext);
-  console.log(isLoggedIn)
 
   return (
     <div className="hero-container">

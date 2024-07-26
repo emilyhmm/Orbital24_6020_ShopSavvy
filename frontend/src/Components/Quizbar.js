@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Button, List, ListItem, ListItemText, Box, Typography, Paper } from '@mui/material';
+import { Button, List, ListItem, ListItemText, Box, Typography } from '@mui/material';
 import { QuizContext } from '../Contexts/QuizContext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
@@ -56,17 +56,18 @@ function Quizbar() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Paper elevation={3} sx={{ padding: '16px', borderRadius: '8px', backgroundColor: '#FFF6CA' }}>
+            <Typography elevation={3} sx={{ padding: '16px', backgroundColor: '#FFF6CA' }}>
                 <Typography 
                     variant="h6" 
                     gutterBottom 
                     textAlign='left'
                     fontSize='24px'
+                    sx={{ marginLeft: '8px'}}
                 >
                     Your Preferences: 
                 </Typography>
                 <Box display="flex" gap="16px" >
-                    <List sx={{ display: 'flex', flexDirection: 'row', gap: '8px', margin: 0, padding: 0 }} >
+                    <List sx={{ display: 'flex', flexDirection: 'row', gap: '8px', padding: 0 }} >
                         {quizResults.map((result, index) => (
                             <ListItem 
                                 key={index} 
@@ -90,7 +91,7 @@ function Quizbar() {
                         Edit Preferences
                     </Button>
                 </Box>
-            </Paper>
+            </Typography>
         </ThemeProvider>
     )
 }

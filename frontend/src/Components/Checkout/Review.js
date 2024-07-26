@@ -2,9 +2,6 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
@@ -36,24 +33,6 @@ function Review({ cart, values }) {
 
   return (
     <Stack spacing={2}>
-      <List disablePadding>
-        {cart.map((product, index) => (
-          <ListItem key={index} sx={{ py: 1, px: 0 }}>
-            <ListItemText
-              primary={product.title}
-              secondary={`Quantity: ${product.quantity}`}
-            />
-            <Typography variant="body2">{product.price}</Typography>
-          </ListItem>
-        ))}
-        <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            S${totalPrice}
-          </Typography>
-        </ListItem>
-      </List>
-      <Divider />
       <Stack
         direction="column"
         divider={<Divider flexItem />}

@@ -27,7 +27,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://mui.com/" >
         shoppysavvy
       </Link>{" "}
       {new Date().getFullYear()}
@@ -35,8 +35,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const { palette } = createTheme();
 const { augmentColor } = palette;
@@ -50,6 +48,13 @@ const defaultTheme = createTheme({
     orange: createColor("#F79326"),
     black: createColor("#0C0C0C"),
   },
+  typography: {
+    fontFamily: "Gabarito, sans-serif",
+    fontWeight: 400,
+    fontStyle: "normal",
+    fontSize: '20px'
+  },
+
 });
 
 export default function Login({ toggleForm }) {
@@ -113,10 +118,10 @@ export default function Login({ toggleForm }) {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#F2C393" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" sx={{ fontFamily: "DM Serif Display, serif" }} >
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >

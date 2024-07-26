@@ -1,9 +1,10 @@
-.cart__card {
-  margin-top: 20px;
+.cart__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
 }
 
 .cart__title {
@@ -15,6 +16,7 @@
 }
 .cart__wrap {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,6 +27,8 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  width: 100%;
 }
 
 .cart__row {
@@ -86,6 +90,7 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 100%
 }
 
 .summary__row {
@@ -111,7 +116,7 @@
 }
 
 .summarybutton__btn {
-  width: 100%;
+  width: 15%;
   padding: 10px;
   background-color: #000000;
   color: #fff;

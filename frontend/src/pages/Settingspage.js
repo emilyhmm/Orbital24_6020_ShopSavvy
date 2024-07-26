@@ -1,4 +1,4 @@
-import Settings from "../Components/Settings.js";
+import Settings from "../Components/Settings/Settings.js";
 
 function Settingspage() {
     return ( 

@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Button, List, ListItem, ListItemText, Box, Typography, Divider } from '@mui/material';
+import { Button, List, ListItem, ListItemText, Box, Typography } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { UserContext } from "../Contexts/AuthContext";
@@ -78,65 +78,6 @@ function Quiz() {
     };
     console.log(factors)
     return (
-        /*<Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 2,
-            }}
-        >
-            <h1 className='dm-serif-display-regular'>Hello, {firstName}!</h1>
-            <p>kiexini's clubs: Animal lover, visual arts, cat club, hiking one</p>
-            {completedQuiz ? (
-                <div>Edit your preferences here!</div>
-            ):(
-                <div>Unlock a personalized shopping adventure with ShopSavvy! Help us tailor your experience by sharing your preferences!</div>        
-            )}
-            <p>Please rate the importance of the following factors: </p>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="factors">
-                    {(provided) => (
-                        <List 
-                            {...provided.droppableProps} 
-                            ref={provided.innerRef}
-                            sx={{ background: 'lightgrey', padding: '10px', borderRadius: '4px' }}
-                        >
-                            {factors.map((factor, index) => (
-                                <Draggable key={factor.id} draggableId={factor.id} index={index}>
-                                    {(provided) => {
-                                            console.log('Draggable factor.id:', factor.id);
-                                            return (
-                                                <ListItem
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    sx={{
-                                                        flex: 1,
-                                                        margin: '0 8px',
-                                                        minWidth: 150,
-                                                        backgroundColor: '#fff',
-                                                        borderRadius: '4px',
-                                                        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
-                                                        padding: 2,
-                                                        textAlign: 'center',
-                                                    }}
-                                                >
-                                                    <ListItemText primary={factor.text} />
-                                                </ListItem>
-                                            );
-                                        }}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </List>
-                    )}
-                </Droppable>
-            </DragDropContext>
-
-            <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-        </Box> */
         <ThemeProvider theme={theme}>
             <Box
                 sx={{
@@ -223,7 +164,7 @@ function Quiz() {
                                                 <ListItemText 
                                                     primary={`${factor.text}`} 
                                                     primaryTypographyProps={{
-                                                        sx: { fontSize: '16px', fontWeight: 500, fontSize: '20px' }
+                                                        sx: { fontSize: '16px', fontWeight: 500 }
                                                     }}
                                                 />
                                             </ListItem>

@@ -10,7 +10,7 @@ const { generateRefreshToken, generateAccessToken } = require("../jwtToken");
     @access Public
 */
 const createUser = asyncHandler(async (req, res) => {
-  const { firstname, email, password } = req.body;
+  const { firstname, lastname, email, password } = req.body;
   try {
     // Check if the user already exists
     const findUser = await User.findOne({ email });
@@ -19,7 +19,7 @@ const createUser = asyncHandler(async (req, res) => {
     }
     
     // Create new user
-    let user = new User({ firstname, email, password });
+    let user = new User({ firstname, lastname, email, password });
     // Save the new user to the database
     await user.save();
     res.status(201).json({ message: "Signup successful" });
@@ -133,4 +133,56 @@ const profile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createUser, loginUser, refresh, logout, profile };
+const editName = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.user._id;
+    const { firstname, lastname } = req.body;
+    const user = await User.findById(userId)
+    if (user) {
+      user.firstname = firstname;
+      user.lastname = lastname;
+      const updatedUser = await user.save();
+  
+      res.json({
+        firstname: updatedUser.firstname,
+        lastname: updatedUser.lastname,
+        email: updatedUser.email,
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+const editPassword = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.user._id;
+    const { currentpassword, newpassword } = req.body;
+    const user = await User.findById(userId)
+
+    const isMatch = await bcrypt.compare(currentpassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Wrong password" });
+    }
+    if (user) {
+      user.password = newpassword;
+      const updatedUser = await user.save();
+  
+      res.json({
+        email: updatedUser.email,
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+module.exports = { createUser, loginUser, refresh, logout, profile, editName, editPassword };

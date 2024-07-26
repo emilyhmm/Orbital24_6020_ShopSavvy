@@ -108,7 +108,7 @@ function ProductList({ setCart }) {
   return (
     <div>
       <span>
-        <h1 style={{ textAlign: "left" }}>Searching for: {searchTerm}</h1>
+        <h1 style={{ textAlign: "left", fontSize: '20px', marginLeft: '25px', marginTop: '10px'}}>Searching for: {searchTerm}</h1>
       </span>
 
       {loading ? (
@@ -127,10 +127,28 @@ function ProductList({ setCart }) {
           {products.length > 0 ? (
             <div
               className="product__cardsdisplay"
-              style={{ background: "#F8F8F8" }}
+              style={{ 
+                background: "#F8F8F8",
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '10px',
+                justifyContent: 'start',
+                padding: '20px',
+              }}
             >
               {products.map((product) => (
-                <Card sx={{ maxWidth: 345, margin: 0.46 }} key={product.title}>
+                <Card 
+                  sx={{ 
+                    maxWidth: 280, 
+                    margin: 0.46,
+                    width: 280,
+                    height: 400,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }} 
+                  key={product.title}
+                >
                   <Link
                     to={{
                       pathname: `/product/${generateUrlSafeTitle(product.title)}`,
@@ -158,8 +176,15 @@ function ProductList({ setCart }) {
                           sx={{
                             textAlign: "left",
                             fontFamily: "Inter, sans-serif",
-                            fontWeight: "500",
+                            fontWeight: "400",
                             color: "black",
+                            fontSize: "1rem",
+                            height: "4rem", // Adjust the height as needed
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 3,
                           }}
                         >
                           {product.title}
@@ -169,10 +194,12 @@ function ProductList({ setCart }) {
                           variant="h4"
                           component="div"
                           sx={{
+                            marginTop: '20px',
                             textAlign: "left",
                             fontFamily: "Inter, sans-serif",
                             fontWeight: "600",
                             color: "black",
+                            fontSize: "1rem"
                           }}
                         >
                           {product.price}

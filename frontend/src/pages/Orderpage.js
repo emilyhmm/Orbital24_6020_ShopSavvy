@@ -1,4 +1,4 @@
-import Order from "../Components/Order2";
+import Order from "../Components/Order";
 import NavBar from "../Components/Navbar";
 
 function Orderpage() {

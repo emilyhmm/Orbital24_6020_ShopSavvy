@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -11,14 +10,11 @@ import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
@@ -27,54 +23,11 @@ import getCheckoutTheme from "./getCheckoutTheme";
 import Info from "./Info";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
-import ToggleColorMode from "./ToggleColorMode";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext"
 import { CartContext } from "../../Contexts/CartContext"
 import { AddressValidation, CardValidation } from "./PaymentValidation";
 import axios from 'axios';
-
-function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100dvw",
-        position: "fixed",
-        bottom: 24,
-      }}
-    >
-      <ToggleButtonGroup
-        color="primary"
-        exclusive
-        value={showCustomTheme}
-        onChange={toggleCustomTheme}
-        aria-label="Platform"
-        sx={{
-          backgroundColor: "background.default",
-          "& .Mui-selected": {
-            pointerEvents: "none",
-          },
-        }}
-      >
-        <ToggleButton value>
-          <AutoAwesomeRoundedIcon sx={{ fontSize: "20px", mr: 1 }} />
-          Custom theme
-        </ToggleButton>
-        <ToggleButton value={false}>Material Design 2</ToggleButton>
-      </ToggleButtonGroup>
-    </Box>
-  );
-}
-
-ToggleCustomTheme.propTypes = {
-  showCustomTheme: PropTypes.shape({
-    valueOf: PropTypes.func.isRequired,
-  }).isRequired,
-  toggleCustomTheme: PropTypes.func.isRequired,
-};
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -102,14 +55,6 @@ export default function Checkout({ cart, setCart }) {
     cvv: "",
     name: "",
   });
-
-  const toggleColorMode = () => {
-    setMode((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
 
   const handleNext = async() => {
     setErrors({});
@@ -292,25 +237,14 @@ export default function Checkout({ cart, setCart }) {
           >
             <Box
               sx={{
-                display: { xs: "flex", md: "none" },
-                flexDirection: "row",
-                width: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-            </Box>
-            <Box
-              sx={{
                 display: { xs: "none", md: "flex" },
                 flexDirection: "column",
                 justifyContent: "space-between",
-                alignItems: "flex-end",
                 flexGrow: 1,
                 height: 150,
               }}
             >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+              <h1 className="dm-serif-display-regular" >Complete your purchase</h1>
               <Stepper
                 id="desktop-stepper"
                 activeStep={activeStep}
@@ -402,8 +336,7 @@ export default function Checkout({ cart, setCart }) {
                     flexGrow: 1,
                     gap: 1,
                     pb: { xs: 12, sm: 0 },
-                    mt: { xs: 2, sm: 0 },
-                    mb: "60px",
+                    mb: "200px",
                   }}
                 >
                   {activeStep !== 0 && (
@@ -411,9 +344,6 @@ export default function Checkout({ cart, setCart }) {
                       startIcon={<ChevronLeftRoundedIcon />}
                       onClick={handleBack}
                       variant="text"
-                      sx={{
-                        display: { xs: "none", sm: "flex" },
-                      }}
                     >
                       Previous
                     </Button>
@@ -423,9 +353,6 @@ export default function Checkout({ cart, setCart }) {
                     variant="contained"
                     endIcon={<ChevronRightRoundedIcon />}
                     onClick={handleButtonClick}
-                    sx={{
-                      width: { xs: "100%", sm: "fit-content" },
-                    }}
                   >
                     {activeStep === steps.length - 1 ? "Place order" : "Next"}
                   </Button>
@@ -435,10 +362,6 @@ export default function Checkout({ cart, setCart }) {
           </Box>
         </Grid>
       </Grid>
-      <ToggleCustomTheme
-        toggleCustomTheme={toggleCustomTheme}
-        showCustomTheme={showCustomTheme}
-      />
     </ThemeProvider>
   );
 }

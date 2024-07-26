@@ -28,6 +28,13 @@ const defaultTheme = createTheme({
     orange: createColor("#F79326"),
     black: createColor("#0C0C0C"),
   },
+
+  typography: {
+    fontFamily: "Gabarito, sans-serif",
+    fontWeight: 400,
+    fontStyle: "normal",
+    fontSize: '20px'
+  },
 });
 
 function Copyright(props) {
@@ -63,6 +70,7 @@ export default function SignUp({ toggleForm }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccess(false)
     setErrors({});
     setSubmitted(true);
 
@@ -101,16 +109,16 @@ export default function SignUp({ toggleForm }) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#F2C393" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" sx={{ fontFamily: "DM Serif Display, serif" }}>
             Sign up
           </Typography>
           {success && (
@@ -259,7 +267,7 @@ export default function SignUp({ toggleForm }) {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ marginTop: 4 }}/>
       </Container>
     </ThemeProvider>
   );
