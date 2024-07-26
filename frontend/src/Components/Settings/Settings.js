@@ -1,9 +1,17 @@
-import { useState } from 'react';
-import { Box, Button, Container, CssBaseline, Grid, Typography, TextField } from '@mui/material';
+import { useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthContext";
+import {Menu} from "antd";
+import { Box, Container, CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NameChange from './NameChange';
 import PasswordChange from './PasswordChange';
 import Quiz from '../Quiz';
+import { AiOutlinePoweroff } from "react-icons/ai";
+import { MdLockOutline } from "react-icons/md";
+import { FaRegUserCircle } from "react-icons/fa";
+import { RiSurveyLine } from "react-icons/ri";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const theme = createTheme({
   typography: {
@@ -29,6 +37,8 @@ const theme = createTheme({
 
 const Settings = () => {
   const [selectedOption, setSelectedOption] = useState('nameChange');
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -47,41 +57,37 @@ const Settings = () => {
     <ThemeProvider theme={theme}>
       <Container component="main">
         <CssBaseline />
-        <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 8 }}>
-          <Box sx={{ 
-            width: '20%', 
-            marginRight: 2,
-            height: '100%',
-            width: '160px',
-            top: 0,
-            left: 0,
-            backgroundcolor: '#111',
-            }}>
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={() => setSelectedOption('nameChange')}
-              sx={{ marginBottom: 2 }}
-            >
-              Change Name
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={() => setSelectedOption('passwordChange')}
-              sx={{ marginBottom: 2 }}
-            >
-              Change Password
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={() => setSelectedOption('preferencesChange')}
-            >
-              Change Preferences
-            </Button>
-          </Box>
-          <Box sx={{ width: '80%' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', textAlign: 'left' }}>
+          <Menu 
+          style={{ 
+            fontFamily: 'Gabarito', 
+            fontSize: '15px',
+            marginTop: '40px'
+          }}
+          onClick={({key}) =>  {
+            if (key === 'name') {
+              setSelectedOption('nameChange')
+            } else if (key === 'password') {
+              setSelectedOption('passwordChange')
+            } else if (key === 'preferences') {
+              setSelectedOption('preferencesChange')
+            } else if (key === 'back') {
+              navigate('/')
+            } else if (key === 'signout') {
+              logout();     
+              navigate('/');
+            }
+          }}
+          items={[
+            { label: 'Back to Shop', icon: <ArrowBackIosIcon />, key: 'back' },
+            { label: 'Change Name', icon: <FaRegUserCircle />, fontFamily: 'Gabarito', key: 'name' }, 
+            { label: 'Change Password', icon: <MdLockOutline />, key: 'password' },
+            { label: 'Change Preferences', icon: <RiSurveyLine />, key: 'preferences' },
+            { label: 'Sign Out', icon: <AiOutlinePoweroff />, key: 'signout', danger: true },
+            ]}
+          ></Menu>  
+
+          <Box sx={{ width: '80%', marginTop: '40px' }}>
             {renderContent()}
           </Box>
         </Box>

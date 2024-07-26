@@ -134,6 +134,7 @@ export default function PasswordChange() {
             id="currentPassword"
             autoComplete="current-password"
             onChange={handleInput}
+            sx={{ width: '60%' }}
         />
         {errors.currentpassword && (
             <Grid item xs={12} sm={6}>
@@ -149,6 +150,7 @@ export default function PasswordChange() {
             id="newPassword"
             autoComplete="new-password"
             onChange={handleInput}
+            sx={{ width: '60%' }}
         />
         {errors.newpassword && (
             <Grid item xs={12} sm={6}>
@@ -164,6 +166,7 @@ export default function PasswordChange() {
             id="confirmPassword"
             autoComplete="new-password"
             onChange={handleInput}
+            sx={{ width: '60%' }}
         />
         {errors.password2 && (
             <Grid item xs={12} sm={6}>
@@ -182,7 +185,15 @@ export default function PasswordChange() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ 
+              mt: 3, 
+              mb: 2,
+              width: '20%',
+              backgroundColor: 'black',
+              '&:hover': {
+                backgroundColor: '#36454F',
+              },
+            }}
         >
             Save
         </Button>

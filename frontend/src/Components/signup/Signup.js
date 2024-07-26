@@ -109,10 +109,11 @@ export default function SignUp({ toggleForm }) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 5,
+            padding: '10px',
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            height: '750px'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "#F2C393" }}>

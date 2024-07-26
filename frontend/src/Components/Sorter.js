@@ -1,19 +1,19 @@
 export function createComparator(condition) {
   console.log(condition);
   return function (a, b) {
-    if (condition == "prices") {
+    if (condition === "prices") {
       let priceA = parseFloat(a.price.replace(/[^0-9.]/g, "")); // Removes everything except digits and period
       let priceB = parseFloat(b.price.replace(/[^0-9.]/g, ""));
       console.log(priceA);
       console.log(priceB);
       return priceA - priceB;
     }
-    if (condition == "sales") {
+    if (condition === "sales") {
       let soldA = parseInt(a.sold.replace(/,/g, ""), 10);
       let soldB = parseInt(b.sold.replace(/,/g, ""), 10);
       return parseInt(soldB) - parseInt(soldA);
     }
-    if (condition == "ratings") {
+    if (condition === "ratings") {
       return parseInt(b.rating) - parseInt(a.rating);
     }
 

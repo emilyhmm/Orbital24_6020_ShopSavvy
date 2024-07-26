@@ -112,10 +112,11 @@ export default function Login({ toggleForm }) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            padding: '50px',
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            height: '600px'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "#F2C393" }}>

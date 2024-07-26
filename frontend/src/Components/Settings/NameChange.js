@@ -97,7 +97,7 @@ export default function NameChange() {
           padding: '10px',
           borderRadius: '8px',
           maxWidth: 600,
-          height: '685px',
+          height: '650px',
           margin: 'auto',
           textAlign: 'center',
           }}
@@ -138,6 +138,7 @@ export default function NameChange() {
           autoFocus
           value={values.firstname}
           onChange={handleInput}
+          sx={{ width: '50%' }}
         />
         {errors.firstname && (
           <Grid item xs={12} sm={6}>
@@ -146,13 +147,13 @@ export default function NameChange() {
         )}
         <TextField
           margin="normal"
-          fullWidth
           id="lastName"
           label="Last Name"
           name="lastname"
           autoComplete="family-name"
           value={values.lastname}
           onChange={handleInput}
+          sx={{ width: '50%' }}
         />
         {errors.lastname && (
           <Grid item xs={12} sm={6}>
@@ -168,9 +169,16 @@ export default function NameChange() {
 
         <Button
           type="submit"
-          fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ 
+            mt: 3, 
+            mb: 2, 
+            width: '20%',
+            backgroundColor: 'black',
+            '&:hover': {
+              backgroundColor: '#36454F',
+            },
+          }}
         >
           Save
         </Button>

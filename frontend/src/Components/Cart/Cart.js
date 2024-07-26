@@ -195,12 +195,6 @@ function Cart({ cart, setCart }) {
               <button className="summarybutton__btn">CHECKOUT</button>
             </Link>
           </Box>
-          <Box className="summary" sx={{ width: "100%", maxWidth: "300px", marginTop: 2 }}>
-            
-            
-            
-            
-          </Box>
         </Box>
       ) : (
         <Typography variant="body1" className="no-orders-message gabarito-hello">

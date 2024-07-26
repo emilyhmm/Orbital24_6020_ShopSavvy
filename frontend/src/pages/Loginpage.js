@@ -10,7 +10,7 @@ function Loginpage() {
   };
 
   return (
-    <div className="Loginpage">
+    <div>
       {currentForm === "Login" ? (
         <Login toggleForm={toggleForm} />
       ) : (

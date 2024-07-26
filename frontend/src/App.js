@@ -9,19 +9,33 @@ import Orderpage from "./pages/Orderpage";
 import Productdetailpage from "./pages/Productdetailpage";
 import Quizpage from "./pages/Quizpage";
 import Settingspage from "./pages/Settingspage";
+import './App.css'
 
 function App() {
   const [cart, setCart] = useState([]);
+  const appStyle = {
+    textAlign: 'center',
+    fontFamily: '"Gabarito", sans-serif',
+    fontOpticalSizing: 'auto',
+    fontWeight: 400,
+    fontStyle: 'normal',
+    backgroundImage: 'url("/images/vecteezy_minimalist-style-hand-painted-liquid-background_6915132.jpg")',
+    backgroundSize: 'cover', // Optional: Adjust as needed
+    backgroundRepeat: 'no-repeat', // Optional: Adjust as needed
+    backgroundAttachment: 'fixed',
+    width: '100%',
+    height: '100%',
+  };
 
   return (
     <Router>
-      <div className="App">
+      <div className="App" style={appStyle}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
             path="/checkout"
             element={<Checkout cart={cart} setCart={setCart} />}
-          />
+            />
           <Route path="/login" element={<Login />} />
           <Route
             path="/products"
