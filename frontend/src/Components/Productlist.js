@@ -192,16 +192,16 @@ function ProductList({ setCart }) {
                           component="div"
                           sx={{
                             textAlign: "left",
-                            fontFamily: "Inter, sans-serif",
+                            fontFamily: "Gabarito, sans-serif",
                             fontWeight: "400",
                             color: "black",
                             fontSize: "1rem",
-                            height: "4rem", // Adjust the height as needed
+                            height: "2.5rem", 
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 3,
+                            WebkitLineClamp: 2,
                           }}
                         >
                           {product.title}
@@ -213,7 +213,7 @@ function ProductList({ setCart }) {
                           sx={{
                             marginTop: '20px',
                             textAlign: "left",
-                            fontFamily: "Inter, sans-serif",
+                            fontFamily: "Gabarito, sans-serif",
                             fontWeight: "600",
                             color: "black",
                             fontSize: "1rem"
@@ -227,7 +227,7 @@ function ProductList({ setCart }) {
                           component="p"
                           sx={{
                             textAlign: "left",
-                            fontFamily: "Inter, sans-serif",
+                            fontFamily: "Gabarito, sans-serif",
                             fontWeight: "500",
                           }}
                         >
@@ -241,7 +241,7 @@ function ProductList({ setCart }) {
                           component="p"
                           sx={{
                             textAlign: "left",
-                            fontFamily: "Inter, sans-serif",
+                            fontFamily: "Gabarito, sans-serif",
                             fontWeight: "500",
                           }}
                         >
