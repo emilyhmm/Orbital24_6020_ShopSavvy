@@ -2,8 +2,10 @@ export function createComparator(condition) {
   console.log(condition);
   return function (a, b) {
     if (condition == "prices") {
-      let priceA = parseFloat(a.price.replace("S$", ""));
-      let priceB = parseFloat(b.price.replace("S$", ""));
+      let priceA = parseFloat(a.price.replace(/[^0-9.]/g, "")); // Removes everything except digits and period
+      let priceB = parseFloat(b.price.replace(/[^0-9.]/g, ""));
+      console.log(priceA);
+      console.log(priceB);
       return priceA - priceB;
     }
     if (condition == "sales") {
@@ -20,7 +22,7 @@ export function createComparator(condition) {
 }
 
 export function sortProductsByQuizResults(products, quizResults) {
-  if (quizResults == []) {
+  if (!Array.isArray(quizResults) || quizResults.length === 0) {
     return products;
   }
 
