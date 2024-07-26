@@ -16,6 +16,8 @@ import "../App.css";
 import { ProductContext } from "../Contexts/ProductContext";
 import { AuthContext } from "../Contexts/AuthContext";
 import { CartContext } from "../Contexts/CartContext";
+import { QuizContext } from "../Contexts/QuizContext";
+import { sortProductsByQuizResults } from "./Sorter";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -28,9 +30,11 @@ function ProductList({ setCart }) {
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   const { fetchCart } = useContext(CartContext);
+  const { quizResults } = useContext(QuizContext);
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(quizResults);
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -38,16 +42,29 @@ function ProductList({ setCart }) {
           `${process.env.REACT_APP_API_BASE_URL}/api/product/scrape`,
           { searchTerm }
         );
-        setProducts(response.data.result);
+        const fetchedProducts = response.data.result;
+        const sortedProducts = sortProductsByQuizResults(
+          fetchedProducts,
+          quizResults
+        );
+        setProducts(sortedProducts);
         setLoading(false);
       } catch (error) {
         console.error(
           "Error fetching products:",
           error.response ? error.response.data : error.message
         );
+        setLoading(false);
       }
     };
+
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 1200000);
+
     fetchProducts();
+
+    return () => clearTimeout(timeoutId);
   }, [searchTerm, setProducts]);
 
   const addToCart = async (product) => {
@@ -108,7 +125,16 @@ function ProductList({ setCart }) {
   return (
     <div>
       <span>
-        <h1 style={{ textAlign: "left" }}>Searching for: {searchTerm}</h1>
+        <h1
+          style={{
+            textAlign: "center",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "600",
+            marginTop: "10px",
+          }}
+        >
+          Searching for: {searchTerm}
+        </h1>
       </span>
 
       {loading ? (
@@ -127,10 +153,20 @@ function ProductList({ setCart }) {
           {products.length > 0 ? (
             <div
               className="product__cardsdisplay"
-              style={{ background: "#F8F8F8" }}
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#F8F8F8",
+                padding: "1em",
+              }}
             >
               {products.map((product) => (
-                <Card sx={{ maxWidth: 345, margin: 0.46 }} key={product.title}>
+                <Card
+                  sx={{ maxWidth: 345, margin: "0.5em" }}
+                  key={product.title}
+                >
                   <Link
                     to={{
                       pathname: `/product/${generateUrlSafeTitle(product.title)}`,
@@ -176,6 +212,34 @@ function ProductList({ setCart }) {
                           }}
                         >
                           {product.price}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                          sx={{
+                            textAlign: "left",
+                            fontFamily: "Inter, sans-serif",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {product.rating !== "0"
+                            ? `${product.rating} out of 5 stars`
+                            : "No rating"}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                          sx={{
+                            textAlign: "left",
+                            fontFamily: "Inter, sans-serif",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {product.sold !== "0"
+                            ? `At least ${product.sold} sold`
+                            : "0 sold"}
                         </Typography>
                       </CardContent>
                     </CardActionArea>
