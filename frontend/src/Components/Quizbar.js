@@ -56,7 +56,7 @@ function Quizbar() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Typography elevation={3} sx={{ padding: '16px', backgroundColor: '#FFF6CA', top: '60px', position: 'fixed', width: '100%', zIndex: 1000 }}>
+            <Typography elevation={3} sx={{ padding: '16px', backgroundColor: '#FFF6CA', marginTop: '60px' }}>
                 <Typography 
                     variant="h6" 
                     gutterBottom 

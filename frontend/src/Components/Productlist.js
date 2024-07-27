@@ -123,7 +123,7 @@ function ProductList({ setCart }) {
   };
 
   return (
-    <Box sx={{ marginTop: '188px' }}>
+    <Box sx={{ marginTop: '60px' }}>
       <span>
         <h1 style={{ textAlign: "left", fontSize: '20px', marginLeft: '25px', marginTop: '10px'}}>Searching for: {searchTerm}</h1>
       </span>
