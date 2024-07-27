@@ -33,11 +33,13 @@ function Footer() {
           </div>
           <div class="footer-link-items">
             <h2>Contact Us</h2>
+            <Link> +65 98765432 </Link>
           </div>
         </div>
         <div className="footer-link-wrapper">
           <div class="footer-link-items">
             <h2>Social Media</h2>
+            <Link> @ShopSavvy </Link>
           </div>
         </div>
       </div>

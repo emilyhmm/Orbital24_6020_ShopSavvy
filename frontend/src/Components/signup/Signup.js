@@ -100,6 +100,9 @@ export default function SignUp({ toggleForm }) {
   };
 
   const handleInput = (e) => {
+    if (e.target.name === 'email') {
+      e.target.value = e.target.value.trim()
+    }
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 

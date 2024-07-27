@@ -9,7 +9,6 @@ function HeroSection() {
 
   return (
     <div className="hero-container">
-      <video src="/videos/video-1.mp4" autoPlay loop muted />
       <h1 className="dm-serif-display-regular">Shop Everywhere, Simply Anywhere</h1>
       <h2 className="gabarito-hello">One Website, Endless Choices.</h2>
       {isLoggedIn ? (

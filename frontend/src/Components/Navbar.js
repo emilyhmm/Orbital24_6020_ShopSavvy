@@ -5,18 +5,22 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { IoSettingsSharp } from "react-icons/io5";
 import { AuthContext, UserContext } from "../Contexts/AuthContext";
 import { CartContext } from "../Contexts/CartContext";
+import { QuizContext } from "../Contexts/QuizContext";
 import "../App.css";
 
 function Header() {
     const { isLoggedIn, logout } = useContext(AuthContext);
     const { firstName } = useContext(UserContext);
     const { quantity, fetchCart } = useContext(CartContext);
+    const { setQuizResults } = useContext(QuizContext);
+
     const navigate = useNavigate();
 
     const handleLogout = async () => {
       try {
         await logout();     
         fetchCart(); // reset cart to 0
+        setQuizResults([]);
         navigate('/');
       } catch (error) {
         console.error("Error logging out:", error);

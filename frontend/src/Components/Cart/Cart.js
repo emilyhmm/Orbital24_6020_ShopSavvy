@@ -105,7 +105,9 @@ function Cart({ cart, setCart }) {
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <Box className="cart__container" sx={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh" }}>
+    <Box className="cart__container" sx={{ 
+      padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh", marginTop: '60px'
+    }}>
       <Box
         display="flex"
         alignItems="center"

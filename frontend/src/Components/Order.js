@@ -63,7 +63,8 @@ function Order() {
 
   return (
     <Box sx={{ 
-      padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh" }}>
+      padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh", marginTop: '60px'
+    }}>
       <Box
         display="flex"
         alignItems="center"

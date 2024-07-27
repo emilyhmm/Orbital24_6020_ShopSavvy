@@ -10,7 +10,7 @@ import {
   Button,
   CardActionArea,
   CardActions,
-  CircularProgress,
+  CircularProgress, Box
 } from "@mui/material";
 import "../App.css";
 import { ProductContext } from "../Contexts/ProductContext";
@@ -123,7 +123,7 @@ function ProductList({ setCart }) {
   };
 
   return (
-    <div>
+    <Box sx={{ marginTop: '188px' }}>
       <span>
         <h1 style={{ textAlign: "left", fontSize: '20px', marginLeft: '25px', marginTop: '10px'}}>Searching for: {searchTerm}</h1>
       </span>
@@ -269,7 +269,7 @@ function ProductList({ setCart }) {
           )}
         </>
       )}
-    </div>
+    </Box>
   );
 }
 
