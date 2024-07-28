@@ -134,7 +134,7 @@ function ProductList({ setCart }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
+            height: '100vh',
           }}
         >
           <CircularProgress />
@@ -265,7 +265,7 @@ function ProductList({ setCart }) {
               ))}
             </div>
           ) : (
-            <p>No products found</p>
+            <Box sx={{ height: '100vh' }}>No products found</Box>
           )}
         </>
       )}
