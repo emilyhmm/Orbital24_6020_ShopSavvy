@@ -1,5 +1,7 @@
 Please visit https://shoppysavvy.vercel.app/ to view our website.
 
+Testing is done on the ms3tests branch
+
 
 Here are the steps you can follow to run our program locally:
 
