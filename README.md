@@ -1,5 +1,7 @@
+Please visit https://shoppysavvy.vercel.app/ to view our website.
 
-Here are the steps you can follow to run our program:
+
+Here are the steps you can follow to run our program locally:
 
 1. Clone this repository by running `git clone git@github.com:<github username>/Orbital24_6020_ShopSavvy.git <new-folder>`
 
@@ -7,10 +9,10 @@ Here are the steps you can follow to run our program:
 
 3. Install Node.js and npm from nodejs.org
 
-4. In your project directory, run `npm install` then `npm install mongoose express axios bcrypt cors body-parser` to install the relevant libraries
+4. In your project directory, run `npm install`
+   
+6. Open up a terminal in the frontend folder. Run `npm start` to run the app in development mode.
+  
+8. In your browser, visit [http://localhost:3000](http://localhost:3000) to view the website.
 
-5. Run `npm start` to run the app in development mode.
-
-6. Open [http://localhost:3000](http://localhost:3000) to view the website in your browser.
-
-7. Run `node server.js` to establish connection with the database.
+9. Open up a terminal in the backend folder. Run `node server.js` to establish connection with the backend server.
