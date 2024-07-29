@@ -15,4 +15,4 @@ Here are the steps you can follow to run our program locally:
   
 8. In your browser, visit [http://localhost:3000](http://localhost:3000) to view the website.
 
-9. Open up a terminal in the backend folder. Run `node server.js` to establish connection with the backend server.
+9. Open up a separate terminal in the backend folder. Run `node server.js` to establish a connection with the backend server.
